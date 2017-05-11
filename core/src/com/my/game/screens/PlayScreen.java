@@ -26,8 +26,10 @@ import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.my.game.MyGame;
 import com.my.game.scenes.Hud;
+import com.my.game.sprites.Orch;
 import com.my.game.sprites.Warrior;
 import com.my.game.tools.B2WorldCreator;
+import com.my.game.tools.Entity;
 
 /**
  * Created by lorib on 03/05/2017.
@@ -48,8 +50,12 @@ public class PlayScreen implements Screen {
 
     private TextureAtlas atl;
 
-    private Warrior player;
-
+    private Entity player;
+    private Entity enemy;
+    /**
+     * Initialize game world and any entity
+     * @param g Reference to main game instance
+     */
     public PlayScreen(MyGame g) {
         this.g=g;
         atl = new TextureAtlas("warrior.pack");
@@ -59,26 +65,29 @@ public class PlayScreen implements Screen {
         mapLoader=new TmxMapLoader();
         map=mapLoader.load("level1.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / MyGame.PPM);
-        //camera.position.set((MyGame.V_WIDTH / MyGame.PPM)/2,(MyGame.V_HEIGHT / MyGame.PPM)/2 ,0);
         camera.position.set(port.getScreenWidth()/2,port.getScreenHeight()/2,0);
-
         world=new World(new Vector2(0,-10),true);
         b2dr=new Box2DDebugRenderer();
 
         new B2WorldCreator(world,map);
 
-        player = new Warrior(world,this);
-
-
+        enemy = new Orch(world,this,new Vector2(100,32));
+        player = new Warrior(world,this,new Vector2(32,32));
     }
 
+    /**
+     * @return Current TextureAtlas
+     */
     public TextureAtlas getAtlas(){
         return this.atl;
     }
 
+    /**
+     * Process Inputs from Keyboard or Touch
+     * @param dt: Current DeltaTime between frame calls
+     */
     public void handleInput(float dt){
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP)){
-            //camera.position.x+=100*dt;
             player.body.applyLinearImpulse(new Vector2(0,4f),player.body.getWorldCenter(),true);
         }
 
@@ -95,6 +104,9 @@ public class PlayScreen implements Screen {
         }
     }
 
+    /**
+     * @param dt: Current DeltaTime between frame calls.
+     */
     public void update(float dt){
 
         handleInput(dt);
@@ -102,6 +114,7 @@ public class PlayScreen implements Screen {
         camera.position.x = player.body.getPosition().x;
 
         player.update(dt);
+        enemy.update(dt);
 
         world.step(1/60f,6,2);
 
@@ -114,6 +127,10 @@ public class PlayScreen implements Screen {
 
     }
 
+    /**
+     * This method is called once every frame call.
+     * @param delta: Current DeltaTime between this frame call and the previous.
+     */
     @Override
     public void render(float delta) {
         update(delta);
@@ -125,6 +142,7 @@ public class PlayScreen implements Screen {
 
         g.batch.setProjectionMatrix(camera.combined);
         g.batch.begin();
+        enemy.draw(g.batch);
         player.draw(g.batch);
         g.batch.end();
 
@@ -132,6 +150,11 @@ public class PlayScreen implements Screen {
         hud.stage.draw();
     }
 
+    /**
+     * Resize current ViewPort.
+     * @param width
+     * @param height
+     */
     @Override
     public void resize(int width, int height) {
         port.update(width,height);
@@ -152,6 +175,9 @@ public class PlayScreen implements Screen {
 
     }
 
+    /**
+     * Dispose unused texture or data.
+     */
     @Override
     public void dispose() {
         map.dispose();

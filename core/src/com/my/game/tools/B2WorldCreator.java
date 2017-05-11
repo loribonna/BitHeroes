@@ -17,6 +17,11 @@ import com.my.game.MyGame;
 
 public class B2WorldCreator {
 
+    /**
+     * Apply BodyDefinitions and Fixtures to every layer in the current TiledMap to the current World.
+     * @param world: Current world
+     * @param map: Current map
+     */
     public B2WorldCreator(World world, TiledMap map){
         BodyDef bdef = new BodyDef();
         PolygonShape shape = new PolygonShape();
