@@ -30,6 +30,7 @@ import com.my.game.sprites.Orch;
 import com.my.game.sprites.Warrior;
 import com.my.game.tools.B2WorldCreator;
 import com.my.game.tools.Entity;
+import com.my.game.tools.EntityInterface;
 
 /**
  * Created by lorib on 03/05/2017.
@@ -65,7 +66,8 @@ public class PlayScreen implements Screen {
         mapLoader=new TmxMapLoader();
         map=mapLoader.load("level1.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / MyGame.PPM);
-        camera.position.set(port.getScreenWidth()/2,port.getScreenHeight()/2,0);
+        camera.position.set(port.getWorldWidth()/2,port.getWorldHeight()/2,0);
+
         world=new World(new Vector2(0,-10),true);
         b2dr=new Box2DDebugRenderer();
 
@@ -87,7 +89,10 @@ public class PlayScreen implements Screen {
      * @param dt: Current DeltaTime between frame calls
      */
     public void handleInput(float dt){
-        if(Gdx.input.isKeyJustPressed(Input.Keys.UP)){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.UP)
+                && player.getState()!= EntityInterface.State.JUMP
+                && player.getState()!= EntityInterface.State.FALL
+                && player.getState()!= EntityInterface.State.ATTACK){
             player.body.applyLinearImpulse(new Vector2(0,4f),player.body.getWorldCenter(),true);
         }
 
