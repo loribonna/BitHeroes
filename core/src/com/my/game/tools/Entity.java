@@ -8,6 +8,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.EdgeShape;
+import com.badlogic.gdx.physics.box2d.Filter;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -113,19 +116,20 @@ public abstract class Entity extends Sprite implements EntityInterface{
         } else if (body.getLinearVelocity().x != 0) {
             return State.RUN;
         }
+
         return State.STAND;
     }
 
     public void define(Vector2 position) {
-        BodyDef bDef= new BodyDef();
-        bDef.position.set(position.x / MyGame.PPM,position.y / MyGame.PPM);
-        bDef.type = BodyDef.BodyType.DynamicBody;
-
-        body=world.createBody(bDef);
+        BodyDef bdef= new BodyDef();
         FixtureDef fdef = new FixtureDef();
-        CircleShape shape = new CircleShape();
-        shape.setRadius(6 / MyGame.PPM);
-        fdef.shape=shape;
-        body.createFixture(fdef);
+
+        bdef.position.set(position.x / MyGame.PPM,position.y / MyGame.PPM);
+        bdef.type = BodyDef.BodyType.DynamicBody;
+        body=world.createBody(bdef);
+
+        createBorders(position);
     }
+
+    public abstract void createBorders(Vector2 position);
 }

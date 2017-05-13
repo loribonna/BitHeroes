@@ -31,12 +31,15 @@ import com.my.game.sprites.Warrior;
 import com.my.game.tools.B2WorldCreator;
 import com.my.game.tools.Entity;
 import com.my.game.tools.EntityInterface;
+import com.my.game.tools.WorldContactListener;
 
 /**
  * Created by lorib on 03/05/2017.
  */
 
 public class PlayScreen implements Screen {
+    public static PlayScreen current;
+
     private MyGame g;
     private OrthographicCamera camera;
     private Viewport port;
@@ -75,6 +78,10 @@ public class PlayScreen implements Screen {
 
         enemy = new Orch(world,this,new Vector2(100,32));
         player = new Warrior(world,this,new Vector2(32,32));
+
+        world.setContactListener(new WorldContactListener());
+
+        current=this;
     }
 
     /**
@@ -93,7 +100,7 @@ public class PlayScreen implements Screen {
                 && player.getState()!= EntityInterface.State.JUMP
                 && player.getState()!= EntityInterface.State.FALL
                 && player.getState()!= EntityInterface.State.ATTACK){
-            player.body.applyLinearImpulse(new Vector2(0,4f),player.body.getWorldCenter(),true);
+            playerJump();
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.body.getLinearVelocity().x<=2){
@@ -132,6 +139,10 @@ public class PlayScreen implements Screen {
 
     }
 
+    public EntityInterface.State getPlayerState(){
+        return this.player.currentState;
+    }
+
     /**
      * This method is called once every frame call.
      * @param delta: Current DeltaTime between this frame call and the previous.
@@ -153,6 +164,10 @@ public class PlayScreen implements Screen {
 
         g.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
+    }
+
+    public void playerJump(){
+        player.body.applyLinearImpulse(new Vector2(0,4f),player.body.getWorldCenter(),true);
     }
 
     /**

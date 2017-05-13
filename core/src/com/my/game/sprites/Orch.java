@@ -4,6 +4,12 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.EdgeShape;
+import com.badlogic.gdx.physics.box2d.Filter;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.my.game.MyGame;
@@ -45,6 +51,47 @@ public class Orch extends Entity {
     @Override
     public State getState(){
         return State.STAND;
+    }
+
+    public Filter getFilter() {
+        Filter f = new Filter();
+        f.categoryBits = MyGame.ENEMY_BIT;
+        f.maskBits =(MyGame.DEFAULT_BIT | MyGame.BRICK_BIT | MyGame.COIN_BIT | MyGame.PLAYER_BIT);
+        f.groupIndex = MyGame.GROUP_ENEMIES;
+        return f;
+    }
+
+    @Override
+    public void createBorders(Vector2 position) {
+        FixtureDef fdef = new FixtureDef();
+        Filter filter = getFilter();
+
+        fdef.filter.groupIndex=filter.groupIndex;
+        fdef.filter.categoryBits= filter.categoryBits;
+        fdef.filter.maskBits=filter.maskBits;
+
+        /*PolygonShape bShape = new PolygonShape();
+        bShape.set(new Vector2[]{
+                new Vector2(-6,6).scl(1/MyGame.PPM),
+                new Vector2(6,6).scl(1/MyGame.PPM),
+                new Vector2(6,-6).scl(1/MyGame.PPM),
+                new Vector2(-6,-6).scl(1/MyGame.PPM)
+        });*/
+        CircleShape bShape = new CircleShape();
+        bShape.setRadius(6/MyGame.PPM);
+        fdef.shape=bShape;
+        body.createFixture(fdef).setUserData("bad_body");
+
+        EdgeShape front = new EdgeShape();
+        front.set(new Vector2(6,6).scl(1/MyGame.PPM),new Vector2(6,-6).scl(1/MyGame.PPM));
+        fdef.shape=front;
+        fdef.isSensor = true;
+        body.createFixture(fdef).setUserData("bad_front");
+
+        EdgeShape back = new EdgeShape();
+        back.set(new Vector2(-6,6).scl(1/MyGame.PPM),new Vector2(-6,-6).scl(1/MyGame.PPM));
+        fdef.shape=back;
+        body.createFixture(fdef).setUserData("bad_back");
     }
 
     @Override

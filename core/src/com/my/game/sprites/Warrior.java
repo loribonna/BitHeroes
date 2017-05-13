@@ -8,6 +8,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.EdgeShape;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
@@ -54,6 +56,53 @@ public class Warrior extends Entity {
     public void update(float delta) {
         setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
         setRegion(getFrame(delta));
+    }
+
+    public Filter getFilter() {
+        Filter f = new Filter();
+        f.categoryBits = MyGame.PLAYER_BIT;
+        f.maskBits =(MyGame.DEFAULT_BIT | MyGame.BRICK_BIT | MyGame.COIN_BIT | MyGame.ENEMY_BIT);
+        f.groupIndex = MyGame.GROUP_PLAYER;
+        return f;
+    }
+
+    @Override
+    public void createBorders(Vector2 position) {
+        BodyDef bdef= new BodyDef();
+        FixtureDef fdef = new FixtureDef();
+        Filter filter = getFilter();
+
+        fdef.filter.groupIndex=filter.groupIndex;
+        fdef.filter.categoryBits= filter.categoryBits;
+        fdef.filter.maskBits=filter.maskBits;
+
+        CircleShape bShape = new CircleShape();
+        bShape.setRadius(6/MyGame.PPM);
+        fdef.shape=bShape;
+        body.createFixture(fdef);
+
+        EdgeShape front = new EdgeShape();
+        front.set(new Vector2(6,6).scl(1/MyGame.PPM),new Vector2(6,-6).scl(1/MyGame.PPM));
+        fdef.shape=front;
+        fdef.isSensor = true;
+        body.createFixture(fdef).setUserData("good_front");
+
+        EdgeShape back = new EdgeShape();
+        back.set(new Vector2(-6,6).scl(1/MyGame.PPM),new Vector2(-6,-6).scl(1/MyGame.PPM));
+        fdef.shape=back;
+        body.createFixture(fdef).setUserData("good_back");
+
+        EdgeShape feet = new EdgeShape();
+        feet.set(new Vector2(-3,-6).scl(1/MyGame.PPM),new Vector2(3,-6).scl(1/MyGame.PPM));
+        fdef.shape = feet;
+        body.createFixture(fdef).setUserData("good_feet");
+
+        EdgeShape head = new EdgeShape();
+        head.set(new Vector2(-2,7).scl(1/MyGame.PPM),new Vector2(2,7).scl(1/MyGame.PPM));
+        fdef.shape = head;
+        body.createFixture(fdef).setUserData("good_head");
+
+
     }
 
 }
