@@ -23,7 +23,7 @@ public class Brick extends TileObject {
     @Override
     public void onHit() {
         Gdx.app.log("Head","Brick");
-        setCategoryBits(MyGame.BROKEN_BIT);
-        getCell().setTile(null);
+        //setCategoryBits(MyGame.BROKEN_BIT);
+        //getCell().setTile(null);
     }
 }

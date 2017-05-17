@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="240" height="13" tilewidth="16" tileheight="16" nextobjectid="28">
+ <tileset firstgid="1" name="NES - Blaster Master - Area 2" tilewidth="18" tileheight="18" spacing="2" margin="2" tilecount="120" columns="10">
+  <image source="../../../NES - Blaster Master - Area 2.png" width="218" height="258"/>
+ </tileset>
+ <layer name="background" width="240" height="13">
+  <data encoding="base64" compression="zlib">
+   eJztw0ENAAAMA6GzUv8mp2I/SFg1VVVVVVVVVVVVVVXVxwfl0JJA
+  </data>
+ </layer>
+ <layer name="graphics layer" width="240" height="13">
+  <data encoding="base64" compression="zlib">
+   eJztlT9PxDAMxQuMwMDAH6mR4FBTiYmBjwMrrCCk+/5niUY8WU6bNOld0trSb/ClfnmJ696+aZq9oihV0hLvxAdhIvNWyM3Eekwest/acluYn63n2A+bSf+T+MrgzwyenJ5h+v2w/k38CHnH6i2rt8I61rvnMcfnu8GTT69jekbQl/aP8VeyXjuceUl/If2s6f7wfTvG/YX4Ce0vn8+pee1Aox0B90N/fP9W0LPDvpKeW0M9XO9BC3W4X76/T2/sjCXquTMbRk5//H3ietJ+Jd8fvifSuzfHn5s7dx++frgc588K6xw3l1KvsR6fswDPOV3z/1/Ivz89PBOqx+HfsylvU/pjenM4pV4vEKIX2wOfXopOCfeXSw9nZwqct1RuFEWpgjPinLiA3zQ0NOqIS+KKuD61EQ0NjeiQ5veWuCPuiYdMOcac+t2C3lK9Lnlvue8xtT5Vfy3+S+ilL38knpq/mXnOlGPMqd8l1C7tNeVcx77H1PpU/bX4L6GXvvyFaZeUl+SlJm+ab6fXb8QvUFJekpeavGm+nV6/KopSLQf2uxBl
+  </data>
+ </layer>
+ <objectgroup name="spuncioni">
+  <object id="15" x="336" y="172" width="48" height="17"/>
+  <object id="16" x="595" y="175" width="30" height="14"/>
+  <object id="17" x="1023" y="171" width="47" height="15"/>
+  <object id="18" x="1216" y="174" width="30" height="13"/>
+  <object id="19" x="1648" y="172" width="46" height="17"/>
+  <object id="20" x="1908" y="172" width="42" height="16"/>
+  <object id="21" x="2288" y="171" width="46" height="15"/>
+  <object id="22" x="2416" y="174" width="46" height="14"/>
+  <object id="23" x="2416" y="172" width="46" height="15"/>
+  <object id="24" x="2671" y="173" width="47" height="14"/>
+  <object id="25" x="3056" y="175" width="49" height="14"/>
+  <object id="26" x="3187" y="172" width="30" height="15"/>
+  <object id="27" x="3489" y="173" width="44" height="14"/>
+ </objectgroup>
+ <objectgroup name="arcate">
+  <object id="2" x="3535" y="126" width="303" height="61"/>
+  <object id="3" x="3216" y="125" width="270" height="62"/>
+  <object id="4" x="3104" y="125" width="80" height="62"/>
+  <object id="5" x="2719" y="125" width="335" height="61"/>
+  <object id="6" x="2463" y="126" width="207" height="61"/>
+  <object id="7" x="2335" y="125" width="79" height="62"/>
+  <object id="8" x="1952" y="125" width="334" height="62"/>
+  <object id="9" x="1696" y="126" width="209" height="61"/>
+  <object id="10" x="1248" y="127" width="399" height="61"/>
+  <object id="11" x="1071" y="126" width="144" height="63"/>
+  <object id="12" x="623" y="127" width="400" height="60"/>
+  <object id="13" x="384" y="125" width="209" height="65"/>
+  <object id="14" x="0" y="127" width="335" height="62"/>
+ </objectgroup>
+ <objectgroup name="uscita">
+  <object id="1" x="3759" y="72" width="48" height="53"/>
+ </objectgroup>
+</map>

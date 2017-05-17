@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="240" height="13" tilewidth="16" tileheight="16" nextobjectid="75">
+ <tileset firstgid="1" name="NES - Blaster Master - Area 1" tilewidth="19" tileheight="19" spacing="1" margin="1" tilecount="99" columns="9">
+  <image source="../../../NES - Blaster Master - Area 1.png" width="198" height="238"/>
+ </tileset>
+ <layer name="background" width="240" height="13">
+  <data encoding="base64" compression="zlib">
+   eJzt06sNwDAMBUDvkx1alnaG7D9ITQwCiir1pwMnW3rEBq9FRAN+YZyofEnrC+4EZtXNmnoK39HTlvaL+9N/AAAAAAAAAAAA3OEAyQ4Pyg==
+  </data>
+ </layer>
+ <layer name="graphics layer" width="240" height="13">
+  <data encoding="base64" compression="zlib">
+   eJztVj1rAzEMNSHc0uEO2m6FToVChlvSjA1kaPsb8v9/SB04UdfIn5J1vtiCR0xiS/KTnpyrUuq64NNY14KjxofGqaJcAJDTjbczsr8En7F82LnaoPDJXROKv9yzGD8SPSbZzyVjcfnm8LPGjAjpS7KnQjlx1YjiM8XHkRCHo3YcvRjrE96OwVjHfPrucFr21AZTp/cSz1fvLXOc4oeT51I1y9XLWfnn0V7jojEpPvvS+Nb46evsdS159HXd65tuB8Wr31bskPj91m1G0O3PMH5KczUZSLVHjScDzwz52D65/JawgwdSJtEnLt9dw2HNltYzRb+tGcyWhwX2uvScwWYbx4yj9prke5Oag50LZ341/A9ZS7/Qi5w9X/rtXuN9BePURkmeSs2YmBi2f18uHPnMjhiS/xf7+9ueSb8b3PGo/rjykX53XzRere9M/Q4GdgYGD1qwC4K1Yrt+73a/BjV+03hX//thIsDUeG5/Y9qIOZ+6LyUv2OuaXzsEWIycu8GefQCueQq/x8TN4du1lyNGKC6lr6hxTZj8A9+u8xSLqT9Fv5iOY95sbL8LqWfBYvKB32bHmTHy/mOAawyhOlFrgmk6pP3QTCgFHw+pc0sCGN859425y5gBuze3BLCUM3PGGa48pePWiNZ44LzvL2cgUpU=
+  </data>
+ </layer>
+ <objectgroup name="terreno">
+  <object id="4" x="0" y="63" width="45" height="140"/>
+  <object id="5" x="47" y="142" width="204" height="61"/>
+  <object id="6" x="0" y="47" width="17" height="15"/>
+  <object id="7" x="32" y="28" width="15" height="33"/>
+  <object id="8" x="253" y="155" width="34" height="48"/>
+  <object id="9" x="289" y="174" width="542" height="29"/>
+  <object id="10" x="864" y="173" width="175" height="30"/>
+  <object id="11" x="1072" y="173" width="64" height="29"/>
+  <object id="12" x="1136" y="157" width="172" height="48"/>
+  <object id="13" x="1312" y="172" width="190" height="32"/>
+  <object id="14" x="1296" y="172" width="33" height="33"/>
+  <object id="15" x="1132" y="175" width="18" height="25"/>
+  <object id="17" x="244" y="158" width="20" height="43"/>
+  <object id="18" x="279" y="174" width="18" height="25"/>
+  <object id="19" x="1554" y="173" width="100" height="31"/>
+  <object id="20" x="1633" y="157" width="256" height="48"/>
+  <object id="21" x="1878" y="174" width="530" height="30"/>
+  <object id="22" x="2403" y="173" width="172" height="30"/>
+  <object id="27" x="2609" y="174" width="754" height="29"/>
+  <object id="28" x="3280" y="157" width="78" height="45"/>
+  <object id="29" x="3357" y="173" width="178" height="31"/>
+  <object id="31" x="3568" y="172" width="152" height="34"/>
+  <object id="32" x="3696" y="157" width="143" height="47"/>
+ </objectgroup>
+ <objectgroup name="vuoto">
+  <object id="46" x="831" y="198" width="33" height="6"/>
+  <object id="47" x="1039" y="197" width="32" height="6"/>
+  <object id="48" x="1502" y="196" width="51" height="10"/>
+  <object id="49" x="2575" y="197" width="35" height="6"/>
+  <object id="50" x="3535" y="196" width="31" height="8"/>
+  <object id="74" x="3307" y="-8"/>
+ </objectgroup>
+ <objectgroup name="uscita">
+  <object id="33" x="3758" y="125" width="36" height="30"/>
+ </objectgroup>
+ <objectgroup name="bricks">
+  <object id="34" x="242" y="77" width="76" height="14"/>
+  <object id="35" x="481" y="107" width="45" height="16"/>
+  <object id="36" x="577" y="75" width="95" height="17"/>
+  <object id="37" x="815" y="107" width="97" height="16"/>
+  <object id="38" x="1200" y="91" width="144" height="16"/>
+  <object id="40" x="1716" y="92" width="119" height="14"/>
+  <object id="41" x="2008" y="107" width="81" height="16"/>
+  <object id="42" x="2375" y="108" width="115" height="15"/>
+  <object id="43" x="2776" y="108" width="95" height="13"/>
+  <object id="44" x="2936" y="109" width="129" height="14"/>
+  <object id="45" x="3334" y="109" width="86" height="14"/>
+ </objectgroup>
+</map>

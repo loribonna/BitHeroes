@@ -11,6 +11,7 @@ import com.my.game.screens.PlayScreen;
 public class MyGame extends Game {
 	//
 	public SpriteBatch batch;
+
 	public static final float V_WIDTH = 400;
 	public static final float V_HEIGHT = 208;
 	public static final float PPM = 100;
@@ -24,7 +25,7 @@ public class MyGame extends Game {
 	public static final short ENEMY_BIT = 4;
 	public static final short COIN_BIT = 8;
 	public static final short BRICK_BIT = 16;
-	public static final short BROKEN_BIT = 32;
+	public static final short VOID_BIT = 32;
 	/**
 	 * Initialize game scenes and SpriteBatch
 	 */

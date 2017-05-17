@@ -15,6 +15,7 @@ import com.my.game.MyGame;
 import com.my.game.sprites.Brick;
 import com.my.game.sprites.Coin;
 import com.my.game.sprites.Terrain;
+import com.my.game.sprites.Vuoto;
 
 /**
  * Created by lorib on 09/05/2017.
@@ -34,10 +35,17 @@ public class B2WorldCreator {
             new Terrain(world,map,rect);
         }
 
+        l = map.getLayers().get(3);
+        for(MapObject obj : l.getObjects().getByType(RectangleMapObject.class)){
+            Rectangle rect = ((RectangleMapObject)obj).getRectangle();
+            new Vuoto(world,map,rect);
+        }
+
+        //TODO: Crea uscita
         l = map.getLayers().get(4);
         for(MapObject obj : l.getObjects().getByType(RectangleMapObject.class)){
             Rectangle rect = ((RectangleMapObject)obj).getRectangle();
-            new Coin(world,map,rect);
+           // new Uscita(world,map,rect);
         }
 
         l = map.getLayers().get(5);

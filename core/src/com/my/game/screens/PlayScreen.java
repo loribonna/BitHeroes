@@ -67,7 +67,7 @@ public class PlayScreen implements Screen {
         port=new FitViewport(MyGame.V_WIDTH / MyGame.PPM,MyGame.V_HEIGHT / MyGame.PPM,camera);
         hud=new Hud(g.batch);
         mapLoader=new TmxMapLoader();
-        map=mapLoader.load("level1.tmx");
+        map=mapLoader.load("livello1.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / MyGame.PPM);
         camera.position.set(port.getWorldWidth()/2,port.getWorldHeight()/2,0);
 
@@ -76,8 +76,8 @@ public class PlayScreen implements Screen {
 
         new B2WorldCreator(world,map);
 
-        enemy = new Orch(world,this,new Vector2(100,32));
-        player = new Warrior(world,this,new Vector2(32,32));
+        enemy = new Orch(world,this,new Vector2(150,64));
+        player = new Warrior(world,this,new Vector2(100,64));
 
         world.setContactListener(new WorldContactListener());
 
@@ -114,6 +114,11 @@ public class PlayScreen implements Screen {
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
             player.attack();
         }
+    }
+
+    public void gameOver(){
+        //TODO:Schermata finale
+        Gdx.app.exit();
     }
 
     /**

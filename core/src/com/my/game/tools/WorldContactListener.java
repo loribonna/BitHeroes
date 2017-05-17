@@ -23,6 +23,20 @@ public class WorldContactListener implements ContactListener {
 
         //Gdx.app.log("Player State", PlayScreen.current.getPlayerState().toString());
 
+        if(fixA.getUserData()=="good_body"||fixB.getUserData()=="good_body"){
+            Fixture obj;
+            if (fixA.getUserData() == "good_body") {
+                obj=fixB;
+            }else{
+                obj=fixA;
+            }
+
+            if(obj.getUserData() instanceof TileObject){
+                ((TileObject)obj.getUserData()).onHit();
+            }
+
+            }
+
         if(PlayScreen.current.getPlayerState() == EntityInterface.State.JUMP) {
             if (fixA.getUserData() == "good_head" || fixB.getUserData() == "good_head") {
                 Fixture entity;

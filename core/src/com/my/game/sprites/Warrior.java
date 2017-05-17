@@ -61,7 +61,7 @@ public class Warrior extends Entity {
     public Filter getFilter() {
         Filter f = new Filter();
         f.categoryBits = MyGame.PLAYER_BIT;
-        f.maskBits =(MyGame.DEFAULT_BIT | MyGame.BRICK_BIT | MyGame.COIN_BIT | MyGame.ENEMY_BIT);
+        f.maskBits =(MyGame.DEFAULT_BIT | MyGame.BRICK_BIT | MyGame.COIN_BIT | MyGame.ENEMY_BIT | MyGame.VOID_BIT);
         f.groupIndex = MyGame.GROUP_PLAYER;
         return f;
     }
@@ -79,7 +79,7 @@ public class Warrior extends Entity {
         CircleShape bShape = new CircleShape();
         bShape.setRadius(6/MyGame.PPM);
         fdef.shape=bShape;
-        body.createFixture(fdef);
+        body.createFixture(fdef).setUserData("good_body");
 
         EdgeShape front = new EdgeShape();
         front.set(new Vector2(6,6).scl(1/MyGame.PPM),new Vector2(6,-6).scl(1/MyGame.PPM));
