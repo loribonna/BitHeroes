@@ -1,0 +1,26 @@
+
+buttons.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+up-button
+  rotate: false
+  xy: 1, 524
+  size: 468, 262
+  orig: 468, 262
+  offset: 0, 0
+  index: -1
+down-button
+  rotate: false
+  xy: 1, 262
+  size: 468, 260
+  orig: 468, 260
+  offset: 0, 0
+  index: -1
+checked-button
+  rotate: false
+  xy: 1, 1
+  size: 466, 259
+  orig: 466, 259
+  offset: 0, 0
+  index: -1
