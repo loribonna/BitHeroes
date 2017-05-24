@@ -17,12 +17,13 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.my.game.MyGame;
 
 /**
- * Created by lorib on 17/05/2017.
+ * Created by lorib on 24/05/2017.
  */
 
-public class MenuScreen implements Screen {
+public class GameOverScreen implements Screen {
     Stage stage;
-    TextButton button;
+    TextButton buttonExit;
+    TextButton buttonRestart;
     TextButton.TextButtonStyle textButtonStyle;
     Skin skin;
     TextureAtlas buttonAtlas;
@@ -30,17 +31,16 @@ public class MenuScreen implements Screen {
     MyGame game;
     Camera camera;
     Texture background;
-    public MenuScreen(final MyGame game){
+    public GameOverScreen(final MyGame game){
         this.game=game;
-
         camera=new OrthographicCamera();
         port= new FitViewport(MyGame.V_WIDTH,MyGame.V_HEIGHT,camera);
         stage = new Stage(port);
         Gdx.input.setInputProcessor(stage);
 
-        background=new Texture("schermata finale.png");
-
         skin = new Skin();
+
+        background=new Texture("schermata finale.png");
 
         buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttons.pack"));
         skin.addRegions(buttonAtlas);
@@ -49,25 +49,48 @@ public class MenuScreen implements Screen {
         textButtonStyle.up = skin.getDrawable("up-button");
         textButtonStyle.down = skin.getDrawable("down-button");
         textButtonStyle.checked = skin.getDrawable("checked-button");
-        button = new TextButton("Button1", textButtonStyle);
-        button.setBounds(MyGame.V_WIDTH/2-MyGame.V_WIDTH/10,MyGame.V_HEIGHT/2-MyGame.V_HEIGHT/4,MyGame.V_WIDTH/5,MyGame.V_HEIGHT/5);
-        button.setText("");
-        button.addListener(new EventListener() {
+        buttonExit = new TextButton("Button1", textButtonStyle);
+        buttonExit.setBounds(MyGame.V_WIDTH/2-MyGame.V_WIDTH/10,MyGame.V_HEIGHT/2-MyGame.V_HEIGHT/3,MyGame.V_WIDTH/5,MyGame.V_HEIGHT/7);
+        buttonExit.setText("exit");
+        buttonExit.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
                 if(event.getListenerActor() instanceof TextButton){
                     TextButton t =((TextButton)event.getListenerActor());
                     if(t.isChecked()){
-                        Gdx.app.log("MenuScreen","checked");
+                        Gdx.app.log("GameOverScreen","exit");
                         dispose();
-                        game.setScreen(new PlayScreen(game));
+                        Gdx.app.exit();
+                        //game.setScreen(new MenuScreen(game));
                     }
                 }
                 return false;
             }
         });
-        stage.addActor(button);
+
+        buttonRestart = new TextButton("Button1", textButtonStyle);
+        buttonRestart.setBounds(MyGame.V_WIDTH/2-MyGame.V_WIDTH/10,MyGame.V_HEIGHT/2-MyGame.V_HEIGHT/7,MyGame.V_WIDTH/5,MyGame.V_HEIGHT/7);
+        buttonRestart.setText("restart");
+        buttonRestart.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                if(event.getListenerActor() instanceof TextButton){
+                    TextButton t =((TextButton)event.getListenerActor());
+                    if(t.isChecked()){
+                        Gdx.app.log("GameOverScreen","restart");
+                        dispose();
+                        game.setScreen(new FirstScreen(game));
+                        //game.setScreen(new MenuScreen(game));
+                    }
+                }
+                return false;
+            }
+        });
+
+        stage.addActor(buttonRestart);
+        stage.addActor(buttonExit);
     }
+
 
     @Override
     public void show() {
@@ -81,7 +104,6 @@ public class MenuScreen implements Screen {
         game.batch.draw(background,0,0);
         game.batch.end();
         stage.draw();
-
     }
 
     @Override
@@ -109,3 +131,4 @@ public class MenuScreen implements Screen {
         stage.dispose();
     }
 }
+

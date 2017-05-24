@@ -3,11 +3,14 @@ package com.my.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -30,15 +33,20 @@ public class FirstScreen implements Screen {
     TextButton.TextButtonStyle textButtonStyle;
     Skin skin;
     TextureAtlas buttonAtlas;
+    Texture background;
     Viewport port;
-
+    MyGame game;
+    Camera camera;
     public FirstScreen(final MyGame game) {
-        port= new FitViewport(MyGame.V_WIDTH,MyGame.V_HEIGHT,new OrthographicCamera());
+        this.game=game;
+        camera=new OrthographicCamera();
+        port= new FitViewport(MyGame.V_WIDTH,MyGame.V_HEIGHT,camera);
         stage = new Stage(port);
         Gdx.input.setInputProcessor(stage);
 
-        skin = new Skin();
+        background=new Texture("SchermataIniziale.png");
 
+        skin = new Skin();
         buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttons.pack"));
         skin.addRegions(buttonAtlas);
         textButtonStyle = new TextButton.TextButtonStyle();
@@ -47,7 +55,8 @@ public class FirstScreen implements Screen {
         textButtonStyle.down = skin.getDrawable("down-button");
         textButtonStyle.checked = skin.getDrawable("checked-button");
         button = new TextButton("Button1", textButtonStyle);
-        button.setSize(MyGame.V_WIDTH,MyGame.V_HEIGHT);
+        button.setBounds(MyGame.V_WIDTH/2-MyGame.V_WIDTH/10,MyGame.V_HEIGHT/2-MyGame.V_HEIGHT/4,MyGame.V_WIDTH/5,MyGame.V_HEIGHT/5);
+        button.setText("");
         button.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
@@ -63,6 +72,7 @@ public class FirstScreen implements Screen {
             }
         });
         stage.addActor(button);
+
     }
 
     @Override
@@ -72,7 +82,12 @@ public class FirstScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        game.batch.setProjectionMatrix(camera.combined);
+        game.batch.begin();
+        game.batch.draw(background,0,0);
+        game.batch.end();
         stage.draw();
+
     }
 
 

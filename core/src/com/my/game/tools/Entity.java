@@ -52,6 +52,11 @@ public abstract class Entity extends Sprite implements EntityInterface{
         getAnimations(screen.getAtlas());
     }
 
+    public void dispose(){
+        world.dispose();
+
+    }
+
     @Override
     public abstract void getAnimations(TextureAtlas atlas);
 

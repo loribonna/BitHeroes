@@ -40,7 +40,7 @@ import com.my.game.tools.WorldContactListener;
 public class PlayScreen implements Screen {
     public static PlayScreen current;
 
-    private MyGame g;
+    private final MyGame g;
     private OrthographicCamera camera;
     private Viewport port;
     private Hud hud;
@@ -56,11 +56,13 @@ public class PlayScreen implements Screen {
 
     private Entity player;
     private Entity enemy;
+
+    public boolean gameOver=false;
     /**
      * Initialize game world and any entity
      * @param g Reference to main game instance
      */
-    public PlayScreen(MyGame g) {
+    public PlayScreen(final MyGame g) {
         this.g=g;
         atl = new TextureAtlas("warrior.pack");
         camera=new OrthographicCamera();
@@ -118,14 +120,16 @@ public class PlayScreen implements Screen {
 
     public void gameOver(){
         //TODO:Schermata finale
-        Gdx.app.exit();
+        Gdx.app.log("Uscita","");
+        g.setScreen(new GameOverScreen(g));
+        dispose();
+        gameOver = true;
     }
 
     /**
      * @param dt: Current DeltaTime between frame calls.
      */
-    public void update(float dt){
-
+    public void update(float dt) {
         handleInput(dt);
 
         camera.position.x = player.body.getPosition().x;
@@ -133,10 +137,11 @@ public class PlayScreen implements Screen {
         player.update(dt);
         enemy.update(dt);
 
-        world.step(1/60f,6,2);
+        world.step(1 / 60f, 6, 2);
 
         camera.update();
         mapRenderer.setView(camera);
+
     }
 
     @Override
@@ -154,21 +159,23 @@ public class PlayScreen implements Screen {
      */
     @Override
     public void render(float delta) {
-        update(delta);
-        Gdx.gl.glClearColor(1,0,0,1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        mapRenderer.render();
+        if(!gameOver) {
+            update(delta);
+            mapRenderer.render();
 
-        b2dr.render(world,camera.combined);
+            b2dr.render(world, camera.combined);
 
-        g.batch.setProjectionMatrix(camera.combined);
-        g.batch.begin();
-        enemy.draw(g.batch);
-        player.draw(g.batch);
-        g.batch.end();
+            g.batch.setProjectionMatrix(camera.combined);
+            g.batch.begin();
+            enemy.draw(g.batch);
+            player.draw(g.batch);
+            g.batch.end();
 
-        g.batch.setProjectionMatrix(hud.stage.getCamera().combined);
-        hud.stage.draw();
+            g.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+            hud.stage.draw();
+        }
     }
 
     public void playerJump(){
@@ -205,10 +212,10 @@ public class PlayScreen implements Screen {
      */
     @Override
     public void dispose() {
-        map.dispose();
-        mapRenderer.dispose();
-        world.dispose();
-        b2dr.dispose();
+        //map.dispose();
+        //mapRenderer.dispose();
+        //world.dispose();
+        //b2dr.dispose();
         hud.dispose();
     }
 }
