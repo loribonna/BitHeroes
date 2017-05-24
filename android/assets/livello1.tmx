@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="240" height="13" tilewidth="16" tileheight="16" nextobjectid="75">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="240" height="13" tilewidth="16" tileheight="16" nextobjectid="126">
  <tileset firstgid="1" name="NES - Blaster Master - Area 1" tilewidth="19" tileheight="19" spacing="1" margin="1" tilecount="99" columns="9">
   <image source="../../../NES - Blaster Master - Area 1.png" width="198" height="238"/>
  </tileset>
@@ -44,7 +44,6 @@
   <object id="48" x="1502" y="196" width="51" height="10"/>
   <object id="49" x="2575" y="197" width="35" height="6"/>
   <object id="50" x="3535" y="196" width="31" height="8"/>
-  <object id="74" x="3307" y="-8"/>
  </objectgroup>
  <objectgroup name="uscita">
   <object id="33" x="3758" y="125" width="36" height="30"/>
@@ -61,5 +60,115 @@
   <object id="43" x="2776" y="108" width="95" height="13"/>
   <object id="44" x="2936" y="109" width="129" height="14"/>
   <object id="45" x="3334" y="109" width="86" height="14"/>
+ </objectgroup>
+ <objectgroup name="monete" offsetx="-4" offsety="1">
+  <object id="76" x="347" y="97" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="85" x="368" y="97" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="91" x="390" y="97" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="92" x="411" y="97" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="93" x="432" y="97" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="94" x="679" y="97" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="95" x="700" y="97" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="96" x="721" y="97" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="97" x="742" y="97" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="98" x="764" y="97" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="99" x="967" y="96" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="100" x="989" y="96" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="101" x="1011" y="96" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="102" x="1032" y="96" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="103" x="1053" y="96" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="104" x="1388" y="96" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="105" x="1410" y="96" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="106" x="1432" y="96" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="107" x="1453" y="96" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="108" x="1474" y="96" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="109" x="1877" y="96" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="110" x="1898" y="96" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="111" x="1920" y="96" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="112" x="1941" y="96" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="113" x="1962" y="96" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="114" x="2525" y="96" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="115" x="2546" y="96" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="116" x="2567" y="96" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="117" x="2589" y="96" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="118" x="2611" y="96" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="119" x="3150" y="96" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="120" x="3172" y="96" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="121" x="3194" y="96" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="122" x="3215" y="96" width="17" height="16">
+   <ellipse/>
+  </object>
+  <object id="123" x="3236" y="96" width="17" height="16">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="muro">
+  <object id="125" x="3836" y="-5" width="9" height="212"/>
  </objectgroup>
 </map>
