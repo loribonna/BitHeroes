@@ -60,7 +60,9 @@ public class MenuScreen implements Screen {
                     if(t.isChecked()){
                         Gdx.app.log("MenuScreen","checked");
                         dispose();
-                        game.setScreen(new PlayScreen(game));
+                        Screen firstLevel=new FirstLevel(game,"warrior");
+                        MyGame.currentPlayScreen=firstLevel;
+                        game.setScreen(firstLevel);
                     }
                 }
                 return false;

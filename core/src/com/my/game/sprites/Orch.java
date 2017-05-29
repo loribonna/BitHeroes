@@ -13,16 +13,15 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.my.game.MyGame;
-import com.my.game.screens.PlayScreen;
 import com.my.game.tools.*;
 
 /**
  * Created by lorib on 11/05/2017.
  */
 
-public class Orch extends Entity {
-    public Orch(World w, PlayScreen screen,Vector2 position) {
-        super(w, screen,position);
+public class Orch extends Enemy {
+    public Orch(World w, TextureAtlas screenAtlas,Vector2 position) {
+        super(w, screenAtlas,position);
     }
 
     @Override
@@ -126,9 +125,4 @@ public class Orch extends Entity {
         return region;
     }
 
-    @Override
-    public void update(float delta) {
-        setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
-        setRegion(getFrame(delta));
-    }
 }

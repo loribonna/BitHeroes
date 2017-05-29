@@ -5,7 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import com.my.game.MyGame;
-import com.my.game.screens.PlayScreen;
+import com.my.game.tools.PlayScreen;
 import com.my.game.tools.TileObject;
 
 /**
@@ -13,8 +13,6 @@ import com.my.game.tools.TileObject;
  */
 
 public class Vuoto extends TileObject {
-
-
     public Vuoto(World world, TiledMap map, Rectangle rect) {
         super(world, map, rect);
         setCategoryBits(MyGame.VOID_BIT);

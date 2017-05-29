@@ -14,7 +14,6 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.my.game.MyGame;
-import com.my.game.screens.PlayScreen;
 import com.my.game.tools.Entity;
 import com.my.game.tools.EntityInterface;
 import com.sun.org.apache.xerces.internal.impl.dv.xs.AnyURIDV;
@@ -25,8 +24,8 @@ import com.sun.org.apache.xerces.internal.impl.dv.xs.AnyURIDV;
 
 public class Warrior extends Entity {
 
-    public Warrior(World w, PlayScreen screen,Vector2 position) {
-        super(w, screen,position);
+    public Warrior(World w, TextureAtlas screenAtlas,Vector2 position) {
+        super(w, screenAtlas,position);
     }
 
     @Override

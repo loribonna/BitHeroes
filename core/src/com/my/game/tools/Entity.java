@@ -16,7 +16,6 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.my.game.MyGame;
-import com.my.game.screens.PlayScreen;
 import com.my.game.tools.EntityInterface;
 
 import java.awt.geom.AffineTransform;
@@ -43,18 +42,21 @@ public abstract class Entity extends Sprite implements EntityInterface{
     protected boolean runRight;
     protected float stateTimer;
 
-    public Entity(World w, PlayScreen screen, Vector2 position) {
+    public Entity(World w, TextureAtlas screenAtlas, Vector2 position) {
         super();
         currentState = State.STAND;
         previusState = State.STAND;
         this.world = w;
         define(position);
-        getAnimations(screen.getAtlas());
+        getAnimations(screenAtlas);
     }
 
     public void dispose(){
         world.dispose();
+    }
 
+    public Vector2 getPosition(){
+        return this.body.getPosition();
     }
 
     @Override

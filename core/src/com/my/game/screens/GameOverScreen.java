@@ -49,7 +49,7 @@ public class GameOverScreen implements Screen {
         textButtonStyle.up = skin.getDrawable("up-button");
         textButtonStyle.down = skin.getDrawable("down-button");
         textButtonStyle.checked = skin.getDrawable("checked-button");
-        buttonExit = new TextButton("Button1", textButtonStyle);
+        buttonExit = new TextButton("ButtonExit", textButtonStyle);
         buttonExit.setBounds(MyGame.V_WIDTH/2-MyGame.V_WIDTH/10,MyGame.V_HEIGHT/2-MyGame.V_HEIGHT/3,MyGame.V_WIDTH/5,MyGame.V_HEIGHT/7);
         buttonExit.setText("exit");
         buttonExit.addListener(new EventListener() {
@@ -61,14 +61,13 @@ public class GameOverScreen implements Screen {
                         Gdx.app.log("GameOverScreen","exit");
                         dispose();
                         Gdx.app.exit();
-                        //game.setScreen(new MenuScreen(game));
                     }
                 }
                 return false;
             }
         });
 
-        buttonRestart = new TextButton("Button1", textButtonStyle);
+        buttonRestart = new TextButton("ButtonRestart", textButtonStyle);
         buttonRestart.setBounds(MyGame.V_WIDTH/2-MyGame.V_WIDTH/10,MyGame.V_HEIGHT/2-MyGame.V_HEIGHT/7,MyGame.V_WIDTH/5,MyGame.V_HEIGHT/7);
         buttonRestart.setText("restart");
         buttonRestart.addListener(new EventListener() {
@@ -80,7 +79,6 @@ public class GameOverScreen implements Screen {
                         Gdx.app.log("GameOverScreen","restart");
                         dispose();
                         game.setScreen(new FirstScreen(game));
-                        //game.setScreen(new MenuScreen(game));
                     }
                 }
                 return false;

@@ -8,12 +8,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.my.game.screens.FirstScreen;
-import com.my.game.screens.PlayScreen;
 
 public class MyGame extends Game {
 	//
 	public SpriteBatch batch;
 	public static MyGame current;
+	public static Screen currentPlayScreen;
 	public static String name = "Bit Heroes";
 	public static final float V_WIDTH = 400;
 	public static final float V_HEIGHT = 208;
