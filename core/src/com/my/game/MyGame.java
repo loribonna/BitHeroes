@@ -23,12 +23,14 @@ public class MyGame extends Game {
 	public static final short GROUP_ENEMIES = 2;
 	public static final short GROUP_SCENERY = 4;
 
+	public static final short NOTHING_BIT = 0;
 	public static final short DEFAULT_BIT = 1;
 	public static final short PLAYER_BIT = 2;
 	public static final short ENEMY_BIT = 4;
 	public static final short COIN_BIT = 8;
 	public static final short BRICK_BIT = 16;
 	public static final short VOID_BIT = 32;
+	public static final short WALL_BIT=64;
 	/**
 	 * Initialize game scenes and SpriteBatch
 	 */

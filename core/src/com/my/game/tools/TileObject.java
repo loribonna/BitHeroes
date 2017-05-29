@@ -6,6 +6,8 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -27,11 +29,20 @@ public abstract class TileObject implements TileObjectInterface {
     protected Rectangle rect;
     protected Body body;
     protected Fixture fixture;
+    protected Ellipse ell;
 
     public TileObject(World world, TiledMap map,Rectangle rect){
         this.world = world;
         this.map= map;
         this.rect = rect;
+        define();
+        fixture.setUserData(this);
+    }
+
+    public TileObject(World world, TiledMap map,Ellipse ell){
+        this.world = world;
+        this.map= map;
+        this.ell = ell;
         define();
         fixture.setUserData(this);
     }
@@ -71,6 +82,12 @@ public abstract class TileObject implements TileObjectInterface {
         return l.getCell((int)(body.getPosition().x * MyGame.PPM / 16),
                 (int)(body.getPosition().y * MyGame.PPM / 16));
 
+    }
+
+    public void dispose(){
+       // map.dispose();
+        fixture=null;
+      //  body.destroyFixture(fixture);
     }
 
 }

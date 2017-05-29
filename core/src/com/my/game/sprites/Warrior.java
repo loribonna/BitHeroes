@@ -61,7 +61,7 @@ public class Warrior extends Entity {
     public Filter getFilter() {
         Filter f = new Filter();
         f.categoryBits = MyGame.PLAYER_BIT;
-        f.maskBits =(MyGame.DEFAULT_BIT | MyGame.BRICK_BIT | MyGame.COIN_BIT | MyGame.ENEMY_BIT | MyGame.VOID_BIT);
+        f.maskBits =(MyGame.DEFAULT_BIT | MyGame.BRICK_BIT | MyGame.COIN_BIT | MyGame.ENEMY_BIT | MyGame.VOID_BIT | MyGame.WALL_BIT);
         f.groupIndex = MyGame.GROUP_PLAYER;
         return f;
     }
