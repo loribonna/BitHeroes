@@ -22,6 +22,7 @@ import com.my.game.tools.*;
 public class Orch extends Enemy {
     public Orch(World w, TextureAtlas screenAtlas,Vector2 position) {
         super(w, screenAtlas,position);
+        attackRange=0.2f;
     }
 
     @Override
@@ -47,82 +48,5 @@ public class Orch extends Enemy {
         frames.clear();
     }
 
-    @Override
-    public State getState(){
-        return State.STAND;
-    }
-
-    public Filter getFilter() {
-        Filter f = new Filter();
-        f.categoryBits = MyGame.ENEMY_BIT;
-        f.maskBits =(MyGame.DEFAULT_BIT | MyGame.BRICK_BIT | MyGame.COIN_BIT | MyGame.PLAYER_BIT);
-        f.groupIndex = MyGame.GROUP_ENEMIES;
-        return f;
-    }
-
-    @Override
-    public void createBorders(Vector2 position) {
-        FixtureDef fdef = new FixtureDef();
-        Filter filter = getFilter();
-
-        fdef.filter.groupIndex=filter.groupIndex;
-        fdef.filter.categoryBits= filter.categoryBits;
-        fdef.filter.maskBits=filter.maskBits;
-
-        /*PolygonShape bShape = new PolygonShape();
-        bShape.set(new Vector2[]{
-                new Vector2(-6,6).scl(1/MyGame.PPM),
-                new Vector2(6,6).scl(1/MyGame.PPM),
-                new Vector2(6,-6).scl(1/MyGame.PPM),
-                new Vector2(-6,-6).scl(1/MyGame.PPM)
-        });*/
-        CircleShape bShape = new CircleShape();
-        bShape.setRadius(6/MyGame.PPM);
-        fdef.shape=bShape;
-        body.createFixture(fdef).setUserData("bad_body");
-
-        EdgeShape front = new EdgeShape();
-        front.set(new Vector2(6,6).scl(1/MyGame.PPM),new Vector2(6,-6).scl(1/MyGame.PPM));
-        fdef.shape=front;
-        fdef.isSensor = true;
-        body.createFixture(fdef).setUserData("bad_front");
-
-        EdgeShape back = new EdgeShape();
-        back.set(new Vector2(-6,6).scl(1/MyGame.PPM),new Vector2(-6,-6).scl(1/MyGame.PPM));
-        fdef.shape=back;
-        body.createFixture(fdef).setUserData("bad_back");
-    }
-
-    @Override
-    public TextureRegion getFrame(float dt){
-        currentState = getState();
-        TextureRegion region;
-        switch (currentState) {
-            case RUN:
-                region = (TextureRegion) runAnimation.getKeyFrame(stateTimer, true);
-                break;
-            case ATTACK:
-                region = (TextureRegion) attackAnimation.getKeyFrame(stateTimer);
-                break;
-            default:
-                region = standAnimation;
-                break;
-        }
-        /*if ((body.getLinearVelocity().x < 0 || !runRight) && !region.isFlipX()) {
-            region.flip(true, false);
-            runRight = false;
-        } else if ((body.getLinearVelocity().x > 0 || runRight) && region.isFlipX()) {
-            region.flip(true, false);
-            runRight = true;
-        }*/
-
-        if (currentState == previusState) {
-            stateTimer = stateTimer + dt;
-        } else {
-            stateTimer = 0;
-        }
-        previusState = currentState;
-        return region;
-    }
 
 }

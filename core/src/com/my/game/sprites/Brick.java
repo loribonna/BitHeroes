@@ -20,8 +20,13 @@ public class Brick extends TileObject {
 
     }
 
+    /**
+     *
+     * @param entity: If String is the contact point with player, else is Enemy.
+     */
     @Override
-    public void onHit() {
-        Gdx.app.log("Head","Brick");
+    public void onHit(Object entity) {
+        if(entity instanceof String)
+            Gdx.app.log("Head","Brick");
     }
 }

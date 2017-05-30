@@ -15,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
 import com.my.game.MyGame;
 import com.my.game.tools.EntityInterface;
 
@@ -28,12 +29,11 @@ import java.awt.geom.RectangularShape;
  */
 
 public abstract class Entity extends Sprite implements EntityInterface{
-
     public World world;
     public Body body;
 
-    public State currentState;
-    public State previusState;
+    protected State currentState;
+    protected State previusState;
 
     protected Animation attackAnimation;
     protected Animation runAnimation;
@@ -42,6 +42,8 @@ public abstract class Entity extends Sprite implements EntityInterface{
     protected boolean runRight;
     protected float stateTimer;
 
+    protected boolean invulnarable=false;
+
     public Entity(World w, TextureAtlas screenAtlas, Vector2 position) {
         super();
         currentState = State.STAND;
@@ -49,10 +51,6 @@ public abstract class Entity extends Sprite implements EntityInterface{
         this.world = w;
         define(position);
         getAnimations(screenAtlas);
-    }
-
-    public void dispose(){
-        world.dispose();
     }
 
     public Vector2 getPosition(){
@@ -64,6 +62,18 @@ public abstract class Entity extends Sprite implements EntityInterface{
 
     @Override
     public abstract void update(float delta);
+
+    public boolean isInvulnerable(){return invulnarable;}
+
+    public void hit(){
+        invulnarable=true;
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                invulnarable=false;
+            }
+        },1);
+    }
 
     public TextureRegion getFrame(float dt) {
         currentState = getState();
@@ -116,11 +126,13 @@ public abstract class Entity extends Sprite implements EntityInterface{
                     return State.STAND;
                 }
             }
-        } else if (body.getLinearVelocity().y > 0) {
+        }
+        if (body.getLinearVelocity().y > 0) {
             return State.JUMP;
         } else if (body.getLinearVelocity().y < 0) {
             return State.FALL;
-        } else if (body.getLinearVelocity().x != 0) {
+        }
+        if (body.getLinearVelocity().x != 0) {
             return State.RUN;
         }
 
@@ -129,7 +141,6 @@ public abstract class Entity extends Sprite implements EntityInterface{
 
     public void define(Vector2 position) {
         BodyDef bdef= new BodyDef();
-        FixtureDef fdef = new FixtureDef();
 
         bdef.position.set(position.x / MyGame.PPM,position.y / MyGame.PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;

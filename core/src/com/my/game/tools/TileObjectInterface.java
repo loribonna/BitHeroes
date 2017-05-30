@@ -7,5 +7,9 @@ package com.my.game.tools;
 public interface TileObjectInterface {
     public void define();
     public void setCategoryBits(short categoryBits);
-    public void onHit();
+    /**
+     *
+     * @param entity: If String is the contact point with player, else is Enemy.
+     */
+    public void onHit(Object entity);
 }

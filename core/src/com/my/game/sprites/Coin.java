@@ -18,6 +18,8 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.my.game.MyGame;
+import com.my.game.tools.Enemy;
+import com.my.game.tools.Entity;
 import com.my.game.tools.TileObject;
 
 import java.awt.geom.RectangularShape;
@@ -57,11 +59,17 @@ public class Coin extends TileObject{
 
     }
 
+    /**
+     *
+     * @param entity: If String is the contact point with player, else is Enemy.
+     */
     @Override
-    public void onHit() {
-        Gdx.app.log("Head","Coin");
-        setCategoryBits(MyGame.NOTHING_BIT);
-        dispose();
+    public void onHit(Object entity) {
+        if(entity instanceof String) {
+            Gdx.app.log("Head", "Coin");
+            setCategoryBits(MyGame.NOTHING_BIT);
+            dispose();
+        }
     }
 
 

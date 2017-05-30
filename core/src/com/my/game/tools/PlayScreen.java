@@ -46,6 +46,10 @@ public abstract class PlayScreen implements Screen{
     protected ArrayList<Enemy> enemyList;
     protected Entity player;
 
+    /**
+     * Initialize game world and any entity
+     * @param game Reference to main game instance
+     */
     public PlayScreen(MyGame game){
         this.game=game;
         camera=new OrthographicCamera();
@@ -78,12 +82,13 @@ public abstract class PlayScreen implements Screen{
             playerJump();
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.body.getLinearVelocity().x<=10){
-            player.body.applyLinearImpulse(new Vector2(0.5f,0),player.body.getWorldCenter(),true);
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.body.getLinearVelocity().x<=1){
+            player.body.applyLinearImpulse(new Vector2(0.1f,0),player.body.getWorldCenter(),true);
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.body.getLinearVelocity().x>=-10){
-            player.body.applyLinearImpulse(new Vector2(-0.5f,0),player.body.getWorldCenter(),true);
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.body.getLinearVelocity().x>=-1){
+            player.body.applyLinearImpulse(new Vector2(-0.1f,0),player.body.getWorldCenter(),true);
+
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
@@ -196,7 +201,7 @@ public abstract class PlayScreen implements Screen{
      */
     @Override
     public void dispose() {
-        //map.dispose();
+        map.dispose();
         //mapRenderer.dispose();
         //world.dispose();
         //b2dr.dispose();

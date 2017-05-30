@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import com.my.game.MyGame;
+import com.my.game.tools.Enemy;
 import com.my.game.tools.TileObject;
 
 /**
@@ -18,8 +19,13 @@ public class Wall extends TileObject {
 
     }
 
+    /**
+     *
+     * @param entity: If String is the contact point with player, else is Enemy.
+     */
     @Override
-    public void onHit() {
-        Gdx.app.log("Hit","Wall");
+    public void onHit(Object entity) {
+        if(entity instanceof String)
+            Gdx.app.log("Hit","Wall");
     }
 }

@@ -16,62 +16,55 @@ public class WorldContactListener implements ContactListener {
 
     @Override
     public void beginContact(Contact contact) {
-       // Gdx.app.log("BeginContact","");
-        Fixture fixA = contact.getFixtureA();
-        Fixture fixB = contact.getFixtureB();
+        Fixture fixPlayer = null;
+        Fixture fixObject = null;
+        Fixture fixEnemy = null;
+        // Must be a player
+        if (contact.getFixtureA() != null && contact.getFixtureA().getUserData().toString().contains("good")) {
+            fixPlayer = contact.getFixtureA();
+        } else if (contact.getFixtureB() != null &&contact.getFixtureB().getUserData().toString().contains("good")) {
+            fixPlayer = contact.getFixtureB();
+        }
 
-        //Gdx.app.log("Player State", PlayScreen.current.getPlayerState().toString());
+        if (contact.getFixtureA() != null && contact.getFixtureA().getUserData() instanceof Enemy) {
+            fixEnemy = contact.getFixtureA();
+        } else if (contact.getFixtureB() != null &&contact.getFixtureB().getUserData() instanceof Enemy) {
+            fixEnemy = contact.getFixtureB();
+        }
 
-        if(fixA.getUserData()=="good_body"||fixB.getUserData()=="good_body"){
-            Fixture obj;
-            if (fixA.getUserData() == "good_body") {
-                obj=fixB;
-            }else{
-                obj=fixA;
-            }
+        if (contact.getFixtureA() != null && contact.getFixtureA().getUserData() instanceof TileObject) {
+            fixObject = contact.getFixtureA();
+        } else if (contact.getFixtureB() != null &&contact.getFixtureB().getUserData() instanceof TileObject) {
+            fixObject = contact.getFixtureB();
+        }
 
-            if(obj.getUserData() instanceof TileObject){
-                ((TileObject)obj.getUserData()).onHit();
-            }
-
-            }
-
-        if(PlayScreen.current.getPlayerState() == EntityInterface.State.JUMP) {
-            if (fixA.getUserData() == "good_head" || fixB.getUserData() == "good_head") {
-                Fixture entity;
-                Fixture obj;
-                if (fixA.getUserData() == "good_head") {
-                    entity = fixA;
-                    obj = fixB;
-                } else {
-                    entity = fixB;
-                    obj = fixA;
+        if(fixPlayer!=null) {
+            if (fixPlayer.getUserData().toString().contains("body")) {
+                if (fixObject != null) {
+                    ((TileObject) fixObject.getUserData()).onHit(fixPlayer.getUserData());
                 }
+            }
 
-                if (obj.getUserData() instanceof TileObject) {
-                    ((TileObject) obj.getUserData()).onHit();
+            if (PlayScreen.current.getPlayerState() == EntityInterface.State.JUMP) {
+                if (fixPlayer.getUserData().toString().contains("head")) {
+                    if (fixObject != null) {
+                        ((TileObject) fixObject.getUserData()).onHit(fixPlayer.getUserData());
+                    }
                 }
-
             }
         }
 
-        if (fixA.getUserData() == "good_feet" || fixB.getUserData() == "good_feet") {
-            Fixture entity;
-            Fixture obj;
-            if (fixA.getUserData() == "good_feet") {
-                entity = fixA;
-                obj = fixB;
-            } else {
-                entity = fixB;
-                obj = fixA;
+        if (fixEnemy!=null) {
+            if(fixPlayer!=null) {
+                if (fixPlayer.getUserData().toString().contains("feet")) {
+                    if (!((Enemy) fixEnemy.getUserData()).isInvulnerable()) {
+                        PlayScreen.current.player.body.applyLinearImpulse(new Vector2(0, (-PlayScreen.current.player.body.getLinearVelocity().y) + 3), PlayScreen.current.player.body.getWorldCenter(), true);
+                        ((Enemy) fixEnemy.getUserData()).hit();
+                    }
+                }
+            }else if(fixObject!=null){
+                ((TileObject) fixObject.getUserData()).onHit(fixEnemy.getUserData());
             }
-
-            if (obj.getUserData() == "bad_body") {
-                Gdx.app.log("bad_body", "");
-
-                PlayScreen.current.playerJump();
-            }
-
         }
     }
 
@@ -88,6 +81,5 @@ public class WorldContactListener implements ContactListener {
 
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
-
     }
 }

@@ -81,18 +81,18 @@ public class Warrior extends Entity {
         body.createFixture(fdef).setUserData("good_body");
 
         EdgeShape front = new EdgeShape();
-        front.set(new Vector2(6,6).scl(1/MyGame.PPM),new Vector2(6,-6).scl(1/MyGame.PPM));
+        front.set(new Vector2(6,4).scl(1/MyGame.PPM),new Vector2(6,-4).scl(1/MyGame.PPM));
         fdef.shape=front;
         fdef.isSensor = true;
         body.createFixture(fdef).setUserData("good_front");
 
         EdgeShape back = new EdgeShape();
-        back.set(new Vector2(-6,6).scl(1/MyGame.PPM),new Vector2(-6,-6).scl(1/MyGame.PPM));
+        back.set(new Vector2(-6,4).scl(1/MyGame.PPM),new Vector2(-6,-4).scl(1/MyGame.PPM));
         fdef.shape=back;
         body.createFixture(fdef).setUserData("good_back");
 
         EdgeShape feet = new EdgeShape();
-        feet.set(new Vector2(-3,-6).scl(1/MyGame.PPM),new Vector2(3,-6).scl(1/MyGame.PPM));
+        feet.set(new Vector2(-4,-6).scl(1/MyGame.PPM),new Vector2(4,-6).scl(1/MyGame.PPM));
         fdef.shape = feet;
         body.createFixture(fdef).setUserData("good_feet");
 

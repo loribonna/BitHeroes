@@ -35,23 +35,26 @@ import com.my.game.tools.PlayScreen;
  */
 
 public class FirstLevel extends PlayScreen {
+
     /**
      * Initialize game world and any entity
-     * @param g Reference to main game instance
+     *
+     * @param game Reference to main game instance
      */
-    public FirstLevel(final MyGame g,String player) {
-        super(g);
-        atl = new TextureAtlas("warrior.pack");
+    public FirstLevel(final MyGame game,String player) {
+        super(game);
         map=mapLoader.load("livello1.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / MyGame.PPM);
 
         new B2WorldCreator(world,map);
 
-        enemyList.add(new Orch(world,getAtlas(),new Vector2(150,64)));
-
         if(player=="warrior") {
+            atl = new TextureAtlas("warrior.pack");
             this.player = new Warrior(world, getAtlas(), new Vector2(100, 64));
         }
+
+        enemyList.add(new Orch(world,getAtlas(),new Vector2(150,64)));
+
         world.setContactListener(new WorldContactListener());
 
         current=this;

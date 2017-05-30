@@ -70,7 +70,11 @@ public abstract class TileObject implements TileObjectInterface {
         fixture.setFilterData(filter);
     }
 
-    public abstract void onHit();
+    /**
+     *
+     * @param entity: If String is the contact point with player, else is Enemy.
+     */
+    public abstract void onHit(Object entity);
 
 
     /**
