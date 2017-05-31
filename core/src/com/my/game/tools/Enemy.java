@@ -87,6 +87,7 @@ public abstract class Enemy extends Entity{
     }
 
     public void destroy(){
+        this.body.setUserData(new Boolean(true));
         PlayScreen.current.enemyList.remove(this);
     }
 

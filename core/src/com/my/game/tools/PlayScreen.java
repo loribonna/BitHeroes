@@ -10,9 +10,11 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.my.game.MyGame;
@@ -20,6 +22,7 @@ import com.my.game.scenes.Hud;
 import com.my.game.screens.GameOverScreen;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by lorib on 29/05/2017.
@@ -141,7 +144,6 @@ public abstract class PlayScreen implements Screen{
      */
     public void update(float dt) {
         handleInput(dt);
-
         camera.position.x = player.body.getPosition().x;
 
         player.update(dt);
@@ -153,6 +155,8 @@ public abstract class PlayScreen implements Screen{
         camera.update();
         mapRenderer.setView(camera);
 
+        sweepDeadBodies();
+
     }
 
     /**
@@ -161,9 +165,30 @@ public abstract class PlayScreen implements Screen{
     public void gameOver(){
         //TODO:Schermata finale
         Gdx.app.log("Uscita","");
+        this.player.body.setUserData(new Boolean(true));
         game.setScreen(new GameOverScreen(game));
         dispose();
         gameOver = true;
+    }
+
+    /**
+     * Since LibGdx doesn't like if a body gets removed inside world simulation,
+     * this must be done outside. Check if body has flag "isFlaggedForDelete" and remove
+     * bodies awaiting for deletion.
+     */
+    public void sweepDeadBodies() {
+        Array<Body> bodies = new Array<Body>();
+        world.getBodies(bodies);
+        for (Iterator<Body> iter = bodies.iterator(); iter.hasNext(); ) {
+            Body body = iter.next();
+            if (body != null) {
+                if (body.getUserData() instanceof Boolean && ((Boolean) body.getUserData())) {
+                    world.destroyBody(body);
+                    body.setUserData(null);
+                    body = null;
+                }
+            }
+        }
     }
 
     /**

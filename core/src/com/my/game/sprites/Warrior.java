@@ -16,7 +16,7 @@ import com.badlogic.gdx.utils.Array;
 import com.my.game.MyGame;
 import com.my.game.tools.Entity;
 import com.my.game.tools.EntityInterface;
-import com.sun.org.apache.xerces.internal.impl.dv.xs.AnyURIDV;
+
 
 /**
  * Created by lorib on 09/05/2017.
