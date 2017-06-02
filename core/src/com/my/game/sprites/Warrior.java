@@ -67,7 +67,6 @@ public class Warrior extends Entity {
 
     @Override
     public void createBorders(Vector2 position) {
-        BodyDef bdef= new BodyDef();
         FixtureDef fdef = new FixtureDef();
         Filter filter = getFilter();
 

@@ -46,7 +46,7 @@ public class FirstLevel extends PlayScreen {
         map=mapLoader.load("livello1.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / MyGame.PPM);
 
-        new B2WorldCreator(world,map);
+        new B2WorldCreator(world,map,animatedTileObjects);
 
         if(player=="warrior") {
             atl = new TextureAtlas("warrior.pack");

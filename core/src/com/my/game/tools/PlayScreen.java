@@ -15,11 +15,13 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.my.game.MyGame;
 import com.my.game.scenes.Hud;
 import com.my.game.screens.GameOverScreen;
+import com.my.game.sprites.Coin;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -49,6 +51,11 @@ public abstract class PlayScreen implements Screen{
     protected ArrayList<Enemy> enemyList;
     protected Entity player;
 
+    protected ArrayList<Bullet> bullets;
+
+    protected ArrayList<TileObject> animatedTileObjects;
+
+    public boolean lock;
     /**
      * Initialize game world and any entity
      * @param game Reference to main game instance
@@ -64,6 +71,27 @@ public abstract class PlayScreen implements Screen{
         world=new World(new Vector2(0,-10),true);
         b2dr=new Box2DDebugRenderer();
         enemyList=new ArrayList<Enemy>();
+        animatedTileObjects=new ArrayList<TileObject>();
+        bullets=new ArrayList<Bullet>();
+    }
+
+    public void removeWithLock(final Object  obj){
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                while(lock);
+                if(obj instanceof Bullet)
+                    bullets.remove((Bullet)obj);
+                if(obj instanceof Coin)
+                    animatedTileObjects.remove((TileObject) obj);
+                if(obj instanceof Enemy)
+                    enemyList.remove((Enemy)obj);
+            }
+        },0);
+    }
+
+    public void addBullet(Bullet bullet){
+        this.bullets.add(bullet);
     }
 
     /**
@@ -97,6 +125,10 @@ public abstract class PlayScreen implements Screen{
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
             player.attack();
         }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.CONTROL_LEFT)){
+            player.throwAttack();
+        }
     }
 
     public EntityInterface.State getPlayerState(){
@@ -120,6 +152,7 @@ public abstract class PlayScreen implements Screen{
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if(!gameOver) {
+            lock=true;
             update(delta);
             mapRenderer.render();
 
@@ -130,11 +163,18 @@ public abstract class PlayScreen implements Screen{
             for(Enemy enemy : enemyList){
                 enemy.draw(game.batch);
             }
+            for(Bullet bullet : bullets){
+            //    bullet.draw(game.batch);
+            }
+            for(TileObject object : animatedTileObjects){
+           //     object.draw(game.batch);
+            }
             player.draw(game.batch);
             game.batch.end();
 
             game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
             hud.stage.draw();
+            lock=false;
         }
     }
 
@@ -149,6 +189,12 @@ public abstract class PlayScreen implements Screen{
         player.update(dt);
         for(Enemy enemy : enemyList){
             enemy.update(dt);
+        }
+        for(Bullet bullet : bullets){
+            bullet.update(dt);
+        }
+        for(TileObject object : animatedTileObjects){
+            object.update();
         }
         world.step(1 / 60f, 6, 2);
 

@@ -4,7 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g3d.model.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g3d.utils.shapebuilders.EllipseShapeBuilder;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -17,9 +18,11 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.my.game.MyGame;
 import com.my.game.tools.Enemy;
 import com.my.game.tools.Entity;
+import com.my.game.tools.PlayScreen;
 import com.my.game.tools.TileObject;
 
 import java.awt.geom.RectangularShape;
@@ -29,18 +32,38 @@ import java.awt.geom.RectangularShape;
  */
 
 public class Coin extends TileObject{
-
-    Animation gira;
+    Animation round;
     float stateTimer;
     TextureAtlas atl;
     public Coin(World world, TiledMap map, Ellipse ell) {
         super(world, map, ell);
         setCategoryBits(MyGame.COIN_BIT);
-        //atl = new TextureAtlas("coin.pack");
+        // getAnimations(new TextureAtlas("coin.pack"));
 
     }
 
+    public void getAnimations(TextureAtlas atlas){
+        //TODO: missing animatinos for coin
+        Array<TextureRegion> frames = new Array<TextureRegion>();
+        frames.add(new TextureRegion(atlas.findRegion("coin").getTexture(), 0, 0, 14, 16));
+        setBounds(0, 0, 16 / MyGame.PPM, 16 / MyGame.PPM);
+        round = new Animation(0.5f, frames);
+        stateTimer = 0;
+    }
 
+    public TextureRegion getFrame(){
+        TextureRegion region;
+        region = (TextureRegion)round.getKeyFrame(stateTimer, true);
+        if(round.isAnimationFinished(stateTimer)) stateTimer=0;
+        return region;
+    }
+
+    public void update(){
+        //setRegion(getFrame());
+        //TODO: Keep calling update after death
+        Gdx.app.log("","B");
+
+    }
 
     @Override
     public void define(){
@@ -68,6 +91,7 @@ public class Coin extends TileObject{
         if(entity instanceof String) {
             Gdx.app.log("Head", "Coin");
             setCategoryBits(MyGame.NOTHING_BIT);
+            PlayScreen.current.removeWithLock(this);
             dispose();
         }
     }

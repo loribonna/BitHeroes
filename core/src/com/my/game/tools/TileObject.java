@@ -1,5 +1,6 @@
 package com.my.game.tools;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -22,7 +23,7 @@ import com.my.game.MyGame;
  * Created by lorib on 13/05/2017.
  */
 
-public abstract class TileObject implements TileObjectInterface {
+public abstract class TileObject extends Sprite implements TileObjectInterface{
 
     protected World world;
     protected TiledMap map;
@@ -32,6 +33,7 @@ public abstract class TileObject implements TileObjectInterface {
     protected Ellipse ell;
 
     public TileObject(World world, TiledMap map,Rectangle rect){
+        super();
         this.world = world;
         this.map= map;
         this.rect = rect;
@@ -62,6 +64,8 @@ public abstract class TileObject implements TileObjectInterface {
         fixture = body.createFixture(fdef);
 
     }
+
+    public void update(){}
 
     public void setCategoryBits(short filterBits){
         Filter filter = new Filter();

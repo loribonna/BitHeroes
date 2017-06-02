@@ -1,5 +1,6 @@
 package com.my.game.tools;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -17,6 +18,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.my.game.MyGame;
+import com.my.game.sprites.Arrow;
 import com.my.game.tools.EntityInterface;
 
 import java.awt.geom.AffineTransform;
@@ -150,4 +152,14 @@ public abstract class Entity extends Sprite implements EntityInterface{
     }
 
     public abstract void createBorders(Vector2 position);
+
+    public void throwAttack(){
+        currentState=State.THROW;
+        previusState=State.THROW;
+        stateTimer=0;
+        setRegion(getFrame(0));
+        PlayScreen.current.addBullet(new Arrow(getPosition(),world,isFlipX()));
+    }
+
+
 }

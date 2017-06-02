@@ -81,14 +81,15 @@ public abstract class Enemy extends Entity{
     public Filter getFilter() {
         Filter f = new Filter();
         f.categoryBits = MyGame.ENEMY_BIT;
-        f.maskBits =(MyGame.DEFAULT_BIT | MyGame.BRICK_BIT | MyGame.COIN_BIT | MyGame.PLAYER_BIT | MyGame.VOID_BIT);
+        f.maskBits =(MyGame.DEFAULT_BIT | MyGame.BRICK_BIT | MyGame.COIN_BIT |
+                MyGame.PLAYER_BIT | MyGame.VOID_BIT | MyGame.PLAYER_BULLET_BIT);
         f.groupIndex = MyGame.GROUP_ENEMIES;
         return f;
     }
 
     public void destroy(){
         this.body.setUserData(new Boolean(true));
-        PlayScreen.current.enemyList.remove(this);
+        PlayScreen.current.removeWithLock(this);
     }
 
     @Override

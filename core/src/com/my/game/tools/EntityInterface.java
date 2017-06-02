@@ -14,7 +14,8 @@ public interface EntityInterface {
         ATTACK,
         STAND,
         RUN,
-        JUMP
+        JUMP,
+        THROW
     }
     public static enum EntityType{
         WARRIOR,

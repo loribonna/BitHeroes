@@ -19,11 +19,18 @@ public class WorldContactListener implements ContactListener {
         Fixture fixPlayer = null;
         Fixture fixObject = null;
         Fixture fixEnemy = null;
-        // Must be a player
+        Fixture fixBullet = null;
+
         if (contact.getFixtureA() != null && contact.getFixtureA().getUserData().toString().contains("good")) {
             fixPlayer = contact.getFixtureA();
         } else if (contact.getFixtureB() != null &&contact.getFixtureB().getUserData().toString().contains("good")) {
             fixPlayer = contact.getFixtureB();
+        }
+
+        if (contact.getFixtureA() != null && contact.getFixtureA().getUserData() instanceof Bullet) {
+            fixBullet = contact.getFixtureA();
+        } else if (contact.getFixtureB() != null &&contact.getFixtureB().getUserData()instanceof Bullet) {
+            fixBullet = contact.getFixtureB();
         }
 
         if (contact.getFixtureA() != null && contact.getFixtureA().getUserData() instanceof Enemy) {

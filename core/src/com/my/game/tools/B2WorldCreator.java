@@ -1,6 +1,7 @@
 package com.my.game.tools;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
@@ -26,6 +27,8 @@ import com.my.game.sprites.Vuoto;
 import com.my.game.sprites.Wall;
 import com.sun.org.apache.xpath.internal.operations.String;
 
+import java.util.ArrayList;
+
 /**
  * Created by lorib on 09/05/2017.
  */
@@ -37,7 +40,7 @@ public class B2WorldCreator {
      * @param world: Current world
      * @param map: Current map
      */
-    public B2WorldCreator(World world, TiledMap map){
+    public B2WorldCreator(World world, TiledMap map, ArrayList<TileObject> animatedObjects){
         MapLayer l = map.getLayers().get(2);
         for(MapObject obj : l.getObjects().getByType(RectangleMapObject.class)){
             Rectangle rect = ((RectangleMapObject)obj).getRectangle();
@@ -54,9 +57,8 @@ public class B2WorldCreator {
         Gdx.app.log(l.getObjects().get(0).toString(),l.getObjects().getClass().getName());
 
         for(MapObject obj : l.getObjects().getByType(EllipseMapObject.class)){
-            Gdx.app.log("Circ", "");
             Ellipse ell = ((EllipseMapObject)obj).getEllipse();
-            new Coin(world,map,ell);
+            animatedObjects.add(new Coin(world,map,ell));
         }
 
         l = map.getLayers().get(7);
