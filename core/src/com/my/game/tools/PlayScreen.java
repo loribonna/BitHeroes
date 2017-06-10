@@ -82,8 +82,9 @@ public abstract class PlayScreen implements Screen{
                 while(lock);
                 if(obj instanceof Bullet)
                     bullets.remove((Bullet)obj);
-                if(obj instanceof Coin)
+                if(obj instanceof Coin) {
                     animatedTileObjects.remove((TileObject) obj);
+                }
                 if(obj instanceof Enemy)
                     enemyList.remove((Enemy)obj);
             }
@@ -193,9 +194,10 @@ public abstract class PlayScreen implements Screen{
         for(Bullet bullet : bullets){
             bullet.update(dt);
         }
-        for(TileObject object : animatedTileObjects){
-            object.update();
-        }
+        //for(TileObject object : animatedTileObjects){
+        //    object.update();
+        //}
+        animatedTileObjects.get(0).update();
         world.step(1 / 60f, 6, 2);
 
         camera.update();

@@ -20,6 +20,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.StreamUtils;
 import com.my.game.MyGame;
+import com.my.game.screens.FirstLevel;
 import com.my.game.sprites.Brick;
 import com.my.game.sprites.Coin;
 import com.my.game.sprites.Terrain;
@@ -40,45 +41,49 @@ public class B2WorldCreator {
      * @param world: Current world
      * @param map: Current map
      */
-    public B2WorldCreator(World world, TiledMap map, ArrayList<TileObject> animatedObjects){
-        MapLayer l = map.getLayers().get(2);
-        for(MapObject obj : l.getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rect = ((RectangleMapObject)obj).getRectangle();
-            new Terrain(world,map,rect);
+    public B2WorldCreator(World world, TiledMap map, ArrayList<TileObject> animatedObjects) {
+        if (MyGame.currentPlayScreen==0) {
+            MapLayer l = map.getLayers().get(2);
+            for (MapObject obj : l.getObjects().getByType(RectangleMapObject.class)) {
+                Rectangle rect = ((RectangleMapObject) obj).getRectangle();
+                new Terrain(world, map, rect);
+            }
+
+            l = map.getLayers().get(3);
+            for (MapObject obj : l.getObjects().getByType(RectangleMapObject.class)) {
+                Rectangle rect = ((RectangleMapObject) obj).getRectangle();
+                new Vuoto(world, map, rect);
+            }
+
+            l = map.getLayers().get(6);
+            Gdx.app.log(l.getObjects().get(0).toString(), l.getObjects().getClass().getName());
+
+            for (MapObject obj : l.getObjects().getByType(EllipseMapObject.class)) {
+                Ellipse ell = ((EllipseMapObject) obj).getEllipse();
+                animatedObjects.add(new Coin(world, map, ell));
+            }
+
+            l = map.getLayers().get(7);
+            for (MapObject obj : l.getObjects().getByType(RectangleMapObject.class)) {
+                Rectangle rect = ((RectangleMapObject) obj).getRectangle();
+                new Wall(world, map, rect);
+            }
+
+            //TODO: Crea uscita
+            l = map.getLayers().get(4);
+            for (MapObject obj : l.getObjects().getByType(RectangleMapObject.class)) {
+                Rectangle rect = ((RectangleMapObject) obj).getRectangle();
+                new Exit(world, map, rect);
+            }
+
+            l = map.getLayers().get(5);
+            for (MapObject obj : l.getObjects().getByType(RectangleMapObject.class)) {
+                Rectangle rect = ((RectangleMapObject) obj).getRectangle();
+                new Brick(world, map, rect);
+            }
         }
 
-        l = map.getLayers().get(3);
-        for(MapObject obj : l.getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rect = ((RectangleMapObject)obj).getRectangle();
-            new Vuoto(world,map,rect);
-        }
 
-        l = map.getLayers().get(6);
-        Gdx.app.log(l.getObjects().get(0).toString(),l.getObjects().getClass().getName());
-
-        for(MapObject obj : l.getObjects().getByType(EllipseMapObject.class)){
-            Ellipse ell = ((EllipseMapObject)obj).getEllipse();
-            animatedObjects.add(new Coin(world,map,ell));
-        }
-
-        l = map.getLayers().get(7);
-        for(MapObject obj : l.getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rect = ((RectangleMapObject)obj).getRectangle();
-            new Wall(world,map,rect);
-        }
-
-        //TODO: Crea uscita
-        l = map.getLayers().get(4);
-        for(MapObject obj : l.getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rect = ((RectangleMapObject)obj).getRectangle();
-           // new Uscita(world,map,rect);
-        }
-
-        l = map.getLayers().get(5);
-        for(MapObject obj : l.getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rect = ((RectangleMapObject)obj).getRectangle();
-            new Brick(world,map,rect);
-        }
 
     }
 }

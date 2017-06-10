@@ -8,12 +8,14 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.my.game.screens.FirstScreen;
+import com.my.game.tools.PlayScreen;
 
 public class MyGame extends Game {
 	//
 	public SpriteBatch batch;
 	public static MyGame current;
-	public static Screen currentPlayScreen;
+	public static String currentPlayer;
+	public static int currentPlayScreen;
 	public static String name = "Bit Heroes";
 	public static final float V_WIDTH = 400;
 	public static final float V_HEIGHT = 208;
@@ -34,6 +36,7 @@ public class MyGame extends Game {
 	public static final short WALL_BIT=64;
 	public static final short PLAYER_BULLET_BIT=128;
 	public static final short ENEMY_BULLET_BIT=256;
+	public static final short EXIT_BIT = 512;
 
 	/**
 	 * Initialize game scenes and SpriteBatch
@@ -44,6 +47,11 @@ public class MyGame extends Game {
 		//setScreen(new PlayScreen(this));
 		setScreen(new FirstScreen(this));
 		current=this;
+	}
+
+	public void changeLevel(PlayScreen level,String player){
+		Gdx.app.log("","Af");
+		setScreen(level);
 	}
 
 	@Override

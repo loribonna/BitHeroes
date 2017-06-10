@@ -60,9 +60,6 @@ public class Coin extends TileObject{
 
     public void update(){
         //setRegion(getFrame());
-        //TODO: Keep calling update after death
-        Gdx.app.log("","B");
-
     }
 
     @Override
