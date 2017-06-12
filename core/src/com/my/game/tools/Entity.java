@@ -34,9 +34,12 @@ public abstract class Entity extends Sprite implements EntityInterface{
     public World world;
     public Body body;
 
+    private int life=100;//default
+
     protected State currentState;
     protected State previusState;
 
+    protected Animation throwAnimation=null;
     protected Animation attackAnimation;
     protected Animation runAnimation;
     protected TextureRegion standAnimation;
@@ -45,6 +48,11 @@ public abstract class Entity extends Sprite implements EntityInterface{
     protected float stateTimer;
 
     protected boolean invulnarable=false;
+
+    protected boolean lockAttack;
+    protected float bulletDelay=0.5f;
+    protected float meleeDelay=1;
+    protected boolean dead=false;
 
     public Entity(World w, TextureAtlas screenAtlas, Vector2 position) {
         super();
@@ -67,7 +75,13 @@ public abstract class Entity extends Sprite implements EntityInterface{
 
     public boolean isInvulnerable(){return invulnarable;}
 
-    public void hit(){
+    public void hit(int damage){
+        life-=damage;
+        if(life<0){
+            destroy();
+        }else if(damage>0){
+            recoil();
+        }
         invulnarable=true;
         Timer.schedule(new Timer.Task() {
             @Override
@@ -76,6 +90,10 @@ public abstract class Entity extends Sprite implements EntityInterface{
             }
         },1);
     }
+
+    public abstract void recoil();
+
+    public abstract void destroy();
 
     public TextureRegion getFrame(float dt) {
         currentState = getState();
@@ -109,11 +127,7 @@ public abstract class Entity extends Sprite implements EntityInterface{
     }
 
     public void attack() {
-        currentState = State.ATTACK;
-        previusState = State.ATTACK;
-        stateTimer = 0;
-        setSize(27 / MyGame.PPM, 16 / MyGame.PPM);
-        setRegion(getFrame(0));
+        throwAttack(AttackType.MELEE);
     }
 
     public State getState() {
@@ -128,7 +142,30 @@ public abstract class Entity extends Sprite implements EntityInterface{
                     return State.STAND;
                 }
             }
+        }else if(previusState == State.THROW){
+            setSize(16 / MyGame.PPM, 16 / MyGame.PPM);
+            if(throwAnimation!=null) {
+                if (!throwAnimation.isAnimationFinished(stateTimer))
+                    return State.THROW;
+                else{
+                    if (body.getLinearVelocity().x != 0) {
+                        return State.RUN;
+                    } else if (previusState != State.ATTACK) {
+                        return State.STAND;
+                    }
+                }
+            }else{
+                if(!lockAttack) {
+                    if (body.getLinearVelocity().x != 0) {
+                        return State.RUN;
+                    } else if (previusState != State.ATTACK) {
+                        return State.STAND;
+                    }
+                }
+            }
+
         }
+
         if (body.getLinearVelocity().y > 0) {
             return State.JUMP;
         } else if (body.getLinearVelocity().y < 0) {
@@ -153,13 +190,70 @@ public abstract class Entity extends Sprite implements EntityInterface{
 
     public abstract void createBorders(Vector2 position);
 
-    public void throwAttack(){
-        currentState=State.THROW;
-        previusState=State.THROW;
-        stateTimer=0;
-        setRegion(getFrame(0));
-        PlayScreen.current.addBullet(new Arrow(getPosition(),world,isFlipX()));
+    public void throwAttack(AttackType attackType) {
+        if(!lockAttack) {
+            lockAttack=true;
+            if (attackType == AttackType.THROW) {
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        lockAttack=false;
+                    }
+                },bulletDelay);
+
+                currentState = State.THROW;
+                previusState = State.THROW;
+                stateTimer = 0;
+                setRegion(getFrame(0));
+                throwBullet();
+            } else {
+                currentState = State.ATTACK;
+                previusState = State.ATTACK;
+                stateTimer = 0;
+                setSize(27 / MyGame.PPM, 16 / MyGame.PPM);
+                setRegion(getFrame(0));
+
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        throwAttack(AttackType.MELEE);
+                    }
+                },attackAnimation.getAnimationDuration()/2);
+
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        lockAttack=false;
+                    }
+                },meleeDelay);
+
+                if (isFlipX()) {
+                    final Fixture f = createBackAttackFixture();
+                    Timer.schedule(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            body.destroyFixture(f);
+                        }
+                    }, attackAnimation.getAnimationDuration() / 2);
+
+                } else {
+                    final Fixture f = createFrontAttackFixture();
+                    Timer.schedule(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            body.destroyFixture(f);
+                        }
+                    }, attackAnimation.getAnimationDuration() / 2);
+                }
+            }
+        }else{
+            return;
+        }
     }
+
+    protected abstract void throwBullet();
+    protected abstract Fixture createFrontAttackFixture();
+    protected abstract Fixture createBackAttackFixture();
 
 
 }

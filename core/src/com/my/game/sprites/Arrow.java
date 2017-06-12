@@ -12,19 +12,11 @@ import com.my.game.tools.Bullet;
  */
 
 public class Arrow extends Bullet {
-    public Arrow(Vector2 position, World world,Boolean rightDirection) {
-        super(position,world,rightDirection);
+    public Arrow(Vector2 position, World world,boolean rightDirection,boolean isPlayer) {
+        super(position,world,rightDirection,isPlayer);
         body.applyLinearImpulse(new Vector2(forceAttack,0),body.getWorldCenter(),true);
        // forceDrag=1; Never fall
-    }
-
-    @Override
-    public Filter getFilter() {
-        Filter f=new Filter();
-        f.groupIndex= MyGame.GROUP_BULLET;
-        f.categoryBits= MyGame.PLAYER_BULLET_BIT;
-        f.maskBits=MyGame.ENEMY_BIT|MyGame.WALL_BIT|MyGame.BRICK_BIT|MyGame.DEFAULT_BIT;
-        return f;
+        damage=20;
     }
 
     @Override

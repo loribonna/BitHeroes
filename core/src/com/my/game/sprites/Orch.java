@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.Filter;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -22,7 +23,7 @@ import com.my.game.tools.*;
 public class Orch extends Enemy {
     public Orch(World w, TextureAtlas screenAtlas,Vector2 position) {
         super(w, screenAtlas,position);
-        attackRange=0.2f;
+        attackRange=0.18f;
     }
 
     @Override
@@ -48,5 +49,43 @@ public class Orch extends Enemy {
         frames.clear();
     }
 
+    @Override
+    protected void throwBullet() {
+        PlayScreen.current.addBullet(new Arrow(getPosition(), world, isFlipX(),false));
+    }
+
+    @Override
+    protected Fixture createFrontAttackFixture() {
+        FixtureDef fdef = new FixtureDef();
+
+        PolygonShape weaponFront = new PolygonShape();
+        weaponFront.set(new Vector2[]{new Vector2(12,-2).scl(1/MyGame.PPM),new Vector2(12,-4).scl(1/MyGame.PPM)
+                ,new Vector2(8,-2).scl(1/MyGame.PPM),new Vector2(8,-4).scl(1/MyGame.PPM)});
+        fdef.shape = weaponFront;
+        fdef.filter.categoryBits=MyGame.ENEMY_MELEE_BIT;
+        fdef.filter.groupIndex=MyGame.GROUP_BULLET;
+        fdef.filter.maskBits=MyGame.PLAYER_BIT;
+        fdef.isSensor=true;
+        Fixture frontAttack=body.createFixture(fdef);
+        frontAttack.setUserData(20);
+        return frontAttack;
+    }
+
+    @Override
+    protected Fixture createBackAttackFixture() {
+        FixtureDef fdef = new FixtureDef();
+
+        PolygonShape weaponBack = new PolygonShape();
+        weaponBack.set(new Vector2[]{new Vector2(-12,-2).scl(1/MyGame.PPM),new Vector2(-12,-4).scl(1/MyGame.PPM)
+                ,new Vector2(-8,-2).scl(1/MyGame.PPM),new Vector2(-8,-4).scl(1/MyGame.PPM)});
+        fdef.shape = weaponBack;
+        fdef.filter.categoryBits=MyGame.ENEMY_MELEE_BIT;
+        fdef.filter.groupIndex=MyGame.GROUP_BULLET;
+        fdef.filter.maskBits=MyGame.PLAYER_BIT;
+        fdef.isSensor=true;
+        Fixture backAttack=body.createFixture(fdef);
+        backAttack.setUserData(20);
+        return backAttack;
+    }
 
 }

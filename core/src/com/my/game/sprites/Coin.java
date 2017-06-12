@@ -88,6 +88,7 @@ public class Coin extends TileObject{
         if(entity instanceof String) {
             Gdx.app.log("Head", "Coin");
             setCategoryBits(MyGame.NOTHING_BIT);
+            PlayScreen.current.bodiesToRemove.add(this.body);
             PlayScreen.current.removeWithLock(this);
             dispose();
         }

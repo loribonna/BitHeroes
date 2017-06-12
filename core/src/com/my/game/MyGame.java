@@ -37,6 +37,8 @@ public class MyGame extends Game {
 	public static final short PLAYER_BULLET_BIT=128;
 	public static final short ENEMY_BULLET_BIT=256;
 	public static final short EXIT_BIT = 512;
+	public static final short PLAYER_MELEE_BIT = 1024;
+	public static final short ENEMY_MELEE_BIT = 2048;
 
 	/**
 	 * Initialize game scenes and SpriteBatch
@@ -50,7 +52,6 @@ public class MyGame extends Game {
 	}
 
 	public void changeLevel(PlayScreen level,String player){
-		Gdx.app.log("","Af");
 		setScreen(level);
 	}
 

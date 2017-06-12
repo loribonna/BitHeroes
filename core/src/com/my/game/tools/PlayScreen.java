@@ -12,7 +12,9 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
@@ -55,6 +57,8 @@ public abstract class PlayScreen implements Screen{
 
     protected ArrayList<TileObject> animatedTileObjects;
 
+    public ArrayList<Body> bodiesToRemove;
+
     public boolean lock;
     /**
      * Initialize game world and any entity
@@ -62,6 +66,7 @@ public abstract class PlayScreen implements Screen{
      */
     public PlayScreen(MyGame game){
         this.game=game;
+        bodiesToRemove=new ArrayList<Body>();
         camera=new OrthographicCamera();
         port=new FitViewport(MyGame.V_WIDTH / MyGame.PPM,MyGame.V_HEIGHT / MyGame.PPM,camera);
         hud=new Hud(game.batch);
@@ -79,14 +84,26 @@ public abstract class PlayScreen implements Screen{
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
-                while(lock);
-                if(obj instanceof Bullet)
-                    bullets.remove((Bullet)obj);
+                if(!gameOver)
+                    while(lock&&world.isLocked());
+                lock=true;
+                if(obj instanceof Bullet) {
+                    bullets.remove((Bullet) obj);
+                }
                 if(obj instanceof Coin) {
                     animatedTileObjects.remove((TileObject) obj);
                 }
-                if(obj instanceof Enemy)
-                    enemyList.remove((Enemy)obj);
+                if(obj instanceof Enemy) {
+                    enemyList.remove((Enemy) obj);
+                }
+                Iterator<Body> i=bodiesToRemove.iterator();
+                while(i.hasNext()){
+                    Body b=i.next();
+                    for(Fixture f : b.getFixtureList()){
+                        b.destroyFixture(f);
+                    }
+                }
+                lock=false;
             }
         },0);
     }
@@ -128,7 +145,7 @@ public abstract class PlayScreen implements Screen{
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.CONTROL_LEFT)){
-            player.throwAttack();
+            player.throwAttack(EntityInterface.AttackType.THROW);
         }
     }
 
@@ -152,7 +169,7 @@ public abstract class PlayScreen implements Screen{
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        if(!gameOver) {
+        if(!gameOver&&!lock) {
             lock=true;
             update(delta);
             mapRenderer.render();
@@ -194,9 +211,7 @@ public abstract class PlayScreen implements Screen{
         for(Bullet bullet : bullets){
             bullet.update(dt);
         }
-        //for(TileObject object : animatedTileObjects){
-        //    object.update();
-        //}
+
         animatedTileObjects.get(0).update();
         world.step(1 / 60f, 6, 2);
 
@@ -215,8 +230,8 @@ public abstract class PlayScreen implements Screen{
         Gdx.app.log("Uscita","");
         this.player.body.setUserData(new Boolean(true));
         game.setScreen(new GameOverScreen(game));
-        dispose();
         gameOver = true;
+        dispose();
     }
 
     /**
@@ -274,6 +289,12 @@ public abstract class PlayScreen implements Screen{
      */
     @Override
     public void dispose() {
+        Array<Body> bodies=new Array<Body>();
+        world.getBodies(bodies);
+        for(Body b : bodies){
+            bodiesToRemove.add(b);
+        }
+        removeWithLock(null);
         map.dispose();
         //mapRenderer.dispose();
         //world.dispose();

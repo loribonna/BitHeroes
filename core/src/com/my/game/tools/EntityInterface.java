@@ -17,6 +17,10 @@ public interface EntityInterface {
         JUMP,
         THROW
     }
+    public static enum AttackType {
+        MELEE,
+        THROW
+    }
     public static enum EntityType{
         WARRIOR,
         ENEMY

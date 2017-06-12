@@ -27,11 +27,15 @@ public abstract class Bullet extends Sprite {
     protected boolean oppositeDirection;
     protected float minSpeed=0.1f;
 
+    protected boolean isPlayer;
+
+    public int damage=0;
     /// [0-1): fall; 1: still; 1+: ryse
     protected float forceDrag;
     protected Fixture fixture;
-    public Bullet(Vector2 position,World world,Boolean oppositeDirection){
+    public Bullet(Vector2 position,World world,boolean oppositeDirection,boolean isPlayer){
         super();
+        this.isPlayer=isPlayer;
         this.oppositeDirection=oppositeDirection;
         this.world=world;
         defineBullet(position);
@@ -48,7 +52,18 @@ public abstract class Bullet extends Sprite {
         fixture.setFilterData(filter);
     }
 
-    public abstract Filter getFilter();
+    public Filter getFilter() {
+        Filter f = new Filter();
+        //f.groupIndex = MyGame.GROUP_BULLET;
+        if (isPlayer) {
+            f.categoryBits = MyGame.PLAYER_BULLET_BIT;
+            f.maskBits = MyGame.ENEMY_BIT | MyGame.WALL_BIT | MyGame.BRICK_BIT | MyGame.DEFAULT_BIT;
+        } else {
+            f.categoryBits = MyGame.ENEMY_BULLET_BIT;
+            f.maskBits = MyGame.PLAYER_BIT | MyGame.WALL_BIT | MyGame.BRICK_BIT | MyGame.DEFAULT_BIT;
+        }
+        return f;
+    }
 
     public void defineBullet(Vector2 position){
         BodyDef bdef = new BodyDef();
@@ -73,7 +88,8 @@ public abstract class Bullet extends Sprite {
     public abstract void update(float delta);
 
     public void dispose(){
-        fixture.setUserData(new Boolean(true));
+      //  fixture.setUserData(new Boolean(true));
+        PlayScreen.current.bodiesToRemove.add(this.body);
         PlayScreen.current.removeWithLock(this);
     }
 }
