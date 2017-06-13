@@ -20,10 +20,10 @@ public class Vuoto extends TileObject {
         setCategoryBits(MyGame.VOID_BIT);
     }
 
-    /**
-     *
-     * @param entity: If String is the contact point with player, else is Enemy.
-     */
+    @Override
+    public void update() {}
+
+
     @Override
     public void onHit(Object entity) {
         if(entity instanceof Enemy) {

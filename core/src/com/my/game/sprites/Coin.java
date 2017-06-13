@@ -86,10 +86,9 @@ public class Coin extends TileObject{
     @Override
     public void onHit(Object entity) {
         if(entity instanceof String) {
-            Gdx.app.log("Head", "Coin");
             setCategoryBits(MyGame.NOTHING_BIT);
-            PlayScreen.current.bodiesToRemove.add(this.body);
-            PlayScreen.current.removeWithLock(this);
+            PlayScreen.current.objectsToRemove.add(this);
+            body.setUserData(true);
             dispose();
         }
     }

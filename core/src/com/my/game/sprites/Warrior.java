@@ -71,6 +71,7 @@ public class Warrior extends Entity {
         PlayScreen.current.gameOver();
     }
 
+    @Override
     public Filter getFilter() {
         Filter f = new Filter();
         f.categoryBits = MyGame.PLAYER_BIT;
@@ -81,7 +82,7 @@ public class Warrior extends Entity {
     }
 
     @Override
-    public void createBorders(Vector2 position) {
+    public void createBorders() {
         FixtureDef fdef = new FixtureDef();
         Filter filter = getFilter();
 

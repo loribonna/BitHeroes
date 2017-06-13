@@ -22,17 +22,15 @@ import com.my.game.MyGame;
 public abstract class Bullet extends Sprite {
     protected Body body;
     protected World world;
-    ///Force of the bullet
     protected float forceAttack;
     protected boolean oppositeDirection;
     protected float minSpeed=0.1f;
-
     protected boolean isPlayer;
-
     public int damage=0;
     /// [0-1): fall; 1: still; 1+: ryse
     protected float forceDrag;
     protected Fixture fixture;
+
     public Bullet(Vector2 position,World world,boolean oppositeDirection,boolean isPlayer){
         super();
         this.isPlayer=isPlayer;
@@ -45,6 +43,10 @@ public abstract class Bullet extends Sprite {
 
     }
 
+    /**
+     * Set filter bits to trigger collisions in the current Fixture.
+            * @param filterBits
+     */
     public void setCategoryBits(short filterBits){
         Filter filter = new Filter();
         filter.categoryBits = filterBits;
@@ -52,9 +54,12 @@ public abstract class Bullet extends Sprite {
         fixture.setFilterData(filter);
     }
 
+    /**
+     * Set and return filter used in collisions.
+     * @return
+     */
     public Filter getFilter() {
         Filter f = new Filter();
-        //f.groupIndex = MyGame.GROUP_BULLET;
         if (isPlayer) {
             f.categoryBits = MyGame.PLAYER_BULLET_BIT;
             f.maskBits = MyGame.ENEMY_BIT | MyGame.WALL_BIT | MyGame.BRICK_BIT | MyGame.DEFAULT_BIT;
@@ -65,6 +70,10 @@ public abstract class Bullet extends Sprite {
         return f;
     }
 
+    /**
+     * Create bulelt body and shape in the given position in the current world.
+     * @param position
+     */
     public void defineBullet(Vector2 position){
         BodyDef bdef = new BodyDef();
         FixtureDef fdef = new FixtureDef();
@@ -85,11 +94,17 @@ public abstract class Bullet extends Sprite {
         fixture.setUserData(this);
     }
 
+    /**
+     * Update position of the bullet.
+     * @param delta
+     */
     public abstract void update(float delta);
 
+    /**
+     * Remove the bullet from the simulation.
+     */
     public void dispose(){
-      //  fixture.setUserData(new Boolean(true));
-        PlayScreen.current.bodiesToRemove.add(this.body);
-        PlayScreen.current.removeWithLock(this);
+        PlayScreen.current.objectsToRemove.add(this);
+        body.setUserData(true);
     }
 }

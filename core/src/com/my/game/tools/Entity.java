@@ -63,18 +63,43 @@ public abstract class Entity extends Sprite implements EntityInterface{
         getAnimations(screenAtlas);
     }
 
+    /**
+     * Return body position.
+     * @return
+     */
     public Vector2 getPosition(){
         return this.body.getPosition();
     }
 
+    /**
+     * Import enity-specific animations from the atlas.
+     * @param atlas
+     */
     @Override
     public abstract void getAnimations(TextureAtlas atlas);
 
+    /**
+     * Get current entity filter to sei collisions.
+     * @return
+     */
+    public abstract Filter getFilter();
+
+    /**
+     * Update position, target and animation.
+     * @param delta
+     */
     @Override
     public abstract void update(float delta);
 
+    /**
+     * @return: True if entity is invulnerable
+     */
     public boolean isInvulnerable(){return invulnarable;}
 
+    /**
+     * Process hit event.
+     * @param damage
+     */
     public void hit(int damage){
         life-=damage;
         if(life<0){
@@ -91,10 +116,21 @@ public abstract class Entity extends Sprite implements EntityInterface{
         },1);
     }
 
+    /**
+     * Perform action after Hit event.
+     */
     public abstract void recoil();
 
+    /**
+     * Destroy current body fixtures.
+     */
     public abstract void destroy();
 
+    /**
+     * Get current frame of the animation based on the current state.
+     * @param dt
+     * @return
+     */
     public TextureRegion getFrame(float dt) {
         currentState = getState();
         TextureRegion region;
@@ -126,10 +162,16 @@ public abstract class Entity extends Sprite implements EntityInterface{
         return region;
     }
 
+    /**
+     * Shortcut fot Melee attack.
+     */
     public void attack() {
         throwAttack(AttackType.MELEE);
     }
 
+    /**
+     * @return: Current state based on the action being performed and movement of the body.
+     */
     public State getState() {
         if (previusState == State.ATTACK) {
             if (!attackAnimation.isAnimationFinished(stateTimer))
@@ -178,6 +220,11 @@ public abstract class Entity extends Sprite implements EntityInterface{
         return State.STAND;
     }
 
+    /**
+     * Create body of the entity in the given position in the world.
+     * Call method to set fixtures.
+     * @param position
+     */
     public void define(Vector2 position) {
         BodyDef bdef= new BodyDef();
 
@@ -185,11 +232,19 @@ public abstract class Entity extends Sprite implements EntityInterface{
         bdef.type = BodyDef.BodyType.DynamicBody;
         body=world.createBody(bdef);
 
-        createBorders(position);
+        createBorders();
     }
 
-    public abstract void createBorders(Vector2 position);
+    /**
+     * Set fixtures in the current body.
+     */
+    public abstract void createBorders();
 
+    /**
+     * Perform attack based on the attackType parameter.
+     * Control if lockAttack object is released before perform another attack.
+     * @param attackType
+     */
     public void throwAttack(AttackType attackType) {
         if(!lockAttack) {
             lockAttack=true;
@@ -251,8 +306,21 @@ public abstract class Entity extends Sprite implements EntityInterface{
         }
     }
 
+    /**
+     * Create and launch a bullet.
+     */
     protected abstract void throwBullet();
+
+    /**
+     * Create fixture to trigger collision for Melee attack if the attack is front
+     * @return
+     */
     protected abstract Fixture createFrontAttackFixture();
+
+    /**
+     * Create fixture to trigger collision for Melee attack if the body is flipped.
+     * @return
+     */
     protected abstract Fixture createBackAttackFixture();
 
 

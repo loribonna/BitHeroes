@@ -24,7 +24,6 @@ import com.my.game.MyGame;
  */
 
 public abstract class TileObject extends Sprite implements TileObjectInterface{
-
     protected World world;
     protected TiledMap map;
     protected Rectangle rect;
@@ -41,6 +40,12 @@ public abstract class TileObject extends Sprite implements TileObjectInterface{
         fixture.setUserData(this);
     }
 
+    /**
+     * Alternative constructor if the object has an elliple shape
+     * @param world
+     * @param map
+     * @param ell
+     */
     public TileObject(World world, TiledMap map,Ellipse ell){
         this.world = world;
         this.map= map;
@@ -49,6 +54,10 @@ public abstract class TileObject extends Sprite implements TileObjectInterface{
         fixture.setUserData(this);
     }
 
+    /**
+     * Create body and set position on the current position rect.
+     * Create fixture around the body.
+     */
     public void define(){
         BodyDef bdef = new BodyDef();
         FixtureDef fdef = new FixtureDef();
@@ -65,8 +74,15 @@ public abstract class TileObject extends Sprite implements TileObjectInterface{
 
     }
 
-    public void update(){}
+    /**
+     * Update object frames and position if the TileObject has animations.
+     */
+    public abstract void update();
 
+    /**
+     * Set filter bits to trigger collisions in the current Fixture.
+     * @param filterBits
+     */
     public void setCategoryBits(short filterBits){
         Filter filter = new Filter();
         filter.categoryBits = filterBits;
@@ -75,11 +91,9 @@ public abstract class TileObject extends Sprite implements TileObjectInterface{
     }
 
     /**
-     *
      * @param entity: If String is the contact point with player, else is Enemy.
      */
     public abstract void onHit(Object entity);
-
 
     /**
      * Get tile cell coordinate by scaling up and dividing by the tile size.
@@ -92,10 +106,12 @@ public abstract class TileObject extends Sprite implements TileObjectInterface{
 
     }
 
+    /**
+     * Remove current body fixtures.
+     */
     public void dispose(){
-       // map.dispose();
-        fixture=null;
-      //  body.destroyFixture(fixture);
+        PlayScreen.current.objectsToRemove.add(this);
+        body.setUserData(true);
     }
 
 }

@@ -35,38 +35,30 @@ import java.util.Iterator;
 public abstract class PlayScreen implements Screen{
     public boolean gameOver=false;
     public static PlayScreen current;
-
     protected final MyGame game;
     protected OrthographicCamera camera;
     protected Viewport port;
     protected Hud hud;
-
     protected TmxMapLoader mapLoader;
     protected TiledMap map;
     protected OrthogonalTiledMapRenderer mapRenderer;
-
     protected World world;
     protected Box2DDebugRenderer b2dr;
-
     protected TextureAtlas atl;
-
     protected ArrayList<Enemy> enemyList;
     protected Entity player;
-
     protected ArrayList<Bullet> bullets;
-
     protected ArrayList<TileObject> animatedTileObjects;
-
-    public ArrayList<Body> bodiesToRemove;
-
+    public ArrayList<Object> objectsToRemove;
     public boolean lock;
+
     /**
      * Initialize game world and any entity
      * @param game Reference to main game instance
      */
     public PlayScreen(MyGame game){
         this.game=game;
-        bodiesToRemove=new ArrayList<Body>();
+        objectsToRemove=new ArrayList<Object>();
         camera=new OrthographicCamera();
         port=new FitViewport(MyGame.V_WIDTH / MyGame.PPM,MyGame.V_HEIGHT / MyGame.PPM,camera);
         hud=new Hud(game.batch);
@@ -80,34 +72,10 @@ public abstract class PlayScreen implements Screen{
         bullets=new ArrayList<Bullet>();
     }
 
-    public void removeWithLock(final Object  obj){
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                if(!gameOver)
-                    while(lock&&world.isLocked());
-                lock=true;
-                if(obj instanceof Bullet) {
-                    bullets.remove((Bullet) obj);
-                }
-                if(obj instanceof Coin) {
-                    animatedTileObjects.remove((TileObject) obj);
-                }
-                if(obj instanceof Enemy) {
-                    enemyList.remove((Enemy) obj);
-                }
-                Iterator<Body> i=bodiesToRemove.iterator();
-                while(i.hasNext()){
-                    Body b=i.next();
-                    for(Fixture f : b.getFixtureList()){
-                        b.destroyFixture(f);
-                    }
-                }
-                lock=false;
-            }
-        },0);
-    }
-
+    /**
+     * Add a bullet in the current world.
+     * @param bullet
+     */
     public void addBullet(Bullet bullet){
         this.bullets.add(bullet);
     }
@@ -149,20 +117,30 @@ public abstract class PlayScreen implements Screen{
         }
     }
 
+    /**
+     * @return: Current player state.
+     */
     public EntityInterface.State getPlayerState(){
         return this.player.currentState;
     }
 
+    /**
+     * Perform current player jump
+     */
     public void playerJump(){
         player.body.applyLinearImpulse(new Vector2(0,4f),player.body.getWorldCenter(),true);
     }
 
+    /**
+     * @return: Current player body position.
+     */
     public Vector2 getPlayerPosition(){
         return player.getPosition();
     }
 
     /**
      * This method is called once every frame call.
+     * Update Entities and AnimatedTileObject actions and animations.
      * @param delta: Current DeltaTime between this frame call and the previous.
      */
     @Override
@@ -198,6 +176,7 @@ public abstract class PlayScreen implements Screen{
 
 
     /**
+     * Udate Entity and TiledObject. Handle player inputs.
      * @param dt: Current DeltaTime between frame calls.
      */
     public void update(float dt) {
@@ -212,7 +191,10 @@ public abstract class PlayScreen implements Screen{
             bullet.update(dt);
         }
 
-        animatedTileObjects.get(0).update();
+        for(TileObject tileObject : animatedTileObjects){
+            tileObject.update();
+        }
+
         world.step(1 / 60f, 6, 2);
 
         camera.update();
@@ -223,12 +205,9 @@ public abstract class PlayScreen implements Screen{
     }
 
     /**
-     * Instantiate the Game Over screen and dispose current.
+     * Instantiate the GameOver screen and dispose current bodies.
      */
     public void gameOver(){
-        //TODO:Schermata finale
-        Gdx.app.log("Uscita","");
-        this.player.body.setUserData(new Boolean(true));
         game.setScreen(new GameOverScreen(game));
         gameOver = true;
         dispose();
@@ -242,11 +221,27 @@ public abstract class PlayScreen implements Screen{
     public void sweepDeadBodies() {
         Array<Body> bodies = new Array<Body>();
         world.getBodies(bodies);
+        for (Iterator<Object> iter = objectsToRemove.iterator(); iter.hasNext(); ) {
+            Object obj = iter.next();
+            if (obj != null) {
+                if(obj instanceof Bullet) {
+                    bullets.remove((Bullet) obj);
+                }
+                if(obj instanceof TileObject) {
+                    animatedTileObjects.remove((TileObject) obj);
+                }
+                if(obj instanceof Enemy) {
+                    enemyList.remove((Enemy) obj);
+                }
+            }
+        }
         for (Iterator<Body> iter = bodies.iterator(); iter.hasNext(); ) {
             Body body = iter.next();
             if (body != null) {
                 if (body.getUserData() instanceof Boolean && ((Boolean) body.getUserData())) {
-                    world.destroyBody(body);
+                    for(Fixture f : body.getFixtureList()){
+                        body.destroyFixture(f);
+                    }
                     body.setUserData(null);
                     body = null;
                 }
@@ -285,16 +280,18 @@ public abstract class PlayScreen implements Screen{
     }
 
     /**
-     * Dispose unused texture or data.
+     * Dispose all enemies and objects.
      */
     @Override
     public void dispose() {
         Array<Body> bodies=new Array<Body>();
         world.getBodies(bodies);
         for(Body b : bodies){
-            bodiesToRemove.add(b);
+            b.setUserData(true);
         }
-        removeWithLock(null);
+        animatedTileObjects.clear();
+        enemyList.clear();
+        bullets.clear();
         map.dispose();
         //mapRenderer.dispose();
         //world.dispose();

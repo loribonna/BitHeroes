@@ -21,15 +21,12 @@ public interface EntityInterface {
         MELEE,
         THROW
     }
-    public static enum EntityType{
-        WARRIOR,
-        ENEMY
-    }
 
     public void update(float delta);
     public TextureRegion getFrame(float dt);
     public void attack();
     public State getState();
     public void define(Vector2 position);
+    public void hit(int damage);
     public void getAnimations(TextureAtlas atlas);
 }

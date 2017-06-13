@@ -15,6 +15,10 @@ import com.my.game.MyGame;
 
 public class WorldContactListener implements ContactListener {
 
+    /**
+     * Control all collisions between fixtures in the screen.
+     * @param contact
+     */
     @Override
     public void beginContact(Contact contact) {
         Fixture fixPlayer = null;

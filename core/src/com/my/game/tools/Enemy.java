@@ -22,28 +22,36 @@ import java.util.Iterator;
 
 public abstract class Enemy extends Entity{
     protected enum direction{right,left,stop,up};
-    protected float attackRange;
+    protected float attackRange=0.18f;
+    protected float maxMoveRange=10;
     protected float minHeight=0.1f;
     protected direction XDirection=direction.stop;
     protected direction YDirection=direction.stop;
-    protected Fixture headFix;
 
     public Enemy(World w, TextureAtlas screenAtlas, Vector2 position) {
         super(w, screenAtlas, position);
     }
 
+    /**
+     * Set current target based on Player position in the current PlayScreen
+     */
     protected void setTarget(){
         Vector2 targetPlayer = PlayScreen.current.getPlayerPosition();
         Vector2 entityPosition= getPosition();
         float dy=targetPlayer.y-entityPosition.y;
         float dx=targetPlayer.x-entityPosition.x;
         float m=dy/dx;
-        if(dx>attackRange){
-            throwAttack(AttackType.THROW);
-          //  XDirection=direction.right;
-        }else if(dx<-attackRange){
-            throwAttack(AttackType.THROW);
-         //   XDirection=direction.left;
+        if(dx<maxMoveRange){
+            if(dx>attackRange){
+                throwAttack(AttackType.THROW);
+                XDirection=direction.right;
+            }else if(dx<-attackRange) {
+                throwAttack(AttackType.THROW);
+                XDirection = direction.left;
+            }else{
+                XDirection=direction.stop;
+                attack();
+            }
         }else{
             XDirection=direction.stop;
             attack();
@@ -84,12 +92,14 @@ public abstract class Enemy extends Entity{
         }
     }
 
+    @Override
     public void recoil(){
         if(isFlipX())
             body.applyLinearImpulse(new Vector2(2,1),body.getWorldCenter(),true);
         else body.applyLinearImpulse(new Vector2(-2,1),body.getWorldCenter(),true);
     }
 
+    @Override
     public Filter getFilter() {
         Filter f = new Filter();
         f.categoryBits = MyGame.ENEMY_BIT;
@@ -99,20 +109,15 @@ public abstract class Enemy extends Entity{
         return f;
     }
 
-    public void dispose(){
-        world.destroyBody(body);
-    }
-
     @Override
     public void destroy(){
         dead=true;
-       // this.body.setUserData(new Boolean(true));
-        PlayScreen.current.bodiesToRemove.add(this.body);
-        PlayScreen.current.removeWithLock(this);
+        body.setUserData(new Boolean(true));
+        PlayScreen.current.objectsToRemove.add(this);
     }
 
     @Override
-    public void createBorders(Vector2 position) {
+    public void createBorders() {
         FixtureDef fdef = new FixtureDef();
         Filter filter = getFilter();
 
@@ -124,20 +129,5 @@ public abstract class Enemy extends Entity{
         bShape.setRadius(6/MyGame.PPM);
         fdef.shape=bShape;
         body.createFixture(fdef).setUserData(this);
-
-        /*PolygonShape head = new PolygonShape();
-        head.set(new Vector2[] {
-                new Vector2(5,7f).scl(1/MyGame.PPM),
-                new Vector2(-5,7f).scl(1/MyGame.PPM),
-                new Vector2(5,5).scl(1/MyGame.PPM),
-                new Vector2(-5,5).scl(1/MyGame.PPM)
-        });*/
-       /* EdgeShape head = new EdgeShape();
-        head.set(new Vector2(5,7f).scl(1/MyGame.PPM),
-                new Vector2(-5,7f).scl(1/MyGame.PPM));
-        fdef.shape=head;
-        fdef.restitution=0.1f;
-        headFix=body.createFixture(fdef);
-        headFix.setUserData(this);*/
     }
 }
