@@ -95,8 +95,8 @@ public abstract class Enemy extends Entity{
     @Override
     public void recoil(){
         if(isFlipX())
-            body.applyLinearImpulse(new Vector2(2,1),body.getWorldCenter(),true);
-        else body.applyLinearImpulse(new Vector2(-2,1),body.getWorldCenter(),true);
+            body.applyLinearImpulse(new Vector2(0.2f,1),body.getWorldCenter(),true);
+        else body.applyLinearImpulse(new Vector2(-0.2f,1),body.getWorldCenter(),true);
     }
 
     @Override

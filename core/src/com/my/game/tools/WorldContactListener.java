@@ -92,6 +92,7 @@ public class WorldContactListener implements ContactListener {
                 PlayScreen.current.player.hit(((Bullet) fixEnemyBullet.getUserData()).damage);
                 ((Bullet) fixEnemyBullet.getUserData()).dispose();
             }else if(fixEnemyMelee!=null){
+                Gdx.app.log("Collision","Melee");
                 PlayScreen.current.player.hit((Integer) fixEnemyMelee.getUserData());
                 fixEnemyMelee.setUserData(0);
             }
@@ -136,5 +137,6 @@ public class WorldContactListener implements ContactListener {
 
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
+
     }
 }

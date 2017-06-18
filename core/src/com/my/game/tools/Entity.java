@@ -51,8 +51,9 @@ public abstract class Entity extends Sprite implements EntityInterface{
 
     protected boolean lockAttack;
     protected float bulletDelay=0.5f;
-    protected float meleeDelay=1;
     protected boolean dead=false;
+
+    protected int meleeDamage=20;
 
     public Entity(World w, TextureAtlas screenAtlas, Vector2 position) {
         super();
@@ -271,35 +272,29 @@ public abstract class Entity extends Sprite implements EntityInterface{
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        throwAttack(AttackType.MELEE);
+                        lockAttack=false;
                     }
-                },attackAnimation.getAnimationDuration()/2);
+                },attackAnimation.getAnimationDuration());
+                BodyDef bDef=new BodyDef();
+                bDef.position.set(body.getPosition());
+                bDef.type = BodyDef.BodyType.DynamicBody;
+                final Body attackBody=world.createBody(bDef);
+                attackBody.setGravityScale(0);
 
+                if (isFlipX()) {
+                    final Fixture f = attackBody.createFixture(createBackAttackFixture());
+                    f.setUserData(meleeDamage);
+
+                } else {
+                    final Fixture f = attackBody.createFixture(createFrontAttackFixture());
+                    f.setUserData(meleeDamage);
+                }
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        lockAttack=false;
+                        attackBody.setUserData(true);
                     }
-                },meleeDelay);
-
-                if (isFlipX()) {
-                    final Fixture f = createBackAttackFixture();
-                    Timer.schedule(new Timer.Task() {
-                        @Override
-                        public void run() {
-                            body.destroyFixture(f);
-                        }
-                    }, attackAnimation.getAnimationDuration() / 2);
-
-                } else {
-                    final Fixture f = createFrontAttackFixture();
-                    Timer.schedule(new Timer.Task() {
-                        @Override
-                        public void run() {
-                            body.destroyFixture(f);
-                        }
-                    }, attackAnimation.getAnimationDuration() / 2);
-                }
+                }, attackAnimation.getAnimationDuration() / 2);
             }
         }else{
             return;
@@ -315,13 +310,13 @@ public abstract class Entity extends Sprite implements EntityInterface{
      * Create fixture to trigger collision for Melee attack if the attack is front
      * @return
      */
-    protected abstract Fixture createFrontAttackFixture();
+    protected abstract FixtureDef createFrontAttackFixture();
 
     /**
      * Create fixture to trigger collision for Melee attack if the body is flipped.
      * @return
      */
-    protected abstract Fixture createBackAttackFixture();
+    protected abstract FixtureDef createBackAttackFixture();
 
 
 }

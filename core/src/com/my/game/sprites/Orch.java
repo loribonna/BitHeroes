@@ -55,7 +55,7 @@ public class Orch extends Enemy {
     }
 
     @Override
-    protected Fixture createFrontAttackFixture() {
+    protected FixtureDef createFrontAttackFixture() {
         FixtureDef fdef = new FixtureDef();
 
         PolygonShape weaponFront = new PolygonShape();
@@ -66,13 +66,11 @@ public class Orch extends Enemy {
         fdef.filter.groupIndex=MyGame.GROUP_BULLET;
         fdef.filter.maskBits=MyGame.PLAYER_BIT;
         fdef.isSensor=true;
-        Fixture frontAttack=body.createFixture(fdef);
-        frontAttack.setUserData(20);
-        return frontAttack;
+        return fdef;
     }
 
     @Override
-    protected Fixture createBackAttackFixture() {
+    protected FixtureDef createBackAttackFixture() {
         FixtureDef fdef = new FixtureDef();
 
         PolygonShape weaponBack = new PolygonShape();
@@ -83,9 +81,7 @@ public class Orch extends Enemy {
         fdef.filter.groupIndex=MyGame.GROUP_BULLET;
         fdef.filter.maskBits=MyGame.PLAYER_BIT;
         fdef.isSensor=true;
-        Fixture backAttack=body.createFixture(fdef);
-        backAttack.setUserData(20);
-        return backAttack;
+        return fdef;
     }
 
 }

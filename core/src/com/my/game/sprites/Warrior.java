@@ -63,7 +63,9 @@ public class Warrior extends Entity {
 
     @Override
     public void recoil() {
-        body.applyLinearImpulse(new Vector2(0,1),body.getWorldCenter(),true);
+        if(currentState!=State.JUMP) {
+            body.applyLinearImpulse(new Vector2(0, 1), body.getWorldCenter(), true);
+        }
     }
 
     @Override
@@ -76,7 +78,7 @@ public class Warrior extends Entity {
         Filter f = new Filter();
         f.categoryBits = MyGame.PLAYER_BIT;
         f.maskBits =(MyGame.DEFAULT_BIT | MyGame.BRICK_BIT | MyGame.COIN_BIT | MyGame.ENEMY_BIT |
-                MyGame.VOID_BIT | MyGame.WALL_BIT | MyGame.EXIT_BIT | MyGame.ENEMY_BULLET_BIT);
+                MyGame.VOID_BIT | MyGame.WALL_BIT | MyGame.EXIT_BIT | MyGame.ENEMY_BULLET_BIT | MyGame.ENEMY_MELEE_BIT);
         f.groupIndex = MyGame.GROUP_PLAYER;
         return f;
     }
@@ -123,7 +125,7 @@ public class Warrior extends Entity {
     }
 
     @Override
-    protected Fixture createFrontAttackFixture() {
+    protected FixtureDef createFrontAttackFixture() {
         FixtureDef fdef = new FixtureDef();
 
         PolygonShape weaponFront = new PolygonShape();
@@ -134,13 +136,11 @@ public class Warrior extends Entity {
         fdef.filter.groupIndex=MyGame.GROUP_BULLET;
         fdef.filter.maskBits=MyGame.ENEMY_BIT;
         fdef.isSensor=true;
-        Fixture frontAttack=body.createFixture(fdef);
-        frontAttack.setUserData(20);
-        return frontAttack;
+        return fdef;
     }
 
     @Override
-    protected Fixture createBackAttackFixture() {
+    protected FixtureDef createBackAttackFixture() {
         FixtureDef fdef = new FixtureDef();
 
         PolygonShape weaponBack = new PolygonShape();
@@ -151,9 +151,7 @@ public class Warrior extends Entity {
         fdef.filter.groupIndex=MyGame.GROUP_BULLET;
         fdef.filter.maskBits=MyGame.ENEMY_BIT;
         fdef.isSensor=true;
-        Fixture backAttack=body.createFixture(fdef);
-        backAttack.setUserData(20);
-        return backAttack;
+        return fdef;
     }
 
 
