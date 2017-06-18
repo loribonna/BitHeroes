@@ -276,24 +276,29 @@ public abstract class Entity extends Sprite implements EntityInterface{
                         lockAttack=false;
                     }
                 },attackAnimation.getAnimationDuration());
-                BodyDef bDef=new BodyDef();
+                final BodyDef bDef=new BodyDef();
                 bDef.position.set(body.getPosition());
                 bDef.type = BodyDef.BodyType.DynamicBody;
-                final Body attackBody=world.createBody(bDef);
-                attackBody.setGravityScale(0);
-
-                if (isFlipX()) {
-                    final Fixture f = attackBody.createFixture(createBackAttackFixture());
-                    f.setUserData(meleeDamage);
-
-                } else {
-                    final Fixture f = attackBody.createFixture(createFrontAttackFixture());
-                    f.setUserData(meleeDamage);
-                }
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        attackBody.setUserData(true);
+                        final Body attackBody = world.createBody(bDef);
+                        attackBody.setGravityScale(0);
+
+                        if (isFlipX()) {
+                            final Fixture f = attackBody.createFixture(createBackAttackFixture());
+                            f.setUserData(meleeDamage);
+
+                        } else {
+                            final Fixture f = attackBody.createFixture(createFrontAttackFixture());
+                            f.setUserData(meleeDamage);
+                        }
+                        Timer.schedule(new Timer.Task() {
+                            @Override
+                            public void run() {
+                                attackBody.setUserData(true);
+                            }
+                        }, attackAnimation.getAnimationDuration() / 2);
                     }
                 }, attackAnimation.getAnimationDuration() / 2);
             }
