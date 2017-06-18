@@ -1,9 +1,16 @@
-package com.my.game.scenes;
+package com.my.game.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -32,12 +39,22 @@ public class Hud implements Disposable{
     Label worldLabel;
     Label myLabel;
 
+    Camera guicam;
+
+    Rectangle wleftBounds;
+    Rectangle wrightBounds;
+
     public Hud(SpriteBatch sb){
+        wleftBounds = new Rectangle(0, 0, 80, 80);
+        wrightBounds = new Rectangle(Gdx.graphics.getWidth()-80, 0, 80, 80);
+
         worldTimer = 300;
         timeCount = 0;
         score = 0;
 
-        port= new FitViewport(MyGame.V_WIDTH,MyGame.V_HEIGHT,new OrthographicCamera());
+        guicam=new OrthographicCamera();
+
+        port= new FitViewport(MyGame.V_WIDTH,MyGame.V_HEIGHT,guicam);
         stage = new Stage(port,sb);
 
         Table t = new Table();
@@ -58,6 +75,21 @@ public class Hud implements Disposable{
         t.add(countDownLabel).expandX();
 
         stage.addActor(t);
+    }
+
+    public void update(){
+        Vector3 touchPoint = new Vector3();
+        for (int i=0; i<5; i++){
+            if (!Gdx.input.isTouched(i)) continue;
+            guicam.unproject(touchPoint.set(Gdx.input.getX(i), Gdx.input.getY(i), 0));
+            if (wleftBounds.contains(touchPoint.x, touchPoint.y)){
+                Gdx.app.log("left","Touch");
+                //Move your player to the left!
+            }else if (wrightBounds.contains(touchPoint.x, touchPoint.y)){
+                Gdx.app.log("right","Touch");
+                //Move your player to the right!
+            }
+        }
     }
 
     @Override

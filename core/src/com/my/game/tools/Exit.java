@@ -19,7 +19,7 @@ public class Exit extends TileObject {
     public void update() {}
 
     @Override
-    public void onHit(Object entity) {
+    public void onHit(Entity entity) {
         MyGame.currentPlayScreen++;
         MyGame.current.changeLevel(new SecondLevel(MyGame.current,MyGame.current.currentPlayer),"warrior");
     }

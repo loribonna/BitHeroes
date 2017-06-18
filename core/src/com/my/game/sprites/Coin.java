@@ -84,8 +84,8 @@ public class Coin extends TileObject{
      * @param entity: If String is the contact point with player, else is Enemy.
      */
     @Override
-    public void onHit(Object entity) {
-        if(entity instanceof String) {
+    public void onHit(Entity entity) {
+        if(entity.isPlayer) {
             setCategoryBits(MyGame.NOTHING_BIT);
             PlayScreen.current.objectsToRemove.add(this);
             body.setUserData(true);

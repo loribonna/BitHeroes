@@ -74,25 +74,15 @@ public class WorldContactListener implements ContactListener {
         }
 
         if(fixPlayer!=null) {
-            if (fixPlayer.getUserData().toString().contains("body")) {
-                if (fixObject != null) {
-                    ((TileObject) fixObject.getUserData()).onHit(fixPlayer.getUserData());
-                }
-            }
-
-            if (PlayScreen.current.getPlayerState() == EntityInterface.State.JUMP) {
-                if (fixPlayer.getUserData().toString().contains("head")) {
-                    if (fixObject != null) {
-                        ((TileObject) fixObject.getUserData()).onHit(fixPlayer.getUserData());
-                    }
-                }
+            if (fixObject != null) {
+                if(fixPlayer.getUserData() instanceof Entity)
+                    ((TileObject) fixObject.getUserData()).onHit(((Entity)fixPlayer.getUserData()));
             }
 
             if(fixEnemyBullet!=null){
                 PlayScreen.current.player.hit(((Bullet) fixEnemyBullet.getUserData()).damage);
                 ((Bullet) fixEnemyBullet.getUserData()).dispose();
             }else if(fixEnemyMelee!=null){
-                Gdx.app.log("Collision","Melee");
                 PlayScreen.current.player.hit((Integer) fixEnemyMelee.getUserData());
                 fixEnemyMelee.setUserData(0);
             }
@@ -101,13 +91,13 @@ public class WorldContactListener implements ContactListener {
         if (fixEnemy!=null) {
             if(fixPlayer!=null) {
                 if (fixPlayer.getUserData().toString().contains("feet")) {
-                    if (!((Enemy) fixEnemy.getUserData()).isInvulnerable()) {
+                    if (!((Enemy) fixEnemy.getUserData()).isInvulnerable()&&!((Enemy) fixEnemy.getUserData()).isFlying) {
                         PlayScreen.current.player.body.applyLinearImpulse(new Vector2(0, (-PlayScreen.current.player.body.getLinearVelocity().y) + 3), PlayScreen.current.player.body.getWorldCenter(), true);
                         ((Enemy) fixEnemy.getUserData()).hit(110);
                     }
                 }
             }else if(fixObject!=null){
-                ((TileObject) fixObject.getUserData()).onHit(fixEnemy.getUserData());
+                ((TileObject) fixObject.getUserData()).onHit(((Enemy)fixEnemy.getUserData()));
             }else if(fixPlayerBullet!=null){
                 ((Enemy) fixEnemy.getUserData()).hit(((Bullet) fixPlayerBullet.getUserData()).damage);
                 ((Bullet) fixPlayerBullet.getUserData()).dispose();

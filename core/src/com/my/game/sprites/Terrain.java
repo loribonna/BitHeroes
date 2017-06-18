@@ -7,6 +7,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import com.my.game.MyGame;
+import com.my.game.tools.Enemy;
+import com.my.game.tools.Entity;
 import com.my.game.tools.TileObject;
 import com.sun.org.apache.xpath.internal.operations.String;
 
@@ -26,9 +28,13 @@ public class Terrain extends TileObject {
 
 
     @Override
-    public void onHit(Object entity) {
-        if(entity instanceof String)
-            Gdx.app.log("","Terrain");
+    public void onHit(Entity entity) {
+        if(entity.isPlayer) {
+             Gdx.app.log("","Terrain");
+        }
+        else {
+            ((Enemy) entity).isFlying = false;
+        }
     }
 
 }

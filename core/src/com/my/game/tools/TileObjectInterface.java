@@ -20,7 +20,7 @@ public interface TileObjectInterface {
     /**
     * @param entity: If String is the contact point with player, else is Enemy.
     */
-    public void onHit(Object entity);
+    public void onHit(Entity entity);
     /**
      * Get tile cell coordinate by scaling up and dividing by the tile size.
      * @return Tile Cell Coordinate.

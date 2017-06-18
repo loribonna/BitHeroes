@@ -33,6 +33,7 @@ import java.awt.geom.RectangularShape;
 public abstract class Entity extends Sprite implements EntityInterface{
     public World world;
     public Body body;
+    public boolean isPlayer=true;
 
     private int life=100;//default
 

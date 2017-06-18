@@ -5,8 +5,10 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.my.game.MyGame;
+import com.my.game.tools.Entity;
 import com.my.game.tools.TileObject;
 
 /**
@@ -24,8 +26,9 @@ public class Brick extends TileObject {
     public void update() {}
 
     @Override
-    public void onHit(Object entity) {
-        if(entity instanceof String)
+    public void onHit(Entity entity) {
+        if(entity.isPlayer) {
             Gdx.app.log("Head","Brick");
+        }
     }
 }

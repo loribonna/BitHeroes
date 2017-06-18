@@ -27,9 +27,11 @@ public abstract class Enemy extends Entity{
     protected float minHeight=0.1f;
     protected direction XDirection=direction.stop;
     protected direction YDirection=direction.stop;
+    public boolean isFlying=false;
 
     public Enemy(World w, TextureAtlas screenAtlas, Vector2 position) {
         super(w, screenAtlas, position);
+        isPlayer=false;
     }
 
     /**
@@ -48,7 +50,7 @@ public abstract class Enemy extends Entity{
             }else if(dx<-attackRange) {
                 throwAttack(AttackType.THROW);
                 XDirection = direction.left;
-            }else{
+            }else if(dy>-0.1&&dy<0.1){
                 XDirection=direction.stop;
                 attack();
             }
@@ -82,7 +84,10 @@ public abstract class Enemy extends Entity{
                 if (this.getState() != State.JUMP &&
                         this.getState() != State.FALL &&
                         this.getState() != State.ATTACK) {
-                    body.applyLinearImpulse(new Vector2(0, 3), body.getWorldCenter(), true);
+                    if(!isFlying) {
+                        isFlying=true;
+                        body.applyLinearImpulse(new Vector2(0, 3), body.getWorldCenter(), true);
+                    }
 
                 }
             }

@@ -93,7 +93,7 @@ public abstract class TileObject extends Sprite implements TileObjectInterface{
     /**
      * @param entity: If String is the contact point with player, else is Enemy.
      */
-    public abstract void onHit(Object entity);
+    public abstract void onHit(Entity entity);
 
     /**
      * Get tile cell coordinate by scaling up and dividing by the tile size.

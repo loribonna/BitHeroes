@@ -25,9 +25,9 @@ public class Vuoto extends TileObject {
 
 
     @Override
-    public void onHit(Object entity) {
-        if(entity instanceof Enemy) {
-            ((Enemy)entity).destroy();
+    public void onHit(Entity entity) {
+        if(!entity.isPlayer) {
+            entity.destroy();
         }else{
             Gdx.app.log("Vuoto", "");
             PlayScreen.current.gameOver();

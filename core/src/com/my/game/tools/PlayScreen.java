@@ -14,16 +14,12 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.my.game.MyGame;
-import com.my.game.scenes.Hud;
+import com.my.game.screens.Hud;
 import com.my.game.screens.GameOverScreen;
-import com.my.game.sprites.Coin;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -50,7 +46,6 @@ public abstract class PlayScreen implements Screen{
     protected ArrayList<Bullet> bullets;
     protected ArrayList<TileObject> animatedTileObjects;
     public ArrayList<Object> objectsToRemove;
-    public boolean lock;
 
     /**
      * Initialize game world and any entity
@@ -147,8 +142,7 @@ public abstract class PlayScreen implements Screen{
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        if(!gameOver&&!lock) {
-            lock=true;
+        if(!gameOver) {
             update(delta);
             mapRenderer.render();
 
@@ -170,7 +164,6 @@ public abstract class PlayScreen implements Screen{
 
             game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
             hud.stage.draw();
-            lock=false;
         }
     }
 
@@ -181,12 +174,15 @@ public abstract class PlayScreen implements Screen{
      */
     public void update(float dt) {
         handleInput(dt);
+        hud.update();
+
         camera.position.x = player.body.getPosition().x;
 
         player.update(dt);
         for(Enemy enemy : enemyList){
             enemy.update(dt);
         }
+
         for(Bullet bullet : bullets){
             bullet.update(dt);
         }
