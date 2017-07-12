@@ -22,7 +22,9 @@ import com.my.game.MyGame;
 
 public class MenuScreen implements Screen {
     Stage stage;
-    TextButton button;
+    TextButton buttonWarrior;
+    TextButton buttonArcher;
+    TextButton buttonFireBender;
     TextButton.TextButtonStyle textButtonStyle;
     Skin skin;
     TextureAtlas buttonAtlas;
@@ -49,25 +51,70 @@ public class MenuScreen implements Screen {
         textButtonStyle.up = skin.getDrawable("up-button");
         textButtonStyle.down = skin.getDrawable("down-button");
         textButtonStyle.checked = skin.getDrawable("checked-button");
-        button = new TextButton("Button1", textButtonStyle);
-        button.setBounds(MyGame.V_WIDTH/2-MyGame.V_WIDTH/10,MyGame.V_HEIGHT/2-MyGame.V_HEIGHT/4,MyGame.V_WIDTH/5,MyGame.V_HEIGHT/5);
-        button.setText("");
-        button.addListener(new EventListener() {
+
+        buttonWarrior = new TextButton("Warrior", textButtonStyle);
+        buttonWarrior.setBounds(MyGame.V_WIDTH / 2 - MyGame.V_WIDTH / 2.5f, MyGame.V_HEIGHT / 2 - MyGame.V_HEIGHT / 4, MyGame.V_WIDTH / 5, MyGame.V_HEIGHT / 5);
+        buttonWarrior.setText("Warrior");
+        buttonWarrior.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                if(event.getListenerActor() instanceof TextButton){
-                    TextButton t =((TextButton)event.getListenerActor());
-                    if(t.isChecked()){
-                        Gdx.app.log("MenuScreen","checked");
+                if (event.getListenerActor() instanceof TextButton) {
+                    TextButton t = ((TextButton) event.getListenerActor());
+                    if (t.isChecked()) {
+                        Gdx.app.log("MenuScreen", "checked");
                         dispose();
-                        MyGame.currentPlayScreen=0;
-                        game.changeLevel(new FirstLevel(game,"warrior"),"warrior");
+                        Screen firstLevel = new FirstLevel(game, "warrior");
+                        MyGame.currentPlayScreen = '1';
+                        game.setScreen(firstLevel);
                     }
                 }
                 return false;
             }
         });
-        stage.addActor(button);
+
+        buttonArcher = new TextButton("Archer", textButtonStyle);
+        buttonArcher.setBounds(MyGame.V_WIDTH / 2 - MyGame.V_WIDTH / 10, MyGame.V_HEIGHT / 2 - MyGame.V_HEIGHT / 4, MyGame.V_WIDTH / 5, MyGame.V_HEIGHT / 5);
+        buttonArcher.setText("Archer");
+        buttonArcher.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                if (event.getListenerActor() instanceof TextButton) {
+                    TextButton t = ((TextButton) event.getListenerActor());
+                    if (t.isChecked()) {
+                        Gdx.app.log("MenuScreen", "checked");
+                        dispose();
+                        Screen firstLevel = new FirstLevel(game, "archer");
+                        MyGame.currentPlayScreen = '1';
+                        game.setScreen(firstLevel);
+                    }
+                }
+                return false;
+            }
+        });
+
+        buttonFireBender = new TextButton("FireBender", textButtonStyle);
+        buttonFireBender.setBounds(MyGame.V_WIDTH / 2 +MyGame.V_WIDTH / 5, MyGame.V_HEIGHT / 2 - MyGame.V_HEIGHT / 4, MyGame.V_WIDTH / 5, MyGame.V_HEIGHT / 5);
+        buttonFireBender.setText("FireBender");
+        buttonFireBender.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                if (event.getListenerActor() instanceof TextButton) {
+                    TextButton t = ((TextButton) event.getListenerActor());
+                    if (t.isChecked()) {
+                        Gdx.app.log("MenuScreen", "checked");
+                        dispose();
+                        Screen firstLevel = new FirstLevel(game, "firebender");
+                        MyGame.currentPlayScreen = '1';
+                        game.setScreen(firstLevel);
+                    }
+                }
+                return false;
+            }
+        });
+
+        stage.addActor(buttonFireBender);
+        stage.addActor(buttonArcher);
+        stage.addActor(buttonWarrior);
     }
 
     @Override

@@ -35,12 +35,12 @@ public abstract class Entity extends Sprite implements EntityInterface{
     public Body body;
     public boolean isPlayer=true;
 
-    private int life=100;//default
+    protected int life=100;//default
 
     protected State currentState;
     protected State previusState;
 
-    protected Animation throwAnimation=null;
+    protected Animation throwAnimation;
     protected Animation attackAnimation;
     protected Animation runAnimation;
     protected TextureRegion standAnimation;

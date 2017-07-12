@@ -24,6 +24,7 @@ public class Orch extends Enemy {
     public Orch(World w, TextureAtlas screenAtlas,Vector2 position) {
         super(w, screenAtlas,position);
         attackRange=0.18f;
+        life=1;
     }
 
     @Override

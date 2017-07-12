@@ -1,0 +1,40 @@
+
+archer.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+archer_normal_attack
+  rotate: false
+  xy: 1, 13
+  size: 284, 46
+  orig: 284, 46
+  offset: 0, 0
+  index: -1
+archer_walking
+  rotate: false
+  xy: 287, 4
+  size: 195, 55
+  orig: 195, 55
+  offset: 0, 0
+  index: -1
+archer_dying
+  rotate: false
+  xy: 484, 1
+  size: 161, 58
+  orig: 161, 58
+  offset: 0, 0
+  index: -1
+archer_jumping
+  rotate: false
+  xy: 647, 7
+  size: 140, 52
+  orig: 140, 52
+  offset: 0, 0
+  index: -1
+special_attack
+  rotate: false
+  xy: 789, 12
+  size: 133, 47
+  orig: 133, 47
+  offset: 0, 0
+  index: -1

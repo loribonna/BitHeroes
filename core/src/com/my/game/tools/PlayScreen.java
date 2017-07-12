@@ -40,13 +40,14 @@ public abstract class PlayScreen implements Screen{
     protected OrthogonalTiledMapRenderer mapRenderer;
     protected World world;
     protected Box2DDebugRenderer b2dr;
-    protected TextureAtlas atl;
     protected ArrayList<Enemy> enemyList;
     protected Entity player;
     protected ArrayList<Bullet> bullets;
     protected ArrayList<TileObject> animatedTileObjects;
     public ArrayList<Object> objectsToRemove;
-
+    protected TextureAtlas atlOrch;
+    protected TextureAtlas atlPlayer;
+    protected TextureAtlas atlSkeleton;
     /**
      * Initialize game world and any entity
      * @param game Reference to main game instance
@@ -67,19 +68,24 @@ public abstract class PlayScreen implements Screen{
         bullets=new ArrayList<Bullet>();
     }
 
+    public TextureAtlas getAtlasPlayer(){
+        return this.atlPlayer;
+    }
+
+    public TextureAtlas getAtlasOrch(){
+        return this.atlOrch;
+    }
+
+    public TextureAtlas getAtlasSkeleton(){
+        return this.atlSkeleton;
+    }
+
     /**
      * Add a bullet in the current world.
      * @param bullet
      */
     public void addBullet(Bullet bullet){
         this.bullets.add(bullet);
-    }
-
-    /**
-     * @return Current TextureAtlas
-     */
-    public TextureAtlas getAtlas(){
-        return this.atl;
     }
 
     /**
