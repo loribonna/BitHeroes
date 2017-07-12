@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="25" height="13" tilewidth="16" tileheight="16" nextobjectid="5">
+ <tileset firstgid="1" name="sfondo" tilewidth="16" tileheight="16" tilecount="338" columns="26">
+  <image source="../../../Dragons-Lair-Graystone-Scenic-Backdrop.jpg" width="431" height="208"/>
+ </tileset>
+ <layer name="sfondo" width="25" height="13">
+  <data encoding="base64" compression="zlib">
+   eJwNwwOMEAAAAMDPts3Ptu3/z7Zr2fay7WXby7aXbS/bddtd6ICAgDCGNZzhjWBEIxnZKEY1mtGNYUxjGds4xjWe8U1gQhOZ2KQmM7kpTGkqU5vGtAaazvRmMKOZzGwWs5rN7OYwp7nMbR7zmd8CFrSQhS1iUYtZ3BKWtJSlLWNZy1neCla0kkEGG2Jlq1rN6tawprWsbR3rWs/6NrChjWxsE5vazOa2sKWtbG0b29rO9nawo53sbBe72s3u9rCnvextH/vaz/4OcKCDHOwQhzrM4Y5wpKMc7RjHOs7xTnCik5zsFKc6zenOcKaznO0c5zrP+S5woYtc7BKXuszlrnClq1ztGte6zvVucKOb3OwWt7rN7e5wp7vc7R73us/9HvCghzzsEY96zOOe8KSnPO0Zz3rO817wope87BWves3r3vCmt7ztHe96z/s+8KGPfOwTn/rM577wpa987Rvf+s73fvCjn/zsF7/6ze/+8Ke//O0f//rPgFAY2jCGNbwRjGgkIxvFqEYzujGMaSxjG8e4xjO+CUxoIhObxKQmM7kpTWVq05jWQNOZ3gxmNJOZzWJWs5ndHOY0l7nNY17zmd8CFrKwRSxqMYtbwpKWsrRlLGs5y1vBilYyyGBDrGwVq1rN6v4Hyc+IIw==
+  </data>
+ </layer>
+ <objectgroup name="pavimento">
+  <object id="1" x="-0.5" y="175.5" width="426.5" height="31"/>
+ </objectgroup>
+ <objectgroup name="pareti_non_superabili">
+  <object id="2" x="398.5" y="-1.5" width="7" height="208.5"/>
+  <object id="3" x="-7.5" y="-6" width="10" height="215.5"/>
+  <object id="4" x="-7" y="-12" width="413" height="14.5"/>
+ </objectgroup>
+</map>

@@ -1,0 +1,33 @@
+
+ace.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ace_first_attack
+  rotate: false
+  xy: 1, 1
+  size: 135, 50
+  orig: 135, 50
+  offset: 0, 0
+  index: -1
+ace_second_attack
+  rotate: false
+  xy: 138, 10
+  size: 92, 41
+  orig: 92, 41
+  offset: 0, 0
+  index: -1
+ace_walking
+  rotate: false
+  xy: 232, 7
+  size: 65, 44
+  orig: 65, 44
+  offset: 0, 0
+  index: -1
+ace_animation
+  rotate: false
+  xy: 299, 21
+  size: 53, 30
+  orig: 53, 30
+  offset: 0, 0
+  index: -1

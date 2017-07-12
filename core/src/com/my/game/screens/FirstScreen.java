@@ -51,9 +51,7 @@ public class FirstScreen implements Screen {
         skin.addRegions(buttonAtlas);
         textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.font = new BitmapFont();
-        textButtonStyle.up = skin.getDrawable("up-button");
-        textButtonStyle.down = skin.getDrawable("down-button");
-        textButtonStyle.checked = skin.getDrawable("checked-button");
+        textButtonStyle.up = skin.getDrawable("gioca");
         button = new TextButton("Button1", textButtonStyle);
         button.setBounds(MyGame.V_WIDTH/2-MyGame.V_WIDTH/10,MyGame.V_HEIGHT/2-MyGame.V_HEIGHT/4,MyGame.V_WIDTH/5,MyGame.V_HEIGHT/5);
         button.setText("");

@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.my.game.MyGame;
+import com.my.game.tools.PlayScreen;
 
 /**
  * Created by lorib on 24/05/2017.
@@ -24,7 +25,6 @@ public class GameOverScreen implements Screen {
     Stage stage;
     TextButton buttonExit;
     TextButton buttonRestart;
-    TextButton.TextButtonStyle textButtonStyle;
     Skin skin;
     TextureAtlas buttonAtlas;
     Viewport port;
@@ -44,14 +44,12 @@ public class GameOverScreen implements Screen {
 
         buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttons.pack"));
         skin.addRegions(buttonAtlas);
-        textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.font = new BitmapFont();
-        textButtonStyle.up = skin.getDrawable("up-button");
-        textButtonStyle.down = skin.getDrawable("down-button");
-        textButtonStyle.checked = skin.getDrawable("checked-button");
-        buttonExit = new TextButton("ButtonExit", textButtonStyle);
+        TextButton.TextButtonStyle textButtonRestartStyle;
+        textButtonRestartStyle = new TextButton.TextButtonStyle();
+        textButtonRestartStyle.font = new BitmapFont();
+        textButtonRestartStyle.up = skin.getDrawable("uscita");
+        buttonExit = new TextButton("", textButtonRestartStyle);
         buttonExit.setBounds(MyGame.V_WIDTH/2-MyGame.V_WIDTH/10,MyGame.V_HEIGHT/2-MyGame.V_HEIGHT/3,MyGame.V_WIDTH/5,MyGame.V_HEIGHT/7);
-        buttonExit.setText("exit");
         buttonExit.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
@@ -67,9 +65,12 @@ public class GameOverScreen implements Screen {
             }
         });
 
-        buttonRestart = new TextButton("ButtonRestart", textButtonStyle);
+        TextButton.TextButtonStyle textButtonExitStyle;
+        textButtonExitStyle = new TextButton.TextButtonStyle();
+        textButtonExitStyle.font = new BitmapFont();
+        textButtonExitStyle.up = skin.getDrawable("ricomincia");
+        buttonRestart = new TextButton("", textButtonExitStyle);
         buttonRestart.setBounds(MyGame.V_WIDTH/2-MyGame.V_WIDTH/10,MyGame.V_HEIGHT/2-MyGame.V_HEIGHT/7,MyGame.V_WIDTH/5,MyGame.V_HEIGHT/7);
-        buttonRestart.setText("restart");
         buttonRestart.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
@@ -78,7 +79,17 @@ public class GameOverScreen implements Screen {
                     if(t.isChecked()){
                         Gdx.app.log("GameOverScreen","restart");
                         dispose();
-                        game.setScreen(new FirstScreen(game));
+                        PlayScreen screen;
+                        Gdx.app.log("A","");
+                        Gdx.app.log(MyGame.currentPlayer,String.valueOf(MyGame.currentPlayScreen));
+                        if(MyGame.currentPlayScreen==1){
+                            screen=new FirstLevel(game,MyGame.currentPlayer);
+                        }else if(MyGame.currentPlayScreen==2){
+                            screen=new SecondLevel(game,MyGame.currentPlayer);
+                        }else{
+                            screen=new ThirdLevel(game,MyGame.currentPlayer);
+                        }
+                        game.setScreen(screen);
                     }
                 }
                 return false;

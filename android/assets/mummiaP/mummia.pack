@@ -1,0 +1,26 @@
+
+mummia.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+mummia_attack
+  rotate: false
+  xy: 1, 9
+  size: 193, 39
+  orig: 193, 39
+  offset: 0, 0
+  index: -1
+mummia_walking
+  rotate: false
+  xy: 196, 1
+  size: 104, 47
+  orig: 104, 47
+  offset: 0, 0
+  index: -1
+mummia_dying
+  rotate: false
+  xy: 302, 10
+  size: 92, 38
+  orig: 92, 38
+  offset: 0, 0
+  index: -1

@@ -143,6 +143,9 @@ public abstract class Entity extends Sprite implements EntityInterface{
             case ATTACK:
                 region = (TextureRegion) attackAnimation.getKeyFrame(stateTimer);
                 break;
+            case THROW:
+                region = (TextureRegion) throwAnimation.getKeyFrame(stateTimer);
+                break;
             default:
                 region = standAnimation;
                 break;
@@ -165,13 +168,6 @@ public abstract class Entity extends Sprite implements EntityInterface{
     }
 
     /**
-     * Shortcut fot Melee attack.
-     */
-    public void attack() {
-        throwAttack(AttackType.MELEE);
-    }
-
-    /**
      * @return: Current state based on the action being performed and movement of the body.
      */
     public State getState() {
@@ -179,7 +175,6 @@ public abstract class Entity extends Sprite implements EntityInterface{
             if (!attackAnimation.isAnimationFinished(stateTimer))
                 return State.ATTACK;
             else {
-                setSize(16 / MyGame.PPM, 16 / MyGame.PPM);
                 if (body.getLinearVelocity().x != 0) {
                     return State.RUN;
                 } else if (previusState != State.ATTACK) {
@@ -187,7 +182,6 @@ public abstract class Entity extends Sprite implements EntityInterface{
                 }
             }
         }else if(previusState == State.THROW){
-            setSize(16 / MyGame.PPM, 16 / MyGame.PPM);
             if(throwAnimation!=null) {
                 if (!throwAnimation.isAnimationFinished(stateTimer))
                     return State.THROW;
@@ -242,6 +236,10 @@ public abstract class Entity extends Sprite implements EntityInterface{
      */
     public abstract void createBorders();
 
+    public abstract void firstAttack();
+    public abstract void secondAttack();
+    public abstract void specialAttack();
+
     /**
      * Perform attack based on the attackType parameter.
      * Control if lockAttack object is released before perform another attack.
@@ -250,67 +248,15 @@ public abstract class Entity extends Sprite implements EntityInterface{
     public void throwAttack(AttackType attackType) {
         if(!lockAttack) {
             lockAttack=true;
-            if (attackType == AttackType.THROW) {
-                Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        lockAttack=false;
-                    }
-                },bulletDelay);
-
-                currentState = State.THROW;
-                previusState = State.THROW;
-                stateTimer = 0;
-                setRegion(getFrame(0));
-                throwBullet();
+            if (attackType == AttackType.SECOND) {
+                secondAttack();
             } else {
-                currentState = State.ATTACK;
-                previusState = State.ATTACK;
-                stateTimer = 0;
-                setSize(27 / MyGame.PPM, 16 / MyGame.PPM);
-                setRegion(getFrame(0));
-
-                Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        lockAttack=false;
-                    }
-                },attackAnimation.getAnimationDuration());
-                final BodyDef bDef=new BodyDef();
-                bDef.position.set(body.getPosition());
-                bDef.type = BodyDef.BodyType.DynamicBody;
-                Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        final Body attackBody = world.createBody(bDef);
-                        attackBody.setGravityScale(0);
-
-                        if (isFlipX()) {
-                            final Fixture f = attackBody.createFixture(createBackAttackFixture());
-                            f.setUserData(meleeDamage);
-
-                        } else {
-                            final Fixture f = attackBody.createFixture(createFrontAttackFixture());
-                            f.setUserData(meleeDamage);
-                        }
-                        Timer.schedule(new Timer.Task() {
-                            @Override
-                            public void run() {
-                                attackBody.setUserData(true);
-                            }
-                        }, attackAnimation.getAnimationDuration() / 2);
-                    }
-                }, attackAnimation.getAnimationDuration() / 2);
+                firstAttack();
             }
         }else{
             return;
         }
     }
-
-    /**
-     * Create and launch a bullet.
-     */
-    protected abstract void throwBullet();
 
     /**
      * Create fixture to trigger collision for Melee attack if the attack is front

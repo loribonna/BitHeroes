@@ -16,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
 import com.my.game.MyGame;
 import com.my.game.tools.Entity;
 import com.my.game.tools.EntityInterface;
@@ -106,8 +107,57 @@ public class Warrior extends Entity {
     }
 
     @Override
-    protected void throwBullet() {
-        PlayScreen.current.addBullet(new Arrow(getPosition(), world, isFlipX(),true));
+    public void firstAttack() {
+        currentState = State.ATTACK;
+        previusState = State.ATTACK;
+        stateTimer = 0;
+        setSize(27 / MyGame.PPM, 16 / MyGame.PPM);
+        setRegion(getFrame(0));
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                lockAttack=false;
+                setSize(16 / MyGame.PPM, 16 / MyGame.PPM);
+            }
+        },attackAnimation.getAnimationDuration());
+
+
+        final BodyDef bDef=new BodyDef();
+        bDef.position.set(body.getPosition());
+        bDef.type = BodyDef.BodyType.DynamicBody;
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                final Body attackBody = world.createBody(bDef);
+                attackBody.setGravityScale(0);
+
+                if (isFlipX()) {
+                    final Fixture f = attackBody.createFixture(createBackAttackFixture());
+                    f.setUserData(meleeDamage);
+
+                } else {
+                    final Fixture f = attackBody.createFixture(createFrontAttackFixture());
+                    f.setUserData(meleeDamage);
+                }
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        attackBody.setUserData(true);
+                    }
+                }, attackAnimation.getAnimationDuration() / 2);
+            }
+        }, attackAnimation.getAnimationDuration() / 2);
+    }
+
+    @Override
+    public void secondAttack() {
+        lockAttack=false;
+    }
+
+    @Override
+    public void specialAttack() {
+        lockAttack=false;
     }
 
     @Override

@@ -24,6 +24,8 @@ public class FirstLevel extends PlayScreen {
      */
     public FirstLevel(final MyGame game,String player) {
         super(game);
+        MyGame.currentPlayScreen = 1;
+        MyGame.currentPlayer=player;
         map=mapLoader.load("livello1.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / MyGame.PPM);
 

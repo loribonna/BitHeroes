@@ -13,9 +13,11 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
 import com.my.game.MyGame;
 import com.my.game.tools.Entity;
 import com.my.game.tools.EntityInterface;
+import com.my.game.tools.PlayScreen;
 import com.sun.org.apache.xerces.internal.impl.dv.xs.AnyURIDV;
 
 /**
@@ -38,10 +40,10 @@ public class Archer extends Entity {
         stateTimer = 0;
         runRight = true;
         Array<TextureRegion> frames = new Array<TextureRegion>();
-        frames.add(new TextureRegion(atlas.findRegion("archer_walking"), 23, 6, 27, 32));
-        frames.add(new TextureRegion(atlas.findRegion("archer_walking"), 52, 6, 27, 32));
-        frames.add(new TextureRegion(atlas.findRegion("archer_walking"), 90, 6, 27, 32));
-        frames.add(new TextureRegion(atlas.findRegion("archer_walking"), 121, 6, 27, 32));
+        frames.add(new TextureRegion(atlas.findRegion("archer_walking"), 23, 10, 27, 32));
+        frames.add(new TextureRegion(atlas.findRegion("archer_walking"), 52, 10, 27, 32));
+        frames.add(new TextureRegion(atlas.findRegion("archer_walking"), 90, 10, 27, 32));
+        frames.add(new TextureRegion(atlas.findRegion("archer_walking"), 121, 10, 27, 32));
 
         runAnimation = new Animation(0.1f, frames);
         frames.clear();
@@ -52,7 +54,7 @@ public class Archer extends Entity {
         frames.add(new TextureRegion(atlas.findRegion("archer_normal_attack"), 123, 6, 34, 32));
         frames.add(new TextureRegion(atlas.findRegion("archer_normal_attack"), 164, 6, 34, 32));
 
-        throwAnimation = new Animation(0.5f, frames);
+        throwAnimation = new Animation(0.1f, frames);
         frames.clear();
     }
 
@@ -64,17 +66,18 @@ public class Archer extends Entity {
 
     @Override
     public void recoil() {
-
+        if(currentState!=State.JUMP) {
+            body.applyLinearImpulse(new Vector2(0, 1), body.getWorldCenter(), true);
+        }
     }
 
     @Override
     public void destroy() {
-
+        PlayScreen.current.gameOver();
     }
 
-    @Override
     protected void throwBullet() {
-
+        PlayScreen.current.addBullet(new Arrow(getPosition(), world, isFlipX(),true));
     }
 
     @Override
@@ -87,17 +90,18 @@ public class Archer extends Entity {
         return null;
     }
 
+    @Override
     public Filter getFilter() {
         Filter f = new Filter();
         f.categoryBits = MyGame.PLAYER_BIT;
-        f.maskBits =(MyGame.DEFAULT_BIT | MyGame.BRICK_BIT | MyGame.COIN_BIT | MyGame.ENEMY_BIT | MyGame.VOID_BIT | MyGame.WALL_BIT);
+        f.maskBits =(MyGame.DEFAULT_BIT | MyGame.BRICK_BIT | MyGame.COIN_BIT | MyGame.ENEMY_BIT |
+                MyGame.VOID_BIT | MyGame.WALL_BIT | MyGame.EXIT_BIT | MyGame.ENEMY_BULLET_BIT | MyGame.ENEMY_MELEE_BIT);
         f.groupIndex = MyGame.GROUP_PLAYER;
         return f;
     }
 
     @Override
     public void createBorders() {
-        BodyDef bdef= new BodyDef();
         FixtureDef fdef = new FixtureDef();
         Filter filter = getFilter();
 
@@ -108,30 +112,47 @@ public class Archer extends Entity {
         CircleShape bShape = new CircleShape();
         bShape.setRadius(6/MyGame.PPM);
         fdef.shape=bShape;
-        body.createFixture(fdef).setUserData("good_body");
-
-        EdgeShape front = new EdgeShape();
-        front.set(new Vector2(6,6).scl(1/MyGame.PPM),new Vector2(6,-6).scl(1/MyGame.PPM));
-        fdef.shape=front;
-        fdef.isSensor = true;
-        body.createFixture(fdef).setUserData("good_front");
-
-        EdgeShape back = new EdgeShape();
-        back.set(new Vector2(-6,6).scl(1/MyGame.PPM),new Vector2(-6,-6).scl(1/MyGame.PPM));
-        fdef.shape=back;
-        body.createFixture(fdef).setUserData("good_back");
+        body.createFixture(fdef).setUserData(this);
 
         EdgeShape feet = new EdgeShape();
-        feet.set(new Vector2(-3,-6).scl(1/MyGame.PPM),new Vector2(3,-6).scl(1/MyGame.PPM));
+        feet.set(new Vector2(-4,-6).scl(1/MyGame.PPM),new Vector2(4,-6).scl(1/MyGame.PPM));
         fdef.shape = feet;
+        fdef.isSensor=true;
         body.createFixture(fdef).setUserData("good_feet");
 
-        EdgeShape head = new EdgeShape();
-        head.set(new Vector2(-2,7).scl(1/MyGame.PPM),new Vector2(2,7).scl(1/MyGame.PPM));
-        fdef.shape = head;
-        body.createFixture(fdef).setUserData("good_head");
+    }
 
+    @Override
+    public void firstAttack() {
+        currentState = State.THROW;
+        previusState = State.THROW;
+        stateTimer = 0;
+        setRegion(getFrame(0));
 
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                lockAttack=false;
+            }
+        },throwAnimation.getAnimationDuration());
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                throwBullet();
+            }
+        },throwAnimation.getAnimationDuration()/2);
+
+    }
+
+    @Override
+    public void secondAttack() {
+        lockAttack=false;
+    }
+
+    @Override
+    public void specialAttack() {
+        lockAttack=false;
     }
 
 }

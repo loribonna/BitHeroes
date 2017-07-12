@@ -15,16 +15,17 @@ public interface EntityInterface {
         STAND,
         RUN,
         JUMP,
-        THROW
+        THROW,
+        SPECIAL
     }
     public static enum AttackType {
-        MELEE,
-        THROW
+        FIRST,
+        SECOND,
+        SPECIAL
     }
 
     public void update(float delta);
     public TextureRegion getFrame(float dt);
-    public void attack();
     public State getState();
     public void define(Vector2 position);
     public void hit(int damage);

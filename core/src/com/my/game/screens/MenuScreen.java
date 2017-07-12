@@ -25,7 +25,7 @@ public class MenuScreen implements Screen {
     TextButton buttonWarrior;
     TextButton buttonArcher;
     TextButton buttonFireBender;
-    TextButton.TextButtonStyle textButtonStyle;
+
     Skin skin;
     TextureAtlas buttonAtlas;
     Viewport port;
@@ -46,15 +46,12 @@ public class MenuScreen implements Screen {
 
         buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttons.pack"));
         skin.addRegions(buttonAtlas);
-        textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.font = new BitmapFont();
-        textButtonStyle.up = skin.getDrawable("up-button");
-        textButtonStyle.down = skin.getDrawable("down-button");
-        textButtonStyle.checked = skin.getDrawable("checked-button");
-
-        buttonWarrior = new TextButton("Warrior", textButtonStyle);
+        TextButton.TextButtonStyle textButtonWarriorStyle;
+        textButtonWarriorStyle = new TextButton.TextButtonStyle();
+        textButtonWarriorStyle.font = new BitmapFont();
+        textButtonWarriorStyle.up = skin.getDrawable("guerriero");
+        buttonWarrior = new TextButton("", textButtonWarriorStyle);
         buttonWarrior.setBounds(MyGame.V_WIDTH / 2 - MyGame.V_WIDTH / 2.5f, MyGame.V_HEIGHT / 2 - MyGame.V_HEIGHT / 4, MyGame.V_WIDTH / 5, MyGame.V_HEIGHT / 5);
-        buttonWarrior.setText("Warrior");
         buttonWarrior.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
@@ -64,7 +61,6 @@ public class MenuScreen implements Screen {
                         Gdx.app.log("MenuScreen", "checked");
                         dispose();
                         Screen firstLevel = new FirstLevel(game, "warrior");
-                        MyGame.currentPlayScreen = '1';
                         game.setScreen(firstLevel);
                     }
                 }
@@ -72,9 +68,12 @@ public class MenuScreen implements Screen {
             }
         });
 
-        buttonArcher = new TextButton("Archer", textButtonStyle);
+        TextButton.TextButtonStyle textButtonArcherStyle;
+        textButtonArcherStyle = new TextButton.TextButtonStyle();
+        textButtonArcherStyle.font = new BitmapFont();
+        textButtonArcherStyle.up = skin.getDrawable("archer");
+        buttonArcher = new TextButton("", textButtonArcherStyle);
         buttonArcher.setBounds(MyGame.V_WIDTH / 2 - MyGame.V_WIDTH / 10, MyGame.V_HEIGHT / 2 - MyGame.V_HEIGHT / 4, MyGame.V_WIDTH / 5, MyGame.V_HEIGHT / 5);
-        buttonArcher.setText("Archer");
         buttonArcher.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
@@ -84,7 +83,6 @@ public class MenuScreen implements Screen {
                         Gdx.app.log("MenuScreen", "checked");
                         dispose();
                         Screen firstLevel = new FirstLevel(game, "archer");
-                        MyGame.currentPlayScreen = '1';
                         game.setScreen(firstLevel);
                     }
                 }
@@ -92,9 +90,12 @@ public class MenuScreen implements Screen {
             }
         });
 
-        buttonFireBender = new TextButton("FireBender", textButtonStyle);
+        TextButton.TextButtonStyle textButtonFireBenderStyle;
+        textButtonFireBenderStyle = new TextButton.TextButtonStyle();
+        textButtonFireBenderStyle.font = new BitmapFont();
+        textButtonFireBenderStyle.up = skin.getDrawable("firebender");
+        buttonFireBender = new TextButton("", textButtonFireBenderStyle);
         buttonFireBender.setBounds(MyGame.V_WIDTH / 2 +MyGame.V_WIDTH / 5, MyGame.V_HEIGHT / 2 - MyGame.V_HEIGHT / 4, MyGame.V_WIDTH / 5, MyGame.V_HEIGHT / 5);
-        buttonFireBender.setText("FireBender");
         buttonFireBender.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
@@ -104,7 +105,6 @@ public class MenuScreen implements Screen {
                         Gdx.app.log("MenuScreen", "checked");
                         dispose();
                         Screen firstLevel = new FirstLevel(game, "firebender");
-                        MyGame.currentPlayScreen = '1';
                         game.setScreen(firstLevel);
                     }
                 }

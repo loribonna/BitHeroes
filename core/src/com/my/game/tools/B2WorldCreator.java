@@ -42,7 +42,7 @@ public class B2WorldCreator {
      * @param map: Current map
      */
     public B2WorldCreator(World world, TiledMap map, ArrayList<TileObject> animatedObjects) {
-        if (MyGame.currentPlayScreen==0) {
+        if (MyGame.currentPlayScreen==1) {
             MapLayer l = map.getLayers().get(2);
             for (MapObject obj : l.getObjects().getByType(RectangleMapObject.class)) {
                 Rectangle rect = ((RectangleMapObject) obj).getRectangle();

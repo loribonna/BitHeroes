@@ -1,0 +1,19 @@
+
+lucertola.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+lucertola_walking
+  rotate: false
+  xy: 1, 18
+  size: 187, 36
+  orig: 187, 36
+  offset: 0, 0
+  index: -1
+lucertola_attack
+  rotate: false
+  xy: 190, 1
+  size: 134, 53
+  orig: 134, 53
+  offset: 0, 0
+  index: -1

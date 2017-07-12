@@ -3,24 +3,45 @@ buttons.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-up-button
+archer
   rotate: false
-  xy: 1, 524
-  size: 468, 262
-  orig: 468, 262
+  xy: 1, 102
+  size: 245, 99
+  orig: 245, 99
   offset: 0, 0
   index: -1
-down-button
-  rotate: false
-  xy: 1, 262
-  size: 468, 260
-  orig: 468, 260
-  offset: 0, 0
-  index: -1
-checked-button
+firebender
   rotate: false
   xy: 1, 1
-  size: 466, 259
-  orig: 466, 259
+  size: 245, 99
+  orig: 245, 99
+  offset: 0, 0
+  index: -1
+gioca
+  rotate: false
+  xy: 248, 102
+  size: 245, 99
+  orig: 245, 99
+  offset: 0, 0
+  index: -1
+guerriero
+  rotate: false
+  xy: 248, 1
+  size: 245, 99
+  orig: 245, 99
+  offset: 0, 0
+  index: -1
+ricomincia
+  rotate: false
+  xy: 495, 102
+  size: 245, 99
+  orig: 245, 99
+  offset: 0, 0
+  index: -1
+uscita
+  rotate: false
+  xy: 495, 1
+  size: 245, 99
+  orig: 245, 99
   offset: 0, 0
   index: -1

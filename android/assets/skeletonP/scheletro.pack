@@ -1,0 +1,26 @@
+
+scheletro.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Skeleton_walking
+  rotate: false
+  xy: 1, 24
+  size: 95, 33
+  orig: 95, 33
+  offset: 0, 0
+  index: -1
+Skeleton_attack
+  rotate: false
+  xy: 98, 25
+  size: 62, 32
+  orig: 62, 32
+  offset: 0, 0
+  index: -1
+Skeleton_dying
+  rotate: false
+  xy: 1, 1
+  size: 25, 21
+  orig: 25, 21
+  offset: 0, 0
+  index: -1

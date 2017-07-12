@@ -1,0 +1,26 @@
+
+golemPack.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+golem_attack
+  rotate: false
+  xy: 1, 67
+  size: 194, 60
+  orig: 194, 60
+  offset: 0, 0
+  index: -1
+golem_walking
+  rotate: false
+  xy: 1, 1
+  size: 119, 64
+  orig: 119, 64
+  offset: 0, 0
+  index: -1
+20175
+  rotate: false
+  xy: 122, 1
+  size: 111, 64
+  orig: 111, 64
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,19 @@
+
+bat.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+bat_flying
+  rotate: false
+  xy: 1, 21
+  size: 71, 32
+  orig: 71, 32
+  offset: 0, 0
+  index: -1
+bat_attack
+  rotate: false
+  xy: 1, 1
+  size: 31, 18
+  orig: 31, 18
+  offset: 0, 0
+  index: -1

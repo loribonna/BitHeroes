@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Timer;
 import com.my.game.MyGame;
+import com.my.game.sprites.Arrow;
 
 import java.io.Console;
 import java.util.Iterator;
@@ -34,6 +35,10 @@ public abstract class Enemy extends Entity{
         isPlayer=false;
     }
 
+    protected abstract void distanceAttack();
+
+    protected abstract void meleeAttack();
+
     /**
      * Set current target based on Player position in the current PlayScreen
      */
@@ -45,18 +50,18 @@ public abstract class Enemy extends Entity{
         float m=dy/dx;
         if(dx<maxMoveRange){
             if(dx>attackRange){
-                throwAttack(AttackType.THROW);
+                throwAttack(AttackType.SECOND);
                 XDirection=direction.right;
             }else if(dx<-attackRange) {
-                throwAttack(AttackType.THROW);
+                throwAttack(AttackType.SECOND);
                 XDirection = direction.left;
             }else if(dy>-0.1&&dy<0.1){
                 XDirection=direction.stop;
-                attack();
+                throwAttack(AttackType.FIRST);
             }
         }else{
             XDirection=direction.stop;
-            attack();
+            throwAttack(AttackType.FIRST);
         }
 
         if(dy>minHeight&&XDirection!=direction.stop){

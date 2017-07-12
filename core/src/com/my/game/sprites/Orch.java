@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
 import com.my.game.MyGame;
 import com.my.game.tools.*;
 
@@ -25,6 +27,16 @@ public class Orch extends Enemy {
         super(w, screenAtlas,position);
         attackRange=0.18f;
         life=1;
+    }
+
+    @Override
+    protected void distanceAttack() {
+        secondAttack();
+    }
+
+    @Override
+    protected void meleeAttack() {
+        firstAttack();
     }
 
     @Override
@@ -51,6 +63,70 @@ public class Orch extends Enemy {
     }
 
     @Override
+    public void firstAttack() {
+        currentState = State.ATTACK;
+        previusState = State.ATTACK;
+        stateTimer = 0;
+        setSize(27 / MyGame.PPM, 16 / MyGame.PPM);
+        setRegion(getFrame(0));
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                setSize(16 / MyGame.PPM, 16 / MyGame.PPM);
+                lockAttack=false;
+            }
+        },attackAnimation.getAnimationDuration());
+
+
+        final BodyDef bDef=new BodyDef();
+        bDef.position.set(body.getPosition());
+        bDef.type = BodyDef.BodyType.DynamicBody;
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                final Body attackBody = world.createBody(bDef);
+                attackBody.setGravityScale(0);
+
+                if (isFlipX()) {
+                    final Fixture f = attackBody.createFixture(createBackAttackFixture());
+                    f.setUserData(meleeDamage);
+
+                } else {
+                    final Fixture f = attackBody.createFixture(createFrontAttackFixture());
+                    f.setUserData(meleeDamage);
+                }
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        attackBody.setUserData(true);
+                    }
+                }, attackAnimation.getAnimationDuration() / 2);
+            }
+        }, attackAnimation.getAnimationDuration() / 2);
+    }
+
+    @Override
+    public void secondAttack() {
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                lockAttack=false;
+            }
+        },bulletDelay);
+
+        currentState = State.THROW;
+        previusState = State.THROW;
+        stateTimer = 0;
+        setRegion(getFrame(0));
+        throwBullet();
+    }
+
+    @Override
+    public void specialAttack() {
+        lockAttack=false;
+    }
+
     protected void throwBullet() {
         PlayScreen.current.addBullet(new Arrow(getPosition(), world, isFlipX(),false));
     }

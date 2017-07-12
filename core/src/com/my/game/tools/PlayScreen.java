@@ -110,11 +110,11 @@ public abstract class PlayScreen implements Screen{
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            player.attack();
+            player.throwAttack(EntityInterface.AttackType.FIRST);
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.CONTROL_LEFT)){
-            player.throwAttack(EntityInterface.AttackType.THROW);
+            player.throwAttack(EntityInterface.AttackType.SECOND);
         }
     }
 

@@ -24,6 +24,8 @@ public class SecondLevel extends PlayScreen{
      */
     public SecondLevel(final MyGame game,String player) {
         super(game);
+        MyGame.currentPlayScreen = 2;
+        MyGame.currentPlayer=player;
         map=mapLoader.load("livello2.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / MyGame.PPM);
 
