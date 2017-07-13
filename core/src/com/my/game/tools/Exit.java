@@ -16,7 +16,7 @@ public class Exit extends TileObject {
     }
 
     @Override
-    public void update() {}
+    public void update(float delta) {}
 
     @Override
     public void onHit(Entity entity) {

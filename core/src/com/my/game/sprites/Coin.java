@@ -38,28 +38,33 @@ public class Coin extends TileObject{
     public Coin(World world, TiledMap map, Ellipse ell) {
         super(world, map, ell);
         setCategoryBits(MyGame.COIN_BIT);
-        // getAnimations(new TextureAtlas("coin.pack"));
-
+        atl=new TextureAtlas("coinP/coin.pack");
+        getAnimations(atl);
     }
 
     public void getAnimations(TextureAtlas atlas){
         //TODO: missing animatinos for coin
         Array<TextureRegion> frames = new Array<TextureRegion>();
-        frames.add(new TextureRegion(atlas.findRegion("coin").getTexture(), 0, 0, 14, 16));
+        frames.add(new TextureRegion(atlas.findRegion("skullcoin_b1").getTexture(), 1, 3, 19, 20));
+        frames.add(new TextureRegion(atlas.findRegion("skullcoin_b1").getTexture(), 35, 25, 19, 20));
+        frames.add(new TextureRegion(atlas.findRegion("skullcoin_b1").getTexture(), 1, 25, 19, 20));
+        frames.add(new TextureRegion(atlas.findRegion("skullcoin_b1").getTexture(), 35, 25, 19, 20));
         setBounds(0, 0, 16 / MyGame.PPM, 16 / MyGame.PPM);
-        round = new Animation(0.5f, frames);
+        round = new Animation(0.3f, frames);
         stateTimer = 0;
     }
 
-    public TextureRegion getFrame(){
+    public TextureRegion getFrame(float dt){
         TextureRegion region;
         region = (TextureRegion)round.getKeyFrame(stateTimer, true);
-        if(round.isAnimationFinished(stateTimer)) stateTimer=0;
+
+        stateTimer = stateTimer + dt;
         return region;
     }
 
-    public void update(){
-        //setRegion(getFrame());
+    public void update(float delta){
+        setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
+        setRegion(getFrame(delta));
     }
 
     @Override

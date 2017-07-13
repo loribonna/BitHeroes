@@ -22,8 +22,8 @@ import com.my.game.tools.*;
  * Created by lorib on 11/05/2017.
  */
 
-public class Orch extends Enemy {
-    public Orch(World w, TextureAtlas screenAtlas,Vector2 position) {
+public class Skeleton extends Enemy {
+    public Skeleton(World w, TextureAtlas screenAtlas,Vector2 position) {
         super(w, screenAtlas,position);
         attackRange=0.18f;
         life=1;
@@ -41,7 +41,7 @@ public class Orch extends Enemy {
 
     @Override
     public void getAnimations(TextureAtlas atlas) {
-        standAnimation = new TextureRegion(atlas.findRegion("orc_walking").getTexture(), 371-264, 6, 50, 82);
+        standAnimation = new TextureRegion(atlas.findRegion("Skeleton_walking").getTexture(), 38, 1, 26, 34);
         setBounds(0, 0, 24 / MyGame.PPM, 30 / MyGame.PPM);
         setRegion(standAnimation);
         currentState = State.STAND;
@@ -49,16 +49,14 @@ public class Orch extends Enemy {
         stateTimer = 0;
         runRight = true;
         Array<TextureRegion> frames = new Array<TextureRegion>();
-        frames.add(new TextureRegion(atlas.findRegion("orc_walking"),  261-264, 6, 50, 82));
-        frames.add(new TextureRegion(atlas.findRegion("orc_walking"),  316-264, 6, 50, 82));
-        frames.add(new TextureRegion(atlas.findRegion("orc_walking"),  371-264, 6, 50, 82));
-        frames.add(new TextureRegion(atlas.findRegion("orc_walking"),  427-264, 6, 50, 82));
+        frames.add(new TextureRegion(atlas.findRegion("Skeleton_walking"),  2, -1, 26, 34));
+        frames.add(new TextureRegion(atlas.findRegion("Skeleton_walking"),  38, 1, 26, 34));
+        frames.add(new TextureRegion(atlas.findRegion("Skeleton_walking"),  67, -1, 26, 34));
 
         runAnimation = new Animation(0.1f, frames);
         frames.clear();
-        frames.add(new TextureRegion(atlas.findRegion("orc_attack"), 2, 8, 80, 82));
-        frames.add(new TextureRegion(atlas.findRegion("orc_attack"), 95, 8, 80, 82));
-        frames.add(new TextureRegion(atlas.findRegion("orc_attack"), 177, 8, 80 , 82));
+        frames.add(new TextureRegion(atlas.findRegion("Skeleton_attack"), 5, -1, 33, 31));
+        frames.add(new TextureRegion(atlas.findRegion("Skeleton_attack"), 30, -1, 33, 31));
         attackAnimation = new Animation (0.1f, frames);
         frames.clear();
     }

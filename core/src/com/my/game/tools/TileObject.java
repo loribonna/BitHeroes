@@ -77,7 +77,7 @@ public abstract class TileObject extends Sprite implements TileObjectInterface{
     /**
      * Update object frames and position if the TileObject has animations.
      */
-    public abstract void update();
+    public abstract void update(float delta);
 
     /**
      * Set filter bits to trigger collisions in the current Fixture.

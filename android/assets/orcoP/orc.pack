@@ -1,0 +1,19 @@
+
+orc.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+orc_attack
+  rotate: false
+  xy: 1, 1
+  size: 261, 94
+  orig: 261, 94
+  offset: 0, 0
+  index: -1
+orc_walking
+  rotate: false
+  xy: 264, 3
+  size: 217, 92
+  orig: 217, 92
+  offset: 0, 0
+  index: -1

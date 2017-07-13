@@ -48,6 +48,11 @@ public abstract class PlayScreen implements Screen{
     protected TextureAtlas atlOrch;
     protected TextureAtlas atlPlayer;
     protected TextureAtlas atlSkeleton;
+    protected TextureAtlas atlBat;
+    protected TextureAtlas atlGolem;
+    protected TextureAtlas atlLizard;
+    protected TextureAtlas atlMummy;
+
     /**
      * Initialize game world and any entity
      * @param game Reference to main game instance
@@ -78,6 +83,22 @@ public abstract class PlayScreen implements Screen{
 
     public TextureAtlas getAtlasSkeleton(){
         return this.atlSkeleton;
+    }
+
+    public TextureAtlas getAtlasBat(){
+        return this.atlBat;
+    }
+
+    public TextureAtlas getAtlasGolem(){
+        return this.atlGolem;
+    }
+
+    public TextureAtlas getAtlasLizard(){
+        return this.atlLizard;
+    }
+
+    public TextureAtlas getAtlasMummy(){
+        return this.atlMummy;
     }
 
     /**
@@ -163,7 +184,7 @@ public abstract class PlayScreen implements Screen{
             //    bullet.draw(game.batch);
             }
             for(TileObject object : animatedTileObjects){
-           //     object.draw(game.batch);
+                object.draw(game.batch);
             }
             player.draw(game.batch);
             game.batch.end();
@@ -172,7 +193,6 @@ public abstract class PlayScreen implements Screen{
             hud.stage.draw();
         }
     }
-
 
     /**
      * Udate Entity and TiledObject. Handle player inputs.
@@ -194,7 +214,7 @@ public abstract class PlayScreen implements Screen{
         }
 
         for(TileObject tileObject : animatedTileObjects){
-            tileObject.update();
+            tileObject.update(dt);
         }
 
         world.step(1 / 60f, 6, 2);
@@ -295,9 +315,6 @@ public abstract class PlayScreen implements Screen{
         enemyList.clear();
         bullets.clear();
         map.dispose();
-        //mapRenderer.dispose();
-        //world.dispose();
-        //b2dr.dispose();
         hud.dispose();
     }
 }

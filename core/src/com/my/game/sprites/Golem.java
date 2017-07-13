@@ -22,8 +22,8 @@ import com.my.game.tools.*;
  * Created by lorib on 11/05/2017.
  */
 
-public class Orch extends Enemy {
-    public Orch(World w, TextureAtlas screenAtlas,Vector2 position) {
+public class Golem extends Enemy {
+    public Golem(World w, TextureAtlas screenAtlas,Vector2 position) {
         super(w, screenAtlas,position);
         attackRange=0.18f;
         life=1;
@@ -41,7 +41,7 @@ public class Orch extends Enemy {
 
     @Override
     public void getAnimations(TextureAtlas atlas) {
-        standAnimation = new TextureRegion(atlas.findRegion("orc_walking").getTexture(), 371-264, 6, 50, 82);
+        standAnimation = new TextureRegion(atlas.findRegion("golem_walking").getTexture(), 44,-1,38,62);
         setBounds(0, 0, 24 / MyGame.PPM, 30 / MyGame.PPM);
         setRegion(standAnimation);
         currentState = State.STAND;
@@ -49,16 +49,15 @@ public class Orch extends Enemy {
         stateTimer = 0;
         runRight = true;
         Array<TextureRegion> frames = new Array<TextureRegion>();
-        frames.add(new TextureRegion(atlas.findRegion("orc_walking"),  261-264, 6, 50, 82));
-        frames.add(new TextureRegion(atlas.findRegion("orc_walking"),  316-264, 6, 50, 82));
-        frames.add(new TextureRegion(atlas.findRegion("orc_walking"),  371-264, 6, 50, 82));
-        frames.add(new TextureRegion(atlas.findRegion("orc_walking"),  427-264, 6, 50, 82));
+        frames.add(new TextureRegion(atlas.findRegion("golem_walking"),  3, -1, 38, 62));
+        frames.add(new TextureRegion(atlas.findRegion("golem_walking"),  44, -1, 38, 62));
+        frames.add(new TextureRegion(atlas.findRegion("golem_walking"),  81, -1, 38, 62));
 
         runAnimation = new Animation(0.1f, frames);
         frames.clear();
-        frames.add(new TextureRegion(atlas.findRegion("orc_attack"), 2, 8, 80, 82));
-        frames.add(new TextureRegion(atlas.findRegion("orc_attack"), 95, 8, 80, 82));
-        frames.add(new TextureRegion(atlas.findRegion("orc_attack"), 177, 8, 80 , 82));
+        frames.add(new TextureRegion(atlas.findRegion("golem_attack"), 2, 3, 46, 56));
+        frames.add(new TextureRegion(atlas.findRegion("golem_attack"), 48, 3, 79, 56));
+        frames.add(new TextureRegion(atlas.findRegion("golem_attack"), 131, 3, 62 , 56));
         attackAnimation = new Animation (0.1f, frames);
         frames.clear();
     }

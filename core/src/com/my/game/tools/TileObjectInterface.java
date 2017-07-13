@@ -33,5 +33,5 @@ public interface TileObjectInterface {
     /**
      * Update object frames and position if the TileObject has animations.
      */
-    public abstract void update();
+    public abstract void update(float delta);
 }

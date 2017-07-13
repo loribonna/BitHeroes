@@ -6,9 +6,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.EdgeShape;
-import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -16,14 +13,15 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.my.game.MyGame;
-import com.my.game.tools.*;
+import com.my.game.tools.Enemy;
+import com.my.game.tools.PlayScreen;
 
 /**
- * Created by lorib on 11/05/2017.
+ * Created by user on 12/07/2017.
  */
 
-public class Orch extends Enemy {
-    public Orch(World w, TextureAtlas screenAtlas,Vector2 position) {
+public class Mummy extends Enemy {
+    public Mummy(World w, TextureAtlas screenAtlas, Vector2 position) {
         super(w, screenAtlas,position);
         attackRange=0.18f;
         life=1;
@@ -41,7 +39,7 @@ public class Orch extends Enemy {
 
     @Override
     public void getAnimations(TextureAtlas atlas) {
-        standAnimation = new TextureRegion(atlas.findRegion("orc_walking").getTexture(), 371-264, 6, 50, 82);
+        standAnimation = new TextureRegion(atlas.findRegion("mummia_walking").getTexture(), 34,9, 31, 36);
         setBounds(0, 0, 24 / MyGame.PPM, 30 / MyGame.PPM);
         setRegion(standAnimation);
         currentState = State.STAND;
@@ -49,16 +47,16 @@ public class Orch extends Enemy {
         stateTimer = 0;
         runRight = true;
         Array<TextureRegion> frames = new Array<TextureRegion>();
-        frames.add(new TextureRegion(atlas.findRegion("orc_walking"),  261-264, 6, 50, 82));
-        frames.add(new TextureRegion(atlas.findRegion("orc_walking"),  316-264, 6, 50, 82));
-        frames.add(new TextureRegion(atlas.findRegion("orc_walking"),  371-264, 6, 50, 82));
-        frames.add(new TextureRegion(atlas.findRegion("orc_walking"),  427-264, 6, 50, 82));
+        frames.add(new TextureRegion(atlas.findRegion("mummia_walking"),  2, 9, 31, 36));
+        frames.add(new TextureRegion(atlas.findRegion("mummia_walking"),  34,9, 31, 36));
+        frames.add(new TextureRegion(atlas.findRegion("mummia_walking"),  66, 9, 31, 36));
 
         runAnimation = new Animation(0.1f, frames);
         frames.clear();
-        frames.add(new TextureRegion(atlas.findRegion("orc_attack"), 2, 8, 80, 82));
-        frames.add(new TextureRegion(atlas.findRegion("orc_attack"), 95, 8, 80, 82));
-        frames.add(new TextureRegion(atlas.findRegion("orc_attack"), 177, 8, 80 , 82));
+        frames.add(new TextureRegion(atlas.findRegion("mummia_attack"), 4, 3, 35, 34));
+        frames.add(new TextureRegion(atlas.findRegion("mummia_attack"), 33, 3, 35, 34));
+        frames.add(new TextureRegion(atlas.findRegion("mummia_attack"), 63,3, 35, 34));
+        frames.add(new TextureRegion(atlas.findRegion("mummia_attack"), 102,3, 35 , 34));
         attackAnimation = new Animation (0.1f, frames);
         frames.clear();
     }
@@ -68,11 +66,13 @@ public class Orch extends Enemy {
         currentState = State.ATTACK;
         previusState = State.ATTACK;
         stateTimer = 0;
+        setSize(24 / MyGame.PPM, 30 / MyGame.PPM);
         setRegion(getFrame(0));
 
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
+                setSize(24 / MyGame.PPM, 30 / MyGame.PPM);
                 lockAttack=false;
             }
         },attackAnimation.getAnimationDuration());
@@ -146,3 +146,4 @@ public class Orch extends Enemy {
     }
 
 }
+

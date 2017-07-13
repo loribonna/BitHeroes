@@ -31,7 +31,12 @@ public class FirstLevel extends PlayScreen {
 
         new B2WorldCreator(world,map,animatedTileObjects);
 
-        atlOrch = new TextureAtlas("warrior.pack");
+        atlOrch = new TextureAtlas("orcoP/orc.pack");
+        atlBat = new TextureAtlas("pipistrelloP/bat.pack");
+        atlGolem = new TextureAtlas("golemP/GolemPack.pack");
+        atlLizard = new TextureAtlas("lucertolaP/lucertola.pack");
+        atlMummy = new TextureAtlas("mummiaP/mummia.pack");
+        atlSkeleton = new TextureAtlas("skeletonP/scheletro.pack");
 
         if(player=="warrior") {
             atlPlayer = new TextureAtlas("warrior.pack");
