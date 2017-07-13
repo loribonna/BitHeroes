@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.my.game.MyGame;
 import com.my.game.sprites.Archer;
+import com.my.game.sprites.FireBender;
 import com.my.game.sprites.Orch;
 import com.my.game.sprites.Warrior;
 import com.my.game.tools.*;
@@ -39,16 +40,16 @@ public class FirstLevel extends PlayScreen {
         atlSkeleton = new TextureAtlas("skeletonP/scheletro.pack");
 
         if(player=="warrior") {
-            atlPlayer = new TextureAtlas("warrior.pack");
+            atlPlayer = new TextureAtlas("warriorP/warrior.pack");
             this.player = new Warrior(world, getAtlasPlayer(), new Vector2(100, 64));
         }
         if(player=="archer") {
-            atlPlayer = new TextureAtlas("archer.pack");
+            atlPlayer = new TextureAtlas("archerP/archer.pack");
             this.player = new Archer(world, getAtlasPlayer(), new Vector2(100, 64));
         }
         if(player=="firebender") {
-            atlPlayer = new TextureAtlas("warrior.pack");
-            this.player = new Warrior(world, getAtlasPlayer(), new Vector2(100, 64));
+            atlPlayer = new TextureAtlas("aceP/ace.pack");
+            this.player = new FireBender(world, getAtlasPlayer(), new Vector2(100, 64));
         }
 
         enemyList.add(new Orch(world,getAtlasOrch(),new Vector2(150,64)));

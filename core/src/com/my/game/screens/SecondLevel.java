@@ -32,15 +32,15 @@ public class SecondLevel extends PlayScreen{
         new B2WorldCreator(world,map,animatedTileObjects);
 
         if(player=="warrior") {
-            atlPlayer = new TextureAtlas("warrior.pack");
+            atlPlayer = new TextureAtlas("warriorP/warrior.pack");
             this.player = new Warrior(world, getAtlasPlayer(), new Vector2(100, 64));
         }
         if(player=="archer") {
-            atlPlayer = new TextureAtlas("archer.pack");
+            atlPlayer = new TextureAtlas("archerP/archer.pack");
             this.player = new Archer(world, getAtlasPlayer(), new Vector2(100, 64));
         }
         if(player=="firebender") {
-            atlPlayer = new TextureAtlas("warrior.pack");
+            atlPlayer = new TextureAtlas("aceP/ace.pack");
             this.player = new Warrior(world, getAtlasPlayer(), new Vector2(100, 64));
         }
 

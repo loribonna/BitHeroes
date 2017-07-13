@@ -1,25 +1,23 @@
 package com.my.game.sprites;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.my.game.MyGame;
 import com.my.game.tools.Bullet;
 
 /**
- * Created by lorib on 02/06/2017.
+ * Created by lorib on 13/07/2017.
  */
 
-public class Arrow extends Bullet {
-    public Arrow(Vector2 position, World world,boolean rightDirection,boolean isPlayer) {
+public class FireBall extends Bullet {
+    public FireBall(Vector2 position, World world, boolean rightDirection, boolean isPlayer) {
         super(position,world,rightDirection,isPlayer);
         body.applyLinearImpulse(new Vector2(forceAttack,0),body.getWorldCenter(),true);
-       // forceDrag=1; Never fall
+        // forceDrag=1; Never fall
         damage=20;
         //atl=new TextureAtlas("");
         //getAnimations(atl);

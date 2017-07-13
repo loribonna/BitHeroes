@@ -1,7 +1,10 @@
 package com.my.game.tools;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -12,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.BooleanArray;
 import com.my.game.MyGame;
 
@@ -24,6 +28,9 @@ public abstract class Bullet extends Sprite {
     protected World world;
     protected float forceAttack;
     protected boolean oppositeDirection;
+    protected Animation flyBullet;
+    protected TextureAtlas atl;
+    protected float stateTimer;
     protected float minSpeed=0.1f;
     protected boolean isPlayer;
     public int damage=0;
@@ -40,7 +47,7 @@ public abstract class Bullet extends Sprite {
         forceAttack=1.5f;
         forceDrag=0.98f;
         if(oppositeDirection) forceAttack=-forceAttack;
-
+        stateTimer = 0;
     }
 
     /**
