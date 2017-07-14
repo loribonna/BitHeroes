@@ -174,21 +174,21 @@ public abstract class PlayScreen implements Screen{
 
             b2dr.render(world, camera.combined);
 
-            game.batch.setProjectionMatrix(camera.combined);
-            game.batch.begin();
+            game.getBatch().setProjectionMatrix(camera.combined);
+            game.getBatch().begin();
             for(Enemy enemy : enemyList){
-                enemy.draw(game.batch);
+                enemy.draw(game.getBatch());
             }
             for(Bullet bullet : bullets){
-                bullet.draw(game.batch);
+                bullet.draw(game.getBatch());
             }
             for(TileObject object : animatedTileObjects){
-                object.draw(game.batch);
+                object.draw(game.getBatch());
             }
-            player.draw(game.batch);
-            game.batch.end();
+            player.draw(game.getBatch());
+            game.getBatch().end();
 
-            game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+            game.getBatch().setProjectionMatrix(hud.stage.getCamera().combined);
             hud.stage.draw();
         }
     }

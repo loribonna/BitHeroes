@@ -125,10 +125,10 @@ public class MenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        game.batch.setProjectionMatrix(camera.combined);
-        game.batch.begin();
-        game.batch.draw(background,0,0);
-        game.batch.end();
+        game.getBatch().setProjectionMatrix(camera.combined);
+        game.getBatch().begin();
+        game.getBatch().draw(background,0,0);
+        game.getBatch().end();
         stage.draw();
 
     }

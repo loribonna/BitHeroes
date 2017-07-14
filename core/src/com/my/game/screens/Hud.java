@@ -42,7 +42,7 @@ public class Hud implements Disposable{
         score = 0;
         guicam=new OrthographicCamera();
         port= new FitViewport(MyGame.V_WIDTH,MyGame.V_HEIGHT,guicam);
-        stage = new Stage(port,game.batch);
+        stage = new Stage(port,game.getBatch());
 
         Table t = new Table();
         t.top();

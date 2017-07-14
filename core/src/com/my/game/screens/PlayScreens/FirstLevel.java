@@ -1,10 +1,17 @@
 package com.my.game.screens.PlayScreens;
 
+import static com.badlogic.gdx.math.MathUtils.random;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.my.game.MyGame;
 import com.my.game.screens.Hud;
+import com.my.game.sprites.Enemies.Bat;
+import com.my.game.sprites.Enemies.Golem;
 import com.my.game.sprites.Players.Archer;
 import com.my.game.sprites.Players.FireBender;
 import com.my.game.sprites.Enemies.Orch;
@@ -27,18 +34,18 @@ public class FirstLevel extends PlayScreen {
         super(game);
         hud=new Hud(game,1);
         game.setCurrentPlayScreen(this);
-        game.currentPlayer=player;
+        game.setCurrentPlayer(player);
         map=mapLoader.load("livello1.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / MyGame.PPM);
+
+        int randomUntil=2;
+        int Random;
 
         new B2WorldCreator(world,map,animatedTileObjects,game);
 
         atlOrch = new TextureAtlas("orcoP/orc.pack");
         atlBat = new TextureAtlas("pipistrelloP/bat.pack");
         atlGolem = new TextureAtlas("golemP/GolemPack.pack");
-        atlLizard = new TextureAtlas("lucertolaP/lucertola.pack");
-        atlMummy = new TextureAtlas("mummiaP/mummia.pack");
-        atlSkeleton = new TextureAtlas("skeletonP/scheletro.pack");
 
         if(player=="warrior") {
             atlPlayer = new TextureAtlas("warriorP/warrior.pack");
@@ -53,7 +60,19 @@ public class FirstLevel extends PlayScreen {
             this.player = new FireBender(world, getAtlasPlayer(), new Vector2(100, 64),game);
         }
 
-        enemyList.add(new Orch(world,getAtlasOrch(),new Vector2(150,64),game));
+        MapLayer l;
+        l = map.getLayers().get(8);
+        for (MapObject obj : l.getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = ((RectangleMapObject) obj).getRectangle();
+            Random=random.nextInt(randomUntil);
+            if (Random==0){
+                enemyList.add(new Orch(world,getAtlasOrch(),new Vector2(rect.getX(),rect.getY()),game));
+            }else if(Random==1){
+                enemyList.add(new Bat(world,getAtlasBat(),new Vector2(rect.getX(),rect.getY()),game));
+            }else if(Random==2){
+                enemyList.add(new Golem(world,getAtlasGolem(),new Vector2(rect.getX(),rect.getY()),game));
+            }
+        }
 
         world.setContactListener(new WorldContactListener(game));
     }

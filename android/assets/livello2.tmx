@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="240" height="13" tilewidth="16" tileheight="16" nextobjectid="28">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="240" height="13" tilewidth="16" tileheight="16" nextobjectid="133">
  <tileset firstgid="1" name="NES - Blaster Master - Area 2" tilewidth="18" tileheight="18" spacing="2" margin="2" tilecount="120" columns="10">
-  <image source="../../../NES - Blaster Master - Area 2.png" width="218" height="258"/>
+  <image source="NES - Blaster Master - Area 2.png" width="218" height="258"/>
  </tileset>
  <layer name="background" width="240" height="13">
   <data encoding="base64" compression="zlib">
@@ -45,5 +45,199 @@
  </objectgroup>
  <objectgroup name="uscita">
   <object id="1" x="3759" y="72" width="48" height="53"/>
+ </objectgroup>
+ <objectgroup name="coins">
+  <object id="28" x="176" y="60" width="17" height="17">
+   <ellipse/>
+  </object>
+  <object id="29" x="197" y="60" width="17" height="17">
+   <ellipse/>
+  </object>
+  <object id="32" x="218" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="47" x="218" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="48" x="240" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="49" x="262" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="50" x="462" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="51" x="484" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="52" x="506" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="53" x="528" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="54" x="550" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="55" x="750" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="56" x="772" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="57" x="794" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="58" x="816" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="59" x="838" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="60" x="1038" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="61" x="1060" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="62" x="1060" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="63" x="1082" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="64" x="1104" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="67" x="1126" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="68" x="1426" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="69" x="1448" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="70" x="1470" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="71" x="1492" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="72" x="1514" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="73" x="1814" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="76" x="1836" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="77" x="1858" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="78" x="1880" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="79" x="1902" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="80" x="2102" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="82" x="2124" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="83" x="2146" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="84" x="2146" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="85" x="2190" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="86" x="2168" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="87" x="2512" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="88" x="2490" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="89" x="2534" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="90" x="2556" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="91" x="2578" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="93" x="2900" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="94" x="2878" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="95" x="2922" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="96" x="2944" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="97" x="2966" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="98" x="3266" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="99" x="3288" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="100" x="3310" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="101" x="3332" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+  <object id="102" x="3354" y="59" width="18" height="17">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="wall">
+  <object id="103" x="3834" y="-7" width="25" height="214"/>
+  <object id="104" x="1" y="-9" width="6" height="219"/>
+  <object id="105" x="-6" y="-10" width="638" height="13"/>
+  <object id="106" x="629" y="-12" width="723" height="15"/>
+  <object id="107" x="1347" y="-15" width="489" height="17"/>
+  <object id="108" x="1831" y="-11" width="564" height="13"/>
+  <object id="109" x="2393" y="-11" width="735" height="13"/>
+  <object id="110" x="3129" y="-9" width="543" height="11"/>
+  <object id="111" x="3669" y="-9" width="175" height="12"/>
+ </objectgroup>
+ <objectgroup name="enemies">
+  <object id="113" x="96" y="107" width="16" height="17"/>
+  <object id="114" x="426" y="104" width="21" height="19"/>
+  <object id="115" x="687" y="113" width="15" height="14"/>
+  <object id="116" x="753" y="108" width="20" height="15"/>
+  <object id="117" x="982" y="109" width="14" height="17"/>
+  <object id="118" x="1146" y="114" width="17" height="8"/>
+  <object id="119" x="1316" y="105" width="13" height="20"/>
+  <object id="120" x="1348" y="99" width="14" height="24"/>
+  <object id="121" x="1803" y="104" width="26" height="23"/>
+  <object id="122" x="1985" y="99" width="13" height="24"/>
+  <object id="123" x="2108" y="107" width="23" height="17"/>
+  <object id="124" x="2344" y="113" width="13" height="11"/>
+  <object id="125" x="2523" y="110" width="16" height="16"/>
+  <object id="126" x="2634" y="111" width="19" height="14"/>
+  <object id="127" x="2757" y="108" width="15" height="15"/>
+  <object id="128" x="2879" y="107" width="23" height="16"/>
+  <object id="129" x="3132" y="106" width="14" height="18"/>
+  <object id="130" x="3272" y="108" width="14" height="16"/>
+  <object id="131" x="3395" y="108" width="19" height="17"/>
+  <object id="132" x="3570" y="107" width="16" height="17"/>
  </objectgroup>
 </map>

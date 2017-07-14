@@ -27,7 +27,7 @@ public class ThirdLevel extends PlayScreen {
         super(game);
         hud=new Hud(game,3);
         game.setCurrentPlayScreen(this);
-        game.currentPlayer=player;
+        game.setCurrentPlayer(player);
         map=mapLoader.load("livello3.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / MyGame.PPM);
 

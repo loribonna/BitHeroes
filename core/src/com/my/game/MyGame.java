@@ -12,8 +12,8 @@ import com.my.game.tools.PlayScreen;
 
 public class MyGame extends Game {
 	//
-	public SpriteBatch batch;
-	public String currentPlayer;
+	private SpriteBatch batch;
+	private String currentPlayer;
 	private PlayScreen currentPlayScreen;
 
 	public static String name = "Bit Heroes";
@@ -59,6 +59,18 @@ public class MyGame extends Game {
 
 	public void changeLevel(PlayScreen level){
 		setScreen(level);
+	}
+
+	public void setCurrentPlayer(String player){
+		this.currentPlayer=player;
+	}
+
+	public String getCurrentPlayer(){
+		return this.currentPlayer;
+	}
+
+	public SpriteBatch getBatch(){
+		return this.batch;
 	}
 
 	public void removeObject(Object obj){

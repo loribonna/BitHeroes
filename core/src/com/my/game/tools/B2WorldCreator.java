@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import com.my.game.MyGame;
 import com.my.game.screens.PlayScreens.FirstLevel;
+import com.my.game.screens.PlayScreens.SecondLevel;
 
 import java.util.ArrayList;
 
@@ -60,6 +61,36 @@ public class B2WorldCreator {
             for (MapObject obj : l.getObjects().getByType(RectangleMapObject.class)) {
                 Rectangle rect = ((RectangleMapObject) obj).getRectangle();
                 new com.my.game.sprites.TileObjects.Brick(world, map, rect,game);
+            }
+        }else if(game.getCurrentPlayScreen() instanceof SecondLevel){
+            MapLayer l = map.getLayers().get(3);
+            for (MapObject obj : l.getObjects().getByType(RectangleMapObject.class)) {
+                Rectangle rect = ((RectangleMapObject) obj).getRectangle();
+                new com.my.game.sprites.TileObjects.Terrain(world, map, rect,game);
+            }
+
+            l = map.getLayers().get(2);
+            for (MapObject obj : l.getObjects().getByType(RectangleMapObject.class)) {
+                Rectangle rect = ((RectangleMapObject) obj).getRectangle();
+                new com.my.game.sprites.TileObjects.Vuoto(world, map, rect,game);
+            }
+
+            l = map.getLayers().get(5);
+            for (MapObject obj : l.getObjects().getByType(EllipseMapObject.class)) {
+                Ellipse ell = ((EllipseMapObject) obj).getEllipse();
+                animatedObjects.add(new com.my.game.sprites.TileObjects.Coin(world, map, ell,game));
+            }
+
+            l = map.getLayers().get(6);
+            for (MapObject obj : l.getObjects().getByType(RectangleMapObject.class)) {
+                Rectangle rect = ((RectangleMapObject) obj).getRectangle();
+                new com.my.game.sprites.TileObjects.Wall(world, map, rect,game);
+            }
+
+            l = map.getLayers().get(4);
+            for (MapObject obj : l.getObjects().getByType(RectangleMapObject.class)) {
+                Rectangle rect = ((RectangleMapObject) obj).getRectangle();
+                new com.my.game.sprites.TileObjects.Exit(world, map, rect,game);
             }
         }
 
