@@ -1,5 +1,6 @@
 package com.my.game.sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -19,28 +20,13 @@ public class FireBall extends Bullet {
         body.applyLinearImpulse(new Vector2(forceAttack,0),body.getWorldCenter(),true);
         // forceDrag=1; Never fall
         damage=20;
-        //atl=new TextureAtlas("");
-        //getAnimations(atl);
+        atl=new TextureAtlas("aceP/ace.pack");
+        getAnimations(atl);
     }
 
     public void getAnimations(TextureAtlas atlas){
-        //TODO: missing animatinos for coin
-        Array<TextureRegion> frames = new Array<TextureRegion>();
-        frames.add(new TextureRegion(atlas.findRegion("skullcoin_b1").getTexture(), 1, 3, 19, 20));
-        frames.add(new TextureRegion(atlas.findRegion("skullcoin_b1").getTexture(), 35, 25, 19, 20));
-        frames.add(new TextureRegion(atlas.findRegion("skullcoin_b1").getTexture(), 1, 25, 19, 20));
-        frames.add(new TextureRegion(atlas.findRegion("skullcoin_b1").getTexture(), 35, 25, 19, 20));
-        setBounds(0, 0, 16 / MyGame.PPM, 16 / MyGame.PPM);
-        flyBullet = new Animation(0.3f, frames);
-        stateTimer = 0;
-    }
-
-    public TextureRegion getFrame(float dt){
-        TextureRegion region;
-        region = (TextureRegion)flyBullet.getKeyFrame(stateTimer, true);
-
-        stateTimer = stateTimer + dt;
-        return region;
+        flyBullet=new TextureRegion(atlas.findRegion("ace_first_attack").getTexture(), 290, 30, 50, 14);
+        setBounds(0, 0, 16 / MyGame.PPM, 6 / MyGame.PPM);
     }
 
     @Override
@@ -55,6 +41,6 @@ public class FireBall extends Bullet {
             setCategoryBits(MyGame.NOTHING_BIT);
             dispose();
         }
-        //setRegion(getFrame(delta));
+        setRegion(flyBullet);
     }
 }

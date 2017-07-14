@@ -181,7 +181,7 @@ public abstract class PlayScreen implements Screen{
                 enemy.draw(game.batch);
             }
             for(Bullet bullet : bullets){
-            //    bullet.draw(game.batch);
+                bullet.draw(game.batch);
             }
             for(TileObject object : animatedTileObjects){
                 object.draw(game.batch);

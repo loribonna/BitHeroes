@@ -28,9 +28,8 @@ public abstract class Bullet extends Sprite {
     protected World world;
     protected float forceAttack;
     protected boolean oppositeDirection;
-    protected Animation flyBullet;
+    protected TextureRegion flyBullet;
     protected TextureAtlas atl;
-    protected float stateTimer;
     protected float minSpeed=0.1f;
     protected boolean isPlayer;
     public int damage=0;
@@ -47,7 +46,6 @@ public abstract class Bullet extends Sprite {
         forceAttack=1.5f;
         forceDrag=0.98f;
         if(oppositeDirection) forceAttack=-forceAttack;
-        stateTimer = 0;
     }
 
     /**
