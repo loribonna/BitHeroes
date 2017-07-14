@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.my.game.MyGame;
+import com.my.game.tools.PlayScreen;
 
 /**
  * Created by lorib on 17/05/2017.
@@ -60,8 +61,8 @@ public class MenuScreen implements Screen {
                     if (t.isChecked()) {
                         Gdx.app.log("MenuScreen", "checked");
                         dispose();
-                        Screen firstLevel = new FirstLevel(game, "warrior");
-                        game.setScreen(firstLevel);
+                        PlayScreen firstLevel = new com.my.game.screens.PlayScreens.FirstLevel(game, "warrior");
+                        game.changeLevel(firstLevel);
                     }
                 }
                 return false;
@@ -82,8 +83,8 @@ public class MenuScreen implements Screen {
                     if (t.isChecked()) {
                         Gdx.app.log("MenuScreen", "checked");
                         dispose();
-                        Screen firstLevel = new FirstLevel(game, "archer");
-                        game.setScreen(firstLevel);
+                        PlayScreen firstLevel = new com.my.game.screens.PlayScreens.FirstLevel(game, "archer");
+                        game.changeLevel(firstLevel);
                     }
                 }
                 return false;
@@ -104,8 +105,8 @@ public class MenuScreen implements Screen {
                     if (t.isChecked()) {
                         Gdx.app.log("MenuScreen", "checked");
                         dispose();
-                        Screen firstLevel = new FirstLevel(game, "firebender");
-                        game.setScreen(firstLevel);
+                        PlayScreen firstLevel = new com.my.game.screens.PlayScreens.FirstLevel(game, "firebender");
+                        game.changeLevel(firstLevel);
                     }
                 }
                 return false;

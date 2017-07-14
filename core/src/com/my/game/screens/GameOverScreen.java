@@ -56,7 +56,6 @@ public class GameOverScreen implements Screen {
                 if(event.getListenerActor() instanceof TextButton){
                     TextButton t =((TextButton)event.getListenerActor());
                     if(t.isChecked()){
-                        Gdx.app.log("GameOverScreen","exit");
                         dispose();
                         Gdx.app.exit();
                     }
@@ -77,18 +76,16 @@ public class GameOverScreen implements Screen {
                 if(event.getListenerActor() instanceof TextButton){
                     TextButton t =((TextButton)event.getListenerActor());
                     if(t.isChecked()){
-                        Gdx.app.log("GameOverScreen","restart");
                         dispose();
-                        PlayScreen screen;
-                        Gdx.app.log("A","");
-                        Gdx.app.log(MyGame.currentPlayer,String.valueOf(MyGame.currentPlayScreen));
-                        if(MyGame.currentPlayScreen==1){
-                            screen=new FirstLevel(game,MyGame.currentPlayer);
-                        }else if(MyGame.currentPlayScreen==2){
-                            screen=new SecondLevel(game,MyGame.currentPlayer);
+                        Screen screen;
+                        /*if(game.currentPlayScreen==1){
+                            screen=new FirstLevel(game,game.currentPlayer);
+                        }else if(game.currentPlayScreen==2){
+                            screen=new SecondLevel(game,game.currentPlayer);
                         }else{
-                            screen=new ThirdLevel(game,MyGame.currentPlayer);
-                        }
+                            screen=new ThirdLevel(game,game.currentPlayer);
+                        }*/
+                        screen = new MenuScreen(game);
                         game.setScreen(screen);
                     }
                 }

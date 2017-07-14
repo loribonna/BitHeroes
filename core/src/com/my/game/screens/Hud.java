@@ -19,6 +19,8 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.my.game.MyGame;
+import com.my.game.screens.PlayScreens.FirstLevel;
+import com.my.game.screens.PlayScreens.SecondLevel;
 
 /**
  * Created by lorib on 04/05/2017.
@@ -28,68 +30,40 @@ public class Hud implements Disposable{
     public Stage stage;
     public Viewport port;
 
-    private int worldTimer;
-    private float timeCount;
     private int score;
 
-    Label countDownLabel;
-    Label scoreLabel;
-    Label timeLabel;
-    Label levelLabel;
-    Label worldLabel;
-    Label myLabel;
+    private Label scoreLabel;
+    private Label levelLabel;
+    private Label gameLabel;
 
-    Camera guicam;
+    private Camera guicam;
 
-    Rectangle wleftBounds;
-    Rectangle wrightBounds;
-
-    public Hud(SpriteBatch sb){
-        wleftBounds = new Rectangle(0, 0, 80, 80);
-        wrightBounds = new Rectangle(Gdx.graphics.getWidth()-80, 0, 80, 80);
-
-        worldTimer = 300;
-        timeCount = 0;
+    public Hud(MyGame game,int level){
         score = 0;
-
         guicam=new OrthographicCamera();
-
         port= new FitViewport(MyGame.V_WIDTH,MyGame.V_HEIGHT,guicam);
-        stage = new Stage(port,sb);
+        stage = new Stage(port,game.batch);
 
         Table t = new Table();
         t.top();
         t.setFillParent(true);
 
-        countDownLabel = new Label(String.format("%03d",worldTimer),new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         scoreLabel= new Label(String.format("%06d",score),new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        timeLabel= new Label("TIME",new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        levelLabel= new Label("1",new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        myLabel= new Label("Nome Gioco",new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        levelLabel= new Label(String.valueOf(level),new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        gameLabel= new Label(game.name,new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
-        t.add(myLabel).expandX().padTop(10);
-        t.add(timeLabel).expandX().padTop(10);
+        t.add(gameLabel).expandX().padTop(10);
+        t.add(levelLabel).expandX().padTop(10);
         t.row();
         t.add(scoreLabel).expandX();
-        t.add(levelLabel).expandX();
-        t.add(countDownLabel).expandX();
+
 
         stage.addActor(t);
     }
 
-    public void update(){
-        Vector3 touchPoint = new Vector3();
-        for (int i=0; i<5; i++){
-            if (!Gdx.input.isTouched(i)) continue;
-            guicam.unproject(touchPoint.set(Gdx.input.getX(i), Gdx.input.getY(i), 0));
-            if (wleftBounds.contains(touchPoint.x, touchPoint.y)){
-                Gdx.app.log("left","Touch");
-                //Move your player to the left!
-            }else if (wrightBounds.contains(touchPoint.x, touchPoint.y)){
-                Gdx.app.log("right","Touch");
-                //Move your player to the right!
-            }
-        }
+    public void addCoin(){
+        this.score+=100;
+        scoreLabel.setText(String.format("%06d",score));
     }
 
     @Override

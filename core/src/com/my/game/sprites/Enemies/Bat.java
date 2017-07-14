@@ -1,4 +1,4 @@
-package com.my.game.sprites;
+package com.my.game.sprites.Enemies;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -23,8 +23,8 @@ import com.my.game.tools.*;
  */
 
 public class Bat extends Enemy {
-    public Bat(World w, TextureAtlas screenAtlas,Vector2 position) {
-        super(w, screenAtlas,position);
+    public Bat(World w, TextureAtlas screenAtlas,Vector2 position,MyGame game) {
+        super(w, screenAtlas,position,game);
         attackRange=0.18f;
         life=1;
     }

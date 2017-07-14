@@ -1,21 +1,12 @@
 package com.my.game.tools;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.Filter;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Timer;
 import com.my.game.MyGame;
-import com.my.game.sprites.Arrow;
-
-import java.io.Console;
-import java.util.Iterator;
 
 /**
  * Created by lorib on 29/05/2017.
@@ -30,9 +21,10 @@ public abstract class Enemy extends Entity{
     protected direction YDirection=direction.stop;
     public boolean isFlying=false;
 
-    public Enemy(World w, TextureAtlas screenAtlas, Vector2 position) {
-        super(w, screenAtlas, position);
+    public Enemy(World w, TextureAtlas screenAtlas, Vector2 position,MyGame game) {
+        super(w, screenAtlas, position, game);
         isPlayer=false;
+
     }
 
     protected abstract void distanceAttack();
@@ -43,7 +35,7 @@ public abstract class Enemy extends Entity{
      * Set current target based on Player position in the current PlayScreen
      */
     protected void setTarget(){
-        Vector2 targetPlayer = PlayScreen.current.getPlayerPosition();
+        Vector2 targetPlayer = game.getCurrentPlayScreen().getPlayerPosition();
         Vector2 entityPosition= getPosition();
         float dy=targetPlayer.y-entityPosition.y;
         float dx=targetPlayer.x-entityPosition.x;
@@ -123,7 +115,7 @@ public abstract class Enemy extends Entity{
     public void destroy(){
         dead=true;
         body.setUserData(new Boolean(true));
-        PlayScreen.current.objectsToRemove.add(this);
+        game.removeObject(this);
     }
 
     @Override

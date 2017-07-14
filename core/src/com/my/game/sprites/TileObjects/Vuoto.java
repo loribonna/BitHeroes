@@ -1,4 +1,4 @@
-package com.my.game.sprites;
+package com.my.game.sprites.TileObjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -15,8 +15,8 @@ import com.my.game.tools.TileObject;
  */
 
 public class Vuoto extends TileObject {
-    public Vuoto(World world, TiledMap map, Rectangle rect) {
-        super(world, map, rect);
+    public Vuoto(World world, TiledMap map, Rectangle rect,MyGame game) {
+        super(world, map, rect,game);
         setCategoryBits(MyGame.VOID_BIT);
     }
 
@@ -30,7 +30,7 @@ public class Vuoto extends TileObject {
             entity.destroy();
         }else{
             Gdx.app.log("Vuoto", "");
-            PlayScreen.current.gameOver();
+            game.getCurrentPlayScreen().gameOver();
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.my.game.tools;
+package com.my.game.tools.Interfaces;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;

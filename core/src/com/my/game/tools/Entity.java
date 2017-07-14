@@ -1,6 +1,5 @@
 package com.my.game.tools;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -8,29 +7,17 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.Filter;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.my.game.MyGame;
-import com.my.game.sprites.Arrow;
-import com.my.game.tools.EntityInterface;
-
-import java.awt.geom.AffineTransform;
-import java.awt.geom.PathIterator;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.RectangularShape;
 
 /**
  * Created by lorib on 11/05/2017.
  */
 
-public abstract class Entity extends Sprite implements EntityInterface{
+public abstract class Entity extends Sprite implements com.my.game.tools.Interfaces.EntityInterface {
     public World world;
     public Body body;
     public boolean isPlayer=true;
@@ -51,13 +38,13 @@ public abstract class Entity extends Sprite implements EntityInterface{
     protected boolean invulnarable=false;
 
     protected boolean lockAttack;
-    protected float bulletDelay=0.5f;
     protected boolean dead=false;
 
     protected int meleeDamage=20;
-
-    public Entity(World w, TextureAtlas screenAtlas, Vector2 position) {
+    protected MyGame game;
+    public Entity(World w, TextureAtlas screenAtlas, Vector2 position, MyGame game) {
         super();
+        this.game=game;
         currentState = State.STAND;
         previusState = State.STAND;
         this.world = w;

@@ -1,4 +1,4 @@
-package com.my.game.sprites;
+package com.my.game.sprites.Enemies;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -22,9 +22,9 @@ import com.my.game.tools.*;
  * Created by lorib on 11/05/2017.
  */
 
-public class Lizard extends Enemy {
-    public Lizard(World w, TextureAtlas screenAtlas,Vector2 position) {
-        super(w, screenAtlas,position);
+public class Skeleton extends Enemy {
+    public Skeleton(World w, TextureAtlas screenAtlas,Vector2 position,MyGame game) {
+        super(w, screenAtlas,position,game);
         attackRange=0.18f;
         life=1;
     }
@@ -41,7 +41,7 @@ public class Lizard extends Enemy {
 
     @Override
     public void getAnimations(TextureAtlas atlas) {
-        standAnimation = new TextureRegion(atlas.findRegion("lucertola_walking").getTexture(), 59, 6, 52, 34);
+        standAnimation = new TextureRegion(atlas.findRegion("Skeleton_walking").getTexture(), 38, 1, 26, 34);
         setBounds(0, 0, 24 / MyGame.PPM, 30 / MyGame.PPM);
         setRegion(standAnimation);
         currentState = State.STAND;
@@ -49,15 +49,14 @@ public class Lizard extends Enemy {
         stateTimer = 0;
         runRight = true;
         Array<TextureRegion> frames = new Array<TextureRegion>();
-        frames.add(new TextureRegion(atlas.findRegion("lucertola_walking"),  3, -1, 52, 34));
-        frames.add(new TextureRegion(atlas.findRegion("lucertola_walking"),  59, -1, 52, 34));
-        frames.add(new TextureRegion(atlas.findRegion("lucertola_walking"),  122, -1, 52, 34));
+        frames.add(new TextureRegion(atlas.findRegion("Skeleton_walking"),  2, -1, 26, 34));
+        frames.add(new TextureRegion(atlas.findRegion("Skeleton_walking"),  38, 1, 26, 34));
+        frames.add(new TextureRegion(atlas.findRegion("Skeleton_walking"),  67, -1, 26, 34));
 
         runAnimation = new Animation(0.1f, frames);
         frames.clear();
-        frames.add(new TextureRegion(atlas.findRegion("lucertola_attack"), 5, 4, 36, 47));
-        frames.add(new TextureRegion(atlas.findRegion("lucertola_attack"), 47, 4, 36, 47));
-        frames.add(new TextureRegion(atlas.findRegion("lucertola_attack"), 87, 4, 36 , 47));
+        frames.add(new TextureRegion(atlas.findRegion("Skeleton_attack"), 5, -1, 33, 31));
+        frames.add(new TextureRegion(atlas.findRegion("Skeleton_attack"), 30, -1, 33, 31));
         attackAnimation = new Animation (0.1f, frames);
         frames.clear();
     }

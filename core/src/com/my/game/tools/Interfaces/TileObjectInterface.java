@@ -1,6 +1,7 @@
-package com.my.game.tools;
+package com.my.game.tools.Interfaces;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.my.game.tools.Entity;
 
 /**
  * Created by lorib on 13/05/2017.

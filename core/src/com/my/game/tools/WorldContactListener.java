@@ -14,6 +14,10 @@ import com.my.game.MyGame;
  */
 
 public class WorldContactListener implements ContactListener {
+    private MyGame game;
+    public WorldContactListener(MyGame game){
+        this.game=game;
+    }
 
     /**
      * Control all collisions between fixtures in the screen.
@@ -80,10 +84,10 @@ public class WorldContactListener implements ContactListener {
             }
 
             if(fixEnemyBullet!=null){
-                PlayScreen.current.player.hit(((Bullet) fixEnemyBullet.getUserData()).damage);
+                game.getCurrentPlayScreen().player.hit(((Bullet) fixEnemyBullet.getUserData()).damage);
                 ((Bullet) fixEnemyBullet.getUserData()).dispose();
             }else if(fixEnemyMelee!=null){
-                PlayScreen.current.player.hit((Integer) fixEnemyMelee.getUserData());
+                game.getCurrentPlayScreen().player.hit((Integer) fixEnemyMelee.getUserData());
                 fixEnemyMelee.setUserData(0);
             }
         }
@@ -92,7 +96,11 @@ public class WorldContactListener implements ContactListener {
             if(fixPlayer!=null) {
                 if (fixPlayer.getUserData().toString().contains("feet")) {
                     if (!((Enemy) fixEnemy.getUserData()).isInvulnerable()&&!((Enemy) fixEnemy.getUserData()).isFlying) {
-                        PlayScreen.current.player.body.applyLinearImpulse(new Vector2(0, (-PlayScreen.current.player.body.getLinearVelocity().y) + 3), PlayScreen.current.player.body.getWorldCenter(), true);
+                        game.getCurrentPlayScreen().player.body.applyLinearImpulse(
+                                new Vector2(0, (-game.getCurrentPlayScreen().player.body.getLinearVelocity().y) + 3),
+                                game.getCurrentPlayScreen().player.body.getWorldCenter(), true
+                        );
+
                         ((Enemy) fixEnemy.getUserData()).hit(110);
                     }
                 }

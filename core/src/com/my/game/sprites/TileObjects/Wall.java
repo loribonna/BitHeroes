@@ -1,4 +1,4 @@
-package com.my.game.sprites;
+package com.my.game.sprites.TileObjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -14,8 +14,8 @@ import com.my.game.tools.TileObject;
  */
 
 public class Wall extends TileObject {
-    public Wall(World world, TiledMap map, Rectangle rect) {
-        super(world, map, rect);
+    public Wall(World world, TiledMap map, Rectangle rect,MyGame game) {
+        super(world, map, rect,game);
         setCategoryBits(MyGame.WALL_BIT);
 
     }

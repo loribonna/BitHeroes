@@ -29,8 +29,7 @@ import java.util.Iterator;
  */
 
 public abstract class PlayScreen implements Screen{
-    public boolean gameOver=false;
-    public static PlayScreen current;
+    protected boolean gameOver=false;
     protected final MyGame game;
     protected OrthographicCamera camera;
     protected Viewport port;
@@ -62,7 +61,7 @@ public abstract class PlayScreen implements Screen{
         objectsToRemove=new ArrayList<Object>();
         camera=new OrthographicCamera();
         port=new FitViewport(MyGame.V_WIDTH / MyGame.PPM,MyGame.V_HEIGHT / MyGame.PPM,camera);
-        hud=new Hud(game.batch);
+
         mapLoader=new TmxMapLoader();
         camera.position.set(port.getWorldWidth()/2,port.getWorldHeight()/2,0);
 
@@ -115,9 +114,9 @@ public abstract class PlayScreen implements Screen{
      */
     public void handleInput(float dt){
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP)
-                && player.getState()!= EntityInterface.State.JUMP
-                && player.getState()!= EntityInterface.State.FALL
-                && player.getState()!= EntityInterface.State.ATTACK){
+                && player.getState()!= com.my.game.tools.Interfaces.EntityInterface.State.JUMP
+                && player.getState()!= com.my.game.tools.Interfaces.EntityInterface.State.FALL
+                && player.getState()!= com.my.game.tools.Interfaces.EntityInterface.State.ATTACK){
             playerJump();
         }
 
@@ -131,18 +130,18 @@ public abstract class PlayScreen implements Screen{
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            player.throwAttack(EntityInterface.AttackType.FIRST);
+            player.throwAttack(com.my.game.tools.Interfaces.EntityInterface.AttackType.FIRST);
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.CONTROL_LEFT)){
-            player.throwAttack(EntityInterface.AttackType.SECOND);
+            player.throwAttack(com.my.game.tools.Interfaces.EntityInterface.AttackType.SECOND);
         }
     }
 
     /**
      * @return: Current player state.
      */
-    public EntityInterface.State getPlayerState(){
+    public com.my.game.tools.Interfaces.EntityInterface.State getPlayerState(){
         return this.player.currentState;
     }
 
@@ -194,13 +193,16 @@ public abstract class PlayScreen implements Screen{
         }
     }
 
+    public void addCoin(){
+        hud.addCoin();
+    }
+
     /**
      * Udate Entity and TiledObject. Handle player inputs.
      * @param dt: Current DeltaTime between frame calls.
      */
     public void update(float dt) {
         handleInput(dt);
-        hud.update();
 
         camera.position.x = player.body.getPosition().x;
 

@@ -36,9 +36,11 @@ public abstract class Bullet extends Sprite {
     /// [0-1): fall; 1: still; 1+: ryse
     protected float forceDrag;
     protected Fixture fixture;
+    protected MyGame game;
 
-    public Bullet(Vector2 position,World world,boolean oppositeDirection,boolean isPlayer){
+    public Bullet(Vector2 position,World world,boolean oppositeDirection,boolean isPlayer, MyGame game){
         super();
+        this.game=game;
         this.isPlayer=isPlayer;
         this.oppositeDirection=oppositeDirection;
         this.world=world;
@@ -109,7 +111,7 @@ public abstract class Bullet extends Sprite {
      * Remove the bullet from the simulation.
      */
     public void dispose(){
-        PlayScreen.current.objectsToRemove.add(this);
+        game.removeObject(this);
         body.setUserData(true);
     }
 }

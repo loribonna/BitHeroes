@@ -1,4 +1,4 @@
-package com.my.game.sprites;
+package com.my.game.sprites.TileObjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -35,8 +35,8 @@ public class Coin extends TileObject{
     Animation round;
     float stateTimer;
     TextureAtlas atl;
-    public Coin(World world, TiledMap map, Ellipse ell) {
-        super(world, map, ell);
+    public Coin(World world, TiledMap map, Ellipse ell,MyGame game) {
+        super(world, map, ell,game);
         setCategoryBits(MyGame.COIN_BIT);
         atl=new TextureAtlas("coinP/coin.pack");
         getAnimations(atl);
@@ -92,8 +92,9 @@ public class Coin extends TileObject{
     public void onHit(Entity entity) {
         if(entity.isPlayer) {
             setCategoryBits(MyGame.NOTHING_BIT);
-            PlayScreen.current.objectsToRemove.add(this);
+            game.removeObject(this);
             body.setUserData(true);
+            game.getCurrentPlayScreen().addCoin();
             dispose();
         }
     }

@@ -1,8 +1,6 @@
-package com.my.game.sprites;
+package com.my.game.sprites.Enemies;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -18,92 +16,51 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.my.game.MyGame;
-import com.my.game.tools.Entity;
-import com.my.game.tools.EntityInterface;
-import com.my.game.tools.PlayScreen;
-
+import com.my.game.tools.*;
 
 /**
- * Created by lorib on 09/05/2017.
+ * Created by lorib on 11/05/2017.
  */
 
-public class Warrior extends Entity {
+public class Orch extends Enemy {
+    public Orch(World w, TextureAtlas screenAtlas,Vector2 position,MyGame game) {
+        super(w, screenAtlas,position,game);
+        attackRange=0.18f;
+        life=1;
+    }
 
-    public Warrior(World w, TextureAtlas screenAtlas,Vector2 position) {
-        super(w, screenAtlas,position);
+    @Override
+    protected void distanceAttack() {
+        secondAttack();
+    }
+
+    @Override
+    protected void meleeAttack() {
+        firstAttack();
     }
 
     @Override
     public void getAnimations(TextureAtlas atlas) {
-        standAnimation = new TextureRegion(atlas.findRegion("warrior_idle").getTexture(), 0, 0, 14, 16);
-        setBounds(0, 0, 16 / MyGame.PPM, 16 / MyGame.PPM);
+        standAnimation = new TextureRegion(atlas.findRegion("orc_walking").getTexture(), 371-264, 6, 50, 82);
+        setBounds(0, 0, 24 / MyGame.PPM, 30 / MyGame.PPM);
         setRegion(standAnimation);
         currentState = State.STAND;
         previusState = State.STAND;
         stateTimer = 0;
         runRight = true;
         Array<TextureRegion> frames = new Array<TextureRegion>();
-        int i = 0;
-        for (; i < 3; i++) {
-            frames.add(new TextureRegion(atlas.findRegion("warrior_walk"), i * 16, 0, 14, 16));
-            i++;
-        }
+        frames.add(new TextureRegion(atlas.findRegion("orc_walking"),  261-264, 6, 50, 82));
+        frames.add(new TextureRegion(atlas.findRegion("orc_walking"),  316-264, 6, 50, 82));
+        frames.add(new TextureRegion(atlas.findRegion("orc_walking"),  371-264, 6, 50, 82));
+        frames.add(new TextureRegion(atlas.findRegion("orc_walking"),  427-264, 6, 50, 82));
+
         runAnimation = new Animation(0.1f, frames);
         frames.clear();
-        frames.add(new TextureRegion(atlas.findRegion("warrior_attack"), 0, 0, 27, 16));
-        frames.add(new TextureRegion(atlas.findRegion("warrior_attack"), 27, 0, 27, 16));
-        attackAnimation = new Animation(0.5f, frames);
+        frames.add(new TextureRegion(atlas.findRegion("orc_attack"), 2, 8, 80, 82));
+        frames.add(new TextureRegion(atlas.findRegion("orc_attack"), 95, 8, 80, 82));
+        frames.add(new TextureRegion(atlas.findRegion("orc_attack"), 177, 8, 80 , 82));
+        attackAnimation = new Animation (0.2f, frames);
         frames.clear();
-    }
-
-    @Override
-    public void update(float delta) {
-        setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
-        setRegion(getFrame(delta));
-    }
-
-    @Override
-    public void recoil() {
-        if(currentState!=State.JUMP) {
-            body.applyLinearImpulse(new Vector2(0, 1), body.getWorldCenter(), true);
-        }
-    }
-
-    @Override
-    public void destroy() {
-        PlayScreen.current.gameOver();
-    }
-
-    @Override
-    public Filter getFilter() {
-        Filter f = new Filter();
-        f.categoryBits = MyGame.PLAYER_BIT;
-        f.maskBits =(MyGame.DEFAULT_BIT | MyGame.BRICK_BIT | MyGame.COIN_BIT | MyGame.ENEMY_BIT |
-                MyGame.VOID_BIT | MyGame.WALL_BIT | MyGame.EXIT_BIT | MyGame.ENEMY_BULLET_BIT | MyGame.ENEMY_MELEE_BIT);
-        f.groupIndex = MyGame.GROUP_PLAYER;
-        return f;
-    }
-
-    @Override
-    public void createBorders() {
-        FixtureDef fdef = new FixtureDef();
-        Filter filter = getFilter();
-
-        fdef.filter.groupIndex=filter.groupIndex;
-        fdef.filter.categoryBits= filter.categoryBits;
-        fdef.filter.maskBits=filter.maskBits;
-
-        CircleShape bShape = new CircleShape();
-        bShape.setRadius(6/MyGame.PPM);
-        fdef.shape=bShape;
-        body.createFixture(fdef).setUserData(this);
-
-        EdgeShape feet = new EdgeShape();
-        feet.set(new Vector2(-4,-6).scl(1/MyGame.PPM),new Vector2(4,-6).scl(1/MyGame.PPM));
-        fdef.shape = feet;
-        fdef.isSensor=true;
-        body.createFixture(fdef).setUserData("good_feet");
-
     }
 
     @Override
@@ -111,14 +68,12 @@ public class Warrior extends Entity {
         currentState = State.ATTACK;
         previusState = State.ATTACK;
         stateTimer = 0;
-        setSize(27 / MyGame.PPM, 16 / MyGame.PPM);
         setRegion(getFrame(0));
 
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
                 lockAttack=false;
-                setSize(16 / MyGame.PPM, 16 / MyGame.PPM);
             }
         },attackAnimation.getAnimationDuration());
 
@@ -168,9 +123,9 @@ public class Warrior extends Entity {
         weaponFront.set(new Vector2[]{new Vector2(12,-2).scl(1/MyGame.PPM),new Vector2(12,-4).scl(1/MyGame.PPM)
                 ,new Vector2(8,-2).scl(1/MyGame.PPM),new Vector2(8,-4).scl(1/MyGame.PPM)});
         fdef.shape = weaponFront;
-        fdef.filter.categoryBits=MyGame.PLAYER_MELEE_BIT;
+        fdef.filter.categoryBits=MyGame.ENEMY_MELEE_BIT;
         fdef.filter.groupIndex=MyGame.GROUP_BULLET;
-        fdef.filter.maskBits=MyGame.ENEMY_BIT;
+        fdef.filter.maskBits=MyGame.PLAYER_BIT;
         fdef.isSensor=true;
         return fdef;
     }
@@ -183,12 +138,11 @@ public class Warrior extends Entity {
         weaponBack.set(new Vector2[]{new Vector2(-12,-2).scl(1/MyGame.PPM),new Vector2(-12,-4).scl(1/MyGame.PPM)
                 ,new Vector2(-8,-2).scl(1/MyGame.PPM),new Vector2(-8,-4).scl(1/MyGame.PPM)});
         fdef.shape = weaponBack;
-        fdef.filter.categoryBits=MyGame.PLAYER_MELEE_BIT;
+        fdef.filter.categoryBits=MyGame.ENEMY_MELEE_BIT;
         fdef.filter.groupIndex=MyGame.GROUP_BULLET;
-        fdef.filter.maskBits=MyGame.ENEMY_BIT;
+        fdef.filter.maskBits=MyGame.PLAYER_BIT;
         fdef.isSensor=true;
         return fdef;
     }
-
 
 }

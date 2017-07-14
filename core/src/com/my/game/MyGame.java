@@ -13,9 +13,9 @@ import com.my.game.tools.PlayScreen;
 public class MyGame extends Game {
 	//
 	public SpriteBatch batch;
-	public static MyGame current;
-	public static String currentPlayer;
-	public static int currentPlayScreen;
+	public String currentPlayer;
+	private PlayScreen currentPlayScreen;
+
 	public static String name = "Bit Heroes";
 	public static final float V_WIDTH = 400;
 	public static final float V_HEIGHT = 208;
@@ -46,13 +46,23 @@ public class MyGame extends Game {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		//setScreen(new PlayScreen(this));
 		setScreen(new FirstScreen(this));
-		current=this;
 	}
 
-	public void changeLevel(PlayScreen level,String player){
+	public PlayScreen getCurrentPlayScreen(){
+		return this.currentPlayScreen;
+	}
+
+	public void setCurrentPlayScreen(PlayScreen level){
+		this.currentPlayScreen=level;
+	}
+
+	public void changeLevel(PlayScreen level){
 		setScreen(level);
+	}
+
+	public void removeObject(Object obj){
+		this.currentPlayScreen.objectsToRemove.add(obj);
 	}
 
 	@Override

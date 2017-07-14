@@ -1,12 +1,9 @@
-package com.my.game.sprites;
+package com.my.game.sprites.Players;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.Filter;
@@ -15,24 +12,22 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.my.game.MyGame;
+import com.my.game.sprites.Throwables.FireBall;
 import com.my.game.tools.Entity;
-import com.my.game.tools.EntityInterface;
-import com.my.game.tools.PlayScreen;
-import com.sun.org.apache.xerces.internal.impl.dv.xs.AnyURIDV;
 
 /**
- * Created by lorib on 09/05/2017.
+ * Created by lorib on 13/07/2017.
  */
 
-public class Archer extends Entity {
+public class FireBender extends Entity {
 
-    public Archer(World w, TextureAtlas screenAtlas,Vector2 position) {
-        super(w, screenAtlas,position);
+    public FireBender(World w, TextureAtlas screenAtlas, Vector2 position,MyGame game) {
+        super(w, screenAtlas,position,game);
     }
 
     @Override
     public void getAnimations(TextureAtlas atlas) {
-        standAnimation = new TextureRegion(atlas.findRegion("archer_normal_attack"), 7, 6, 34, 32);
+        standAnimation = new TextureRegion(atlas.findRegion("ace_walking"), 0, 0, 27, 43);
         setBounds(0, 0, 24 / MyGame.PPM, 20 / MyGame.PPM);
         setRegion(standAnimation);
         currentState = State.STAND;
@@ -40,21 +35,17 @@ public class Archer extends Entity {
         stateTimer = 0;
         runRight = true;
         Array<TextureRegion> frames = new Array<TextureRegion>();
-        frames.add(new TextureRegion(atlas.findRegion("archer_walking"), 23, 10, 27, 32));
-        frames.add(new TextureRegion(atlas.findRegion("archer_walking"), 52, 10, 27, 32));
-        frames.add(new TextureRegion(atlas.findRegion("archer_walking"), 90, 10, 27, 32));
-        frames.add(new TextureRegion(atlas.findRegion("archer_walking"), 121, 10, 27, 32));
+        frames.add(new TextureRegion(atlas.findRegion("ace_walking"), 0, 0, 27, 43));
+        frames.add(new TextureRegion(atlas.findRegion("ace_walking"), 30, 0, 27, 43));
 
-        runAnimation = new Animation(0.1f, frames);
+        runAnimation = new Animation(0.15f, frames);
         frames.clear();
 
-        frames.add(new TextureRegion(atlas.findRegion("archer_normal_attack"), 7, 6, 34, 32));
-        frames.add(new TextureRegion(atlas.findRegion("archer_normal_attack"), 45, 6, 34, 32));
-        frames.add(new TextureRegion(atlas.findRegion("archer_normal_attack"), 84, 6, 34, 32));
-        frames.add(new TextureRegion(atlas.findRegion("archer_normal_attack"), 123, 6, 34, 32));
-        frames.add(new TextureRegion(atlas.findRegion("archer_normal_attack"), 164, 6, 34, 32));
+        frames.add(new TextureRegion(atlas.findRegion("ace_first_attack"), 6, 5, 42, 43));
+        frames.add(new TextureRegion(atlas.findRegion("ace_first_attack"), 50, 5, 42, 43));
+        frames.add(new TextureRegion(atlas.findRegion("ace_first_attack"), 99, 5, 42, 43));
 
-        throwAnimation = new Animation(0.1f, frames);
+        throwAnimation = new Animation(0.15f, frames);
         frames.clear();
     }
 
@@ -73,11 +64,11 @@ public class Archer extends Entity {
 
     @Override
     public void destroy() {
-        PlayScreen.current.gameOver();
+        game.getCurrentPlayScreen().gameOver();
     }
 
     protected void throwBullet() {
-        PlayScreen.current.addBullet(new Arrow(getPosition(), world, isFlipX(),true));
+        game.getCurrentPlayScreen().addBullet(new FireBall(getPosition(), world, isFlipX(),true,game));
     }
 
     @Override
@@ -154,5 +145,4 @@ public class Archer extends Entity {
     public void specialAttack() {
         lockAttack=false;
     }
-
 }

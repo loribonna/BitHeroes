@@ -1,4 +1,4 @@
-package com.my.game.sprites;
+package com.my.game.sprites.Enemies;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.EdgeShape;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -13,16 +16,15 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.my.game.MyGame;
-import com.my.game.tools.Enemy;
-import com.my.game.tools.PlayScreen;
+import com.my.game.tools.*;
 
 /**
- * Created by user on 12/07/2017.
+ * Created by lorib on 11/05/2017.
  */
 
-public class Mummy extends Enemy {
-    public Mummy(World w, TextureAtlas screenAtlas, Vector2 position) {
-        super(w, screenAtlas,position);
+public class Golem extends Enemy {
+    public Golem(World w, TextureAtlas screenAtlas,Vector2 position,MyGame game) {
+        super(w, screenAtlas,position,game);
         attackRange=0.18f;
         life=1;
     }
@@ -39,7 +41,7 @@ public class Mummy extends Enemy {
 
     @Override
     public void getAnimations(TextureAtlas atlas) {
-        standAnimation = new TextureRegion(atlas.findRegion("mummia_walking").getTexture(), 34,9, 31, 36);
+        standAnimation = new TextureRegion(atlas.findRegion("golem_walking").getTexture(), 44,-1,38,62);
         setBounds(0, 0, 24 / MyGame.PPM, 30 / MyGame.PPM);
         setRegion(standAnimation);
         currentState = State.STAND;
@@ -47,16 +49,15 @@ public class Mummy extends Enemy {
         stateTimer = 0;
         runRight = true;
         Array<TextureRegion> frames = new Array<TextureRegion>();
-        frames.add(new TextureRegion(atlas.findRegion("mummia_walking"),  2, 9, 31, 36));
-        frames.add(new TextureRegion(atlas.findRegion("mummia_walking"),  34,9, 31, 36));
-        frames.add(new TextureRegion(atlas.findRegion("mummia_walking"),  66, 9, 31, 36));
+        frames.add(new TextureRegion(atlas.findRegion("golem_walking"),  3, -1, 38, 62));
+        frames.add(new TextureRegion(atlas.findRegion("golem_walking"),  44, -1, 38, 62));
+        frames.add(new TextureRegion(atlas.findRegion("golem_walking"),  81, -1, 38, 62));
 
         runAnimation = new Animation(0.1f, frames);
         frames.clear();
-        frames.add(new TextureRegion(atlas.findRegion("mummia_attack"), 4, 3, 35, 34));
-        frames.add(new TextureRegion(atlas.findRegion("mummia_attack"), 33, 3, 35, 34));
-        frames.add(new TextureRegion(atlas.findRegion("mummia_attack"), 63,3, 35, 34));
-        frames.add(new TextureRegion(atlas.findRegion("mummia_attack"), 102,3, 35 , 34));
+        frames.add(new TextureRegion(atlas.findRegion("golem_attack"), 2, 3, 46, 56));
+        frames.add(new TextureRegion(atlas.findRegion("golem_attack"), 48, 3, 79, 56));
+        frames.add(new TextureRegion(atlas.findRegion("golem_attack"), 131, 3, 62 , 56));
         attackAnimation = new Animation (0.1f, frames);
         frames.clear();
     }
@@ -66,13 +67,11 @@ public class Mummy extends Enemy {
         currentState = State.ATTACK;
         previusState = State.ATTACK;
         stateTimer = 0;
-        setSize(24 / MyGame.PPM, 30 / MyGame.PPM);
         setRegion(getFrame(0));
 
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
-                setSize(24 / MyGame.PPM, 30 / MyGame.PPM);
                 lockAttack=false;
             }
         },attackAnimation.getAnimationDuration());
@@ -146,4 +145,3 @@ public class Mummy extends Enemy {
     }
 
 }
-

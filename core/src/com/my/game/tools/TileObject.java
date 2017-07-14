@@ -1,13 +1,8 @@
 package com.my.game.tools;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -23,16 +18,17 @@ import com.my.game.MyGame;
  * Created by lorib on 13/05/2017.
  */
 
-public abstract class TileObject extends Sprite implements TileObjectInterface{
+public abstract class TileObject extends Sprite implements com.my.game.tools.Interfaces.TileObjectInterface {
     protected World world;
     protected TiledMap map;
     protected Rectangle rect;
     protected Body body;
     protected Fixture fixture;
     protected Ellipse ell;
-
-    public TileObject(World world, TiledMap map,Rectangle rect){
+    protected MyGame game;
+    public TileObject(World world, TiledMap map,Rectangle rect,MyGame game){
         super();
+        this.game=game;
         this.world = world;
         this.map= map;
         this.rect = rect;
@@ -46,7 +42,9 @@ public abstract class TileObject extends Sprite implements TileObjectInterface{
      * @param map
      * @param ell
      */
-    public TileObject(World world, TiledMap map,Ellipse ell){
+    public TileObject(World world, TiledMap map,Ellipse ell,MyGame game){
+        super();
+        this.game=game;
         this.world = world;
         this.map= map;
         this.ell = ell;
@@ -110,7 +108,7 @@ public abstract class TileObject extends Sprite implements TileObjectInterface{
      * Remove current body fixtures.
      */
     public void dispose(){
-        PlayScreen.current.objectsToRemove.add(this);
+        game.removeObject(this);
         body.setUserData(true);
     }
 
