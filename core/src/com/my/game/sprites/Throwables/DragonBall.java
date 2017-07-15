@@ -22,8 +22,8 @@ public class DragonBall extends Bullet {
     }
 
     public void getAnimations(TextureAtlas atlas){
-        flyBullet = new TextureRegion(atlas.findRegion("dragon_attack").getTexture(), 1, 9, 71, 34);
-
+        flyBullet = new TextureRegion(atlas.findRegion("dragon_attack"), 1, 9, 71, 34);
+        if(oppositeDirection) flyBullet.flip(true,false);
         setBounds(0, 0, 40 / MyGame.PPM, 21 / MyGame.PPM);
     }
 

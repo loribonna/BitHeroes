@@ -27,6 +27,7 @@ public class FireBall extends Bullet {
 
     public void getAnimations(TextureAtlas atlas){
         flyBullet=new TextureRegion(atlas.findRegion("ace_animation"), 1, 8, 50, 14);
+        if(oppositeDirection) flyBullet.flip(true,false);
         setBounds(0, 0, 16 / MyGame.PPM, 6 / MyGame.PPM);
     }
 

@@ -32,7 +32,7 @@ public class Warrior extends Entity {
 
     @Override
     public void getAnimations(TextureAtlas atlas) {
-        standAnimation = new TextureRegion(atlas.findRegion("warrior_idle").getTexture(), 0, 0, 14, 16);
+        standAnimation = new TextureRegion(atlas.findRegion("warrior_idle"), 0, 0, 14, 16);
         setBounds(0, 0, 16 / MyGame.PPM, 16 / MyGame.PPM);
         setRegion(standAnimation);
         currentState = State.STAND;

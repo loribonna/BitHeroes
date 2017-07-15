@@ -44,10 +44,10 @@ public class Coin extends TileObject{
 
     public void getAnimations(TextureAtlas atlas){
         Array<TextureRegion> frames = new Array<TextureRegion>();
-        frames.add(new TextureRegion(atlas.findRegion("skullcoin_b1").getTexture(), 1, 3, 19, 20));
-        frames.add(new TextureRegion(atlas.findRegion("skullcoin_b1").getTexture(), 35, 25, 19, 20));
-        frames.add(new TextureRegion(atlas.findRegion("skullcoin_b1").getTexture(), 1, 25, 19, 20));
-        frames.add(new TextureRegion(atlas.findRegion("skullcoin_b1").getTexture(), 35, 25, 19, 20));
+        frames.add(new TextureRegion(atlas.findRegion("skullcoin_b1"), 1, 3, 19, 20));
+        frames.add(new TextureRegion(atlas.findRegion("skullcoin_b1"), 35, 25, 19, 20));
+        frames.add(new TextureRegion(atlas.findRegion("skullcoin_b1"), 1, 25, 19, 20));
+        frames.add(new TextureRegion(atlas.findRegion("skullcoin_b1"), 35, 25, 19, 20));
         setBounds(0, 0, 16 / MyGame.PPM, 16 / MyGame.PPM);
         round = new Animation(0.3f, frames);
         stateTimer = 0;

@@ -39,7 +39,7 @@ public class Mummy extends Enemy {
 
     @Override
     public void getAnimations(TextureAtlas atlas) {
-        standAnimation = new TextureRegion(atlas.findRegion("mummia_walking").getTexture(), 34,9, 31, 36);
+        standAnimation = new TextureRegion(atlas.findRegion("mummia_walking"), 34,9, 31, 36);
         setBounds(0, 0, 24 / MyGame.PPM, 30 / MyGame.PPM);
         setRegion(standAnimation);
         currentState = State.STAND;

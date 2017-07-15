@@ -23,7 +23,7 @@ public class BlobBall extends Bullet {
 
     public void getAnimations(TextureAtlas atlas){
         flyBullet = new TextureRegion(atlas.findRegion("blob"), 7, 8, 11, 11);
-
+        if(oppositeDirection) flyBullet.flip(true,false);
         setBounds(0, 0, 10 / MyGame.PPM, 10 / MyGame.PPM);
     }
 

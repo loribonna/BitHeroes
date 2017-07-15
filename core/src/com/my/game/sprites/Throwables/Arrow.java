@@ -27,8 +27,8 @@ public class Arrow extends Bullet {
     }
 
     public void getAnimations(TextureAtlas atlas){
-        flyBullet = new TextureRegion(atlas.findRegion("archer_normal_attack").getTexture(), 206, 30, 23, 8);
-
+        flyBullet = new TextureRegion(atlas.findRegion("archer_normal_attack"), 206, 17, 23, 8);
+        if(oppositeDirection) flyBullet.flip(true,false);
         setBounds(0, 0, 14 / MyGame.PPM, 5 / MyGame.PPM);
     }
 

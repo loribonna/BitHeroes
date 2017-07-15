@@ -41,7 +41,7 @@ public class Bat extends Enemy {
 
     @Override
     public void getAnimations(TextureAtlas atlas) {
-        standAnimation = new TextureRegion(atlas.findRegion("bat_flying").getTexture(), 17,-1, 15, 34);
+        standAnimation = new TextureRegion(atlas.findRegion("bat_flying"), 17,-1, 15, 34);
         setBounds(0, 0, 24 / MyGame.PPM, 30 / MyGame.PPM);
         setRegion(standAnimation);
         currentState = State.STAND;

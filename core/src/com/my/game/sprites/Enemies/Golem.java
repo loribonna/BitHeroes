@@ -41,7 +41,7 @@ public class Golem extends Enemy {
 
     @Override
     public void getAnimations(TextureAtlas atlas) {
-        standAnimation = new TextureRegion(atlas.findRegion("golem_walking").getTexture(), 44,-1,38,62);
+        standAnimation = new TextureRegion(atlas.findRegion("golem_walking"), 44,-1,38,62);
         setBounds(0, 0, 24 / MyGame.PPM, 30 / MyGame.PPM);
         setRegion(standAnimation);
         currentState = State.STAND;
