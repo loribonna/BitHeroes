@@ -29,7 +29,6 @@ public class Vuoto extends TileObject {
         if(!entity.isPlayer) {
             entity.destroy();
         }else{
-            Gdx.app.log("Vuoto", "");
             game.getCurrentPlayScreen().gameOver();
         }
     }

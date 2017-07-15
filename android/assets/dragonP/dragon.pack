@@ -1,0 +1,40 @@
+
+dragon.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+dragon_second_attack
+  rotate: false
+  xy: 1, 631
+  size: 972, 154
+  orig: 972, 154
+  offset: 0, 0
+  index: -1
+dragon_first_attack
+  rotate: false
+  xy: 1, 415
+  size: 903, 214
+  orig: 903, 214
+  offset: 0, 0
+  index: -1
+dragon_dying
+  rotate: false
+  xy: 1, 277
+  size: 792, 136
+  orig: 792, 136
+  offset: 0, 0
+  index: -1
+dragon_walking
+  rotate: false
+  xy: 1, 139
+  size: 484, 136
+  orig: 484, 136
+  offset: 0, 0
+  index: -1
+dragon_jumping
+  rotate: false
+  xy: 1, 1
+  size: 208, 136
+  orig: 208, 136
+  offset: 0, 0
+  index: -1

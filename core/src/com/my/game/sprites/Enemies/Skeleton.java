@@ -42,6 +42,7 @@ public class Skeleton extends Enemy {
     @Override
     public void getAnimations(TextureAtlas atlas) {
         standAnimation = new TextureRegion(atlas.findRegion("Skeleton_walking").getTexture(), 38, 1, 26, 34);
+        standAnimation.flip(true,false);
         setBounds(0, 0, 24 / MyGame.PPM, 30 / MyGame.PPM);
         setRegion(standAnimation);
         currentState = State.STAND;
@@ -57,6 +58,7 @@ public class Skeleton extends Enemy {
         frames.clear();
         frames.add(new TextureRegion(atlas.findRegion("Skeleton_attack"), 5, -1, 33, 31));
         frames.add(new TextureRegion(atlas.findRegion("Skeleton_attack"), 30, -1, 33, 31));
+
         attackAnimation = new Animation (0.1f, frames);
         frames.clear();
     }

@@ -1,6 +1,8 @@
 package com.my.game.screens.PlayScreens;
 
 import static com.badlogic.gdx.math.MathUtils.random;
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -30,15 +32,15 @@ public class FirstLevel extends PlayScreen {
      *
      * @param game Reference to main game instance
      */
-    public FirstLevel(final MyGame game,String player) {
+    public FirstLevel(final MyGame game,String player,int score) {
         super(game);
-        hud=new Hud(game,1);
+        hud=new Hud(game,1,score);
         game.setCurrentPlayScreen(this);
         game.setCurrentPlayer(player);
         map=mapLoader.load("livello1.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / MyGame.PPM);
 
-        int randomUntil=2;
+        int randomUntil=3;
         int Random;
 
         new B2WorldCreator(world,map,animatedTileObjects,game);

@@ -61,6 +61,10 @@ public class MyGame extends Game {
 		setScreen(level);
 	}
 
+	public int getScore(){
+		return getCurrentPlayScreen().getCurrentScore();
+	}
+
 	public void setCurrentPlayer(String player){
 		this.currentPlayer=player;
 	}

@@ -1,10 +1,15 @@
 package com.my.game.screens.PlayScreens;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.my.game.MyGame;
 import com.my.game.screens.Hud;
+import com.my.game.sprites.Enemies.Dragon;
 import com.my.game.sprites.Players.Archer;
 import com.my.game.sprites.Players.FireBender;
 import com.my.game.sprites.Players.Warrior;
@@ -23,9 +28,9 @@ public class ThirdLevel extends PlayScreen {
      *
      * @param game Reference to main game instance
      */
-    public ThirdLevel(final MyGame game,String player) {
+    public ThirdLevel(final MyGame game,String player,int score) {
         super(game);
-        hud=new Hud(game,3);
+        hud=new Hud(game,3,score);
         game.setCurrentPlayScreen(this);
         game.setCurrentPlayer(player);
         map=mapLoader.load("livello3.tmx");
@@ -44,6 +49,15 @@ public class ThirdLevel extends PlayScreen {
         if(player=="firebender") {
             atlPlayer = new TextureAtlas("aceP/ace.pack");
             this.player = new FireBender(world, getAtlasPlayer(), new Vector2(100, 64),game);
+        }
+
+        atlDragon = new TextureAtlas("dragonP/dragon.pack");
+
+        MapLayer l;
+        l = map.getLayers().get(3);
+        for (MapObject obj : l.getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = ((RectangleMapObject) obj).getRectangle();
+            enemyList.add(new Dragon(world,getAtlasDragon(),new Vector2(rect.getX(),rect.getY()),game));
         }
 
         world.setContactListener(new WorldContactListener(game));

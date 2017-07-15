@@ -1,5 +1,6 @@
 package com.my.game.tools;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Timer;
 import com.my.game.MyGame;
+import com.my.game.sprites.Enemies.Dragon;
 
 /**
  * Created by lorib on 11/05/2017.
@@ -60,6 +62,10 @@ public abstract class Entity extends Sprite implements com.my.game.tools.Interfa
         return this.body.getPosition();
     }
 
+    public int getLife(){
+        return life;
+    }
+
     /**
      * Import enity-specific animations from the atlas.
      * @param atlas
@@ -91,7 +97,7 @@ public abstract class Entity extends Sprite implements com.my.game.tools.Interfa
      */
     public void hit(int damage){
         life-=damage;
-        if(life<0){
+        if(life<=0){
             destroy();
         }else if(damage>0){
             recoil();

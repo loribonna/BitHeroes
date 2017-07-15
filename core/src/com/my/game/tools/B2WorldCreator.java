@@ -92,9 +92,20 @@ public class B2WorldCreator {
                 Rectangle rect = ((RectangleMapObject) obj).getRectangle();
                 new com.my.game.sprites.TileObjects.Exit(world, map, rect,game);
             }
+        }else{
+            MapLayer l = map.getLayers().get(1);
+            for (MapObject obj : l.getObjects().getByType(RectangleMapObject.class)) {
+                Rectangle rect = ((RectangleMapObject) obj).getRectangle();
+                new com.my.game.sprites.TileObjects.Terrain(world, map, rect,game);
+            }
+
+            l = map.getLayers().get(2);
+            for (MapObject obj : l.getObjects().getByType(RectangleMapObject.class)) {
+                Rectangle rect = ((RectangleMapObject) obj).getRectangle();
+                new com.my.game.sprites.TileObjects.Wall(world, map, rect,game);
+            }
+
+
         }
-
-
-
     }
 }

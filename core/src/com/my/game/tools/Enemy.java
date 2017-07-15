@@ -1,5 +1,6 @@
 package com.my.game.tools;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -15,7 +16,8 @@ import com.my.game.MyGame;
 public abstract class Enemy extends Entity{
     protected enum direction{right,left,stop,up};
     protected float attackRange=0.18f;
-    protected float maxMoveRange=10;
+    protected float maxMoveRange=1.5f;
+    protected boolean disableJump=false;
     protected float minHeight=0.1f;
     protected direction XDirection=direction.stop;
     protected direction YDirection=direction.stop;
@@ -24,6 +26,7 @@ public abstract class Enemy extends Entity{
     public Enemy(World w, TextureAtlas screenAtlas, Vector2 position,MyGame game) {
         super(w, screenAtlas, position, game);
         isPlayer=false;
+        body.setActive(false);
 
     }
 
@@ -40,20 +43,23 @@ public abstract class Enemy extends Entity{
         float dy=targetPlayer.y-entityPosition.y;
         float dx=targetPlayer.x-entityPosition.x;
         float m=dy/dx;
-        if(dx<maxMoveRange){
+        if(Math.abs(dx)<maxMoveRange){
+            if(!body.isActive()) {
+                body.setActive(true);
+            }
+
             if(dx>attackRange){
                 throwAttack(AttackType.SECOND);
                 XDirection=direction.right;
             }else if(dx<-attackRange) {
                 throwAttack(AttackType.SECOND);
                 XDirection = direction.left;
-            }else if(dy>-0.1&&dy<0.1){
+            }else if(dy>-attackRange&&dy<attackRange){
                 XDirection=direction.stop;
                 throwAttack(AttackType.FIRST);
             }
         }else{
             XDirection=direction.stop;
-            throwAttack(AttackType.FIRST);
         }
 
         if(dy>minHeight&&XDirection!=direction.stop){
@@ -77,7 +83,7 @@ public abstract class Enemy extends Entity{
                 body.setLinearVelocity(0, body.getLinearVelocity().y);
             }
 
-            if (YDirection == direction.up) {
+            if (!disableJump && YDirection == direction.up) {
                 if (this.getState() != State.JUMP &&
                         this.getState() != State.FALL &&
                         this.getState() != State.ATTACK) {

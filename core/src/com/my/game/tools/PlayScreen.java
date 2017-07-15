@@ -51,7 +51,7 @@ public abstract class PlayScreen implements Screen{
     protected TextureAtlas atlGolem;
     protected TextureAtlas atlLizard;
     protected TextureAtlas atlMummy;
-
+    protected TextureAtlas atlDragon;
     /**
      * Initialize game world and any entity
      * @param game Reference to main game instance
@@ -70,6 +70,10 @@ public abstract class PlayScreen implements Screen{
         enemyList=new ArrayList<Enemy>();
         animatedTileObjects=new ArrayList<TileObject>();
         bullets=new ArrayList<Bullet>();
+    }
+
+    public int getCurrentScore(){
+        return hud.getScore();
     }
 
     public TextureAtlas getAtlasPlayer(){
@@ -99,6 +103,8 @@ public abstract class PlayScreen implements Screen{
     public TextureAtlas getAtlasMummy(){
         return this.atlMummy;
     }
+
+    public TextureAtlas getAtlasDragon(){ return this.atlDragon; }
 
     /**
      * Add a bullet in the current world.
@@ -136,13 +142,6 @@ public abstract class PlayScreen implements Screen{
         if(Gdx.input.isKeyJustPressed(Input.Keys.CONTROL_LEFT)){
             player.throwAttack(com.my.game.tools.Interfaces.EntityInterface.AttackType.SECOND);
         }
-    }
-
-    /**
-     * @return: Current player state.
-     */
-    public com.my.game.tools.Interfaces.EntityInterface.State getPlayerState(){
-        return this.player.currentState;
     }
 
     /**
@@ -218,6 +217,8 @@ public abstract class PlayScreen implements Screen{
         for(TileObject tileObject : animatedTileObjects){
             tileObject.update(dt);
         }
+
+        hud.setlayerLife(player.getLife());
 
         world.step(1 / 60f, 6, 2);
 

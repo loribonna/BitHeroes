@@ -61,7 +61,7 @@ public class MenuScreen implements Screen {
                     if (t.isChecked()) {
                         Gdx.app.log("MenuScreen", "checked");
                         dispose();
-                        PlayScreen firstLevel = new com.my.game.screens.PlayScreens.FirstLevel(game, "warrior");
+                        PlayScreen firstLevel = new com.my.game.screens.PlayScreens.FirstLevel(game, "warrior",0);
                         game.changeLevel(firstLevel);
                     }
                 }
@@ -83,7 +83,7 @@ public class MenuScreen implements Screen {
                     if (t.isChecked()) {
                         Gdx.app.log("MenuScreen", "checked");
                         dispose();
-                        PlayScreen firstLevel = new com.my.game.screens.PlayScreens.FirstLevel(game, "archer");
+                        PlayScreen firstLevel = new com.my.game.screens.PlayScreens.FirstLevel(game, "archer",0);
                         game.changeLevel(firstLevel);
                     }
                 }
@@ -105,7 +105,7 @@ public class MenuScreen implements Screen {
                     if (t.isChecked()) {
                         Gdx.app.log("MenuScreen", "checked");
                         dispose();
-                        PlayScreen firstLevel = new com.my.game.screens.PlayScreens.FirstLevel(game, "firebender");
+                        PlayScreen firstLevel = new com.my.game.screens.PlayScreens.FirstLevel(game, "firebender",0);
                         game.changeLevel(firstLevel);
                     }
                 }

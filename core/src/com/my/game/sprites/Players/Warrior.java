@@ -27,6 +27,7 @@ public class Warrior extends Entity {
 
     public Warrior(World w, TextureAtlas screenAtlas,Vector2 position,MyGame game) {
         super(w, screenAtlas,position,game);
+        life=200;
     }
 
     @Override

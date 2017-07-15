@@ -30,10 +30,7 @@ public class Terrain extends TileObject {
 
     @Override
     public void onHit(Entity entity) {
-        if(entity.isPlayer) {
-             Gdx.app.log("","Terrain");
-        }
-        else {
+        if(!entity.isPlayer) {
             ((Enemy) entity).isFlying = false;
         }
     }

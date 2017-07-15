@@ -63,8 +63,44 @@ public class Bat extends Enemy {
 
     @Override
     public void firstAttack() {
-        //TODO: fly attack
-        lockAttack=false;
+        currentState = State.ATTACK;
+        previusState = State.ATTACK;
+        stateTimer = 0;
+        setRegion(getFrame(0));
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                lockAttack=false;
+            }
+        },attackAnimation.getAnimationDuration());
+
+
+        final BodyDef bDef=new BodyDef();
+        bDef.position.set(body.getPosition());
+        bDef.type = BodyDef.BodyType.DynamicBody;
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                final Body attackBody = world.createBody(bDef);
+                attackBody.setGravityScale(0);
+
+                if (isFlipX()) {
+                    final Fixture f = attackBody.createFixture(createBackAttackFixture());
+                    f.setUserData(meleeDamage);
+
+                } else {
+                    final Fixture f = attackBody.createFixture(createFrontAttackFixture());
+                    f.setUserData(meleeDamage);
+                }
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        attackBody.setUserData(true);
+                    }
+                }, attackAnimation.getAnimationDuration() / 2);
+            }
+        }, attackAnimation.getAnimationDuration() / 2);
     }
 
     @Override
@@ -79,12 +115,32 @@ public class Bat extends Enemy {
 
     @Override
     protected FixtureDef createFrontAttackFixture() {
-        return null;
+        FixtureDef fdef = new FixtureDef();
+
+        PolygonShape weaponFront = new PolygonShape();
+        weaponFront.set(new Vector2[]{new Vector2(12,-2).scl(1/MyGame.PPM),new Vector2(12,-4).scl(1/MyGame.PPM)
+                ,new Vector2(8,-2).scl(1/MyGame.PPM),new Vector2(8,-4).scl(1/MyGame.PPM)});
+        fdef.shape = weaponFront;
+        fdef.filter.categoryBits=MyGame.ENEMY_MELEE_BIT;
+        fdef.filter.groupIndex=MyGame.GROUP_BULLET;
+        fdef.filter.maskBits=MyGame.PLAYER_BIT;
+        fdef.isSensor=true;
+        return fdef;
     }
 
     @Override
     protected FixtureDef createBackAttackFixture() {
-        return null;
+        FixtureDef fdef = new FixtureDef();
+
+        PolygonShape weaponBack = new PolygonShape();
+        weaponBack.set(new Vector2[]{new Vector2(-12,-2).scl(1/MyGame.PPM),new Vector2(-12,-4).scl(1/MyGame.PPM)
+                ,new Vector2(-8,-2).scl(1/MyGame.PPM),new Vector2(-8,-4).scl(1/MyGame.PPM)});
+        fdef.shape = weaponBack;
+        fdef.filter.categoryBits=MyGame.ENEMY_MELEE_BIT;
+        fdef.filter.groupIndex=MyGame.GROUP_BULLET;
+        fdef.filter.maskBits=MyGame.PLAYER_BIT;
+        fdef.isSensor=true;
+        return fdef;
     }
 
 }

@@ -25,12 +25,10 @@ public class Exit extends TileObject {
     @Override
     public void onHit(Entity entity) {
         if(game.getCurrentPlayScreen() instanceof FirstLevel){
-            game.changeLevel(new SecondLevel(game,game.getCurrentPlayer()));
+            game.changeLevel(new SecondLevel(game,game.getCurrentPlayer(),game.getScore()));
         }
         else if(game.getCurrentPlayScreen() instanceof SecondLevel){
-            game.changeLevel(new ThirdLevel(game,game.getCurrentPlayer()));
-        }else{
-            //TODO: Display credits
+            game.changeLevel(new ThirdLevel(game,game.getCurrentPlayer(),game.getScore()));
         }
     }
 }

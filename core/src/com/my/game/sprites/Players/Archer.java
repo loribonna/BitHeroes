@@ -23,6 +23,7 @@ public class Archer extends Entity {
 
     public Archer(World w, TextureAtlas screenAtlas,Vector2 position,MyGame game) {
         super(w, screenAtlas,position,game);
+        life=150;
     }
 
     @Override

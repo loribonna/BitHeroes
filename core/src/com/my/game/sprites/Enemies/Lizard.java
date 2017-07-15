@@ -54,18 +54,14 @@ public class Lizard extends Enemy {
         frames.add(new TextureRegion(atlas.findRegion("lucertola_walking"),  3, -1, 52, 34));
         frames.add(new TextureRegion(atlas.findRegion("lucertola_walking"),  59, -1, 52, 34));
         frames.add(new TextureRegion(atlas.findRegion("lucertola_walking"),  122, -1, 52, 34));
-        for(TextureRegion frame : frames){
-            frame.flip(true,false);
-        }
+
         runAnimation = new Animation(0.1f, frames);
         frames.clear();
 
         frames.add(new TextureRegion(atlas.findRegion("lucertola_attack"), 5, 4, 36, 47));
         frames.add(new TextureRegion(atlas.findRegion("lucertola_attack"), 47, 4, 36, 47));
         frames.add(new TextureRegion(atlas.findRegion("lucertola_attack"), 87, 4, 36 , 47));
-        for(TextureRegion frame : frames){
-            frame.flip(true,false);
-        }
+
         attackAnimation = new Animation (0.1f, frames);
         frames.clear();
 

@@ -28,8 +28,6 @@ public class Brick extends TileObject {
 
     @Override
     public void onHit(Entity entity) {
-        if(entity.isPlayer) {
-            Gdx.app.log("Head","Brick");
-        }
+
     }
 }

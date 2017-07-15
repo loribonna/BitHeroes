@@ -35,11 +35,12 @@ public class Hud implements Disposable{
     private Label scoreLabel;
     private Label levelLabel;
     private Label gameLabel;
+    private Label lifeLabel;
 
     private Camera guicam;
 
-    public Hud(MyGame game,int level){
-        score = 0;
+    public Hud(MyGame game,int level,int initialScore){
+        score = initialScore;
         guicam=new OrthographicCamera();
         port= new FitViewport(MyGame.V_WIDTH,MyGame.V_HEIGHT,guicam);
         stage = new Stage(port,game.getBatch());
@@ -51,19 +52,28 @@ public class Hud implements Disposable{
         scoreLabel= new Label(String.format("%06d",score),new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         levelLabel= new Label(String.valueOf(level),new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         gameLabel= new Label(game.name,new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        lifeLabel= new Label("",new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
         t.add(gameLabel).expandX().padTop(10);
         t.add(levelLabel).expandX().padTop(10);
         t.row();
         t.add(scoreLabel).expandX();
-
+        t.add(lifeLabel).expandX();
 
         stage.addActor(t);
+    }
+
+    public void setlayerLife(int life){
+        lifeLabel.setText(String.valueOf(life));
     }
 
     public void addCoin(){
         this.score+=100;
         scoreLabel.setText(String.format("%06d",score));
+    }
+
+    public int getScore(){
+        return score;
     }
 
     @Override
