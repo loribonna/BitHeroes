@@ -78,13 +78,6 @@ public class GameOverScreen implements Screen {
                     if(t.isChecked()){
                         dispose();
                         Screen screen;
-                        /*if(game.currentPlayScreen==1){
-                            screen=new FirstLevel(game,game.currentPlayer);
-                        }else if(game.currentPlayScreen==2){
-                            screen=new SecondLevel(game,game.currentPlayer);
-                        }else{
-                            screen=new ThirdLevel(game,game.currentPlayer);
-                        }*/
                         screen = new MenuScreen(game);
                         game.setScreen(screen);
                     }

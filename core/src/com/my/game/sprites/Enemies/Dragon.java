@@ -1,6 +1,7 @@
 package com.my.game.sprites.Enemies;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.my.game.MyGame;
+import com.my.game.screens.MenuScreen;
 import com.my.game.sprites.Throwables.Arrow;
 import com.my.game.sprites.Throwables.DragonBall;
 import com.my.game.tools.Enemy;
@@ -71,6 +73,10 @@ public class Dragon extends Enemy {
         life-=damage;
         if(life<=0){
             //TODO: goto win
+            game.getCurrentPlayScreen().dispose();
+            Screen screen;
+            screen = new MenuScreen(game);
+            game.setScreen(screen);
             destroy();
         }else if(damage>0){
             recoil();

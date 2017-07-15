@@ -43,7 +43,6 @@ public class Coin extends TileObject{
     }
 
     public void getAnimations(TextureAtlas atlas){
-        //TODO: missing animatinos for coin
         Array<TextureRegion> frames = new Array<TextureRegion>();
         frames.add(new TextureRegion(atlas.findRegion("skullcoin_b1").getTexture(), 1, 3, 19, 20));
         frames.add(new TextureRegion(atlas.findRegion("skullcoin_b1").getTexture(), 35, 25, 19, 20));
