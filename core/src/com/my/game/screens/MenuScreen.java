@@ -41,7 +41,7 @@ public class MenuScreen implements Screen {
         stage = new Stage(port);
         Gdx.input.setInputProcessor(stage);
 
-        background=new Texture("schermata finale.png");
+        background=new Texture("schermata_menu.png");
 
         skin = new Skin();
 
@@ -127,7 +127,7 @@ public class MenuScreen implements Screen {
     public void render(float delta) {
         game.getBatch().setProjectionMatrix(camera.combined);
         game.getBatch().begin();
-        game.getBatch().draw(background,0,0);
+        game.getBatch().draw(background,0,0,camera.viewportWidth,camera.viewportHeight);
         game.getBatch().end();
         stage.draw();
 

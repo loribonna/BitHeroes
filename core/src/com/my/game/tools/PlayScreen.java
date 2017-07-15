@@ -52,6 +52,7 @@ public abstract class PlayScreen implements Screen{
     protected TextureAtlas atlLizard;
     protected TextureAtlas atlMummy;
     protected TextureAtlas atlDragon;
+    protected TextureAtlas atlBlob;
     /**
      * Initialize game world and any entity
      * @param game Reference to main game instance
@@ -74,6 +75,10 @@ public abstract class PlayScreen implements Screen{
 
     public int getCurrentScore(){
         return hud.getScore();
+    }
+
+    public TextureAtlas getAtlasBlob() {
+        return this.atlBlob;
     }
 
     public TextureAtlas getAtlasPlayer(){

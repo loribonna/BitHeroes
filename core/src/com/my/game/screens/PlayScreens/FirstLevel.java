@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.my.game.MyGame;
 import com.my.game.screens.Hud;
 import com.my.game.sprites.Enemies.Bat;
+import com.my.game.sprites.Enemies.Blob;
 import com.my.game.sprites.Enemies.Golem;
 import com.my.game.sprites.Players.Archer;
 import com.my.game.sprites.Players.FireBender;
@@ -48,6 +49,7 @@ public class FirstLevel extends PlayScreen {
         atlOrch = new TextureAtlas("orcoP/orc.pack");
         atlBat = new TextureAtlas("pipistrelloP/bat.pack");
         atlGolem = new TextureAtlas("golemP/GolemPack.pack");
+        atlBlob = new TextureAtlas("blobP/blob.pack");
 
         if(player=="warrior") {
             atlPlayer = new TextureAtlas("warriorP/warrior.pack");
@@ -70,7 +72,7 @@ public class FirstLevel extends PlayScreen {
             if (Random==0){
                 enemyList.add(new Orch(world,getAtlasOrch(),new Vector2(rect.getX(),rect.getY()),game));
             }else if(Random==1){
-                enemyList.add(new Bat(world,getAtlasBat(),new Vector2(rect.getX(),rect.getY()),game));
+                enemyList.add(new Blob(world,getAtlasBlob(),new Vector2(rect.getX(),rect.getY()),game));
             }else if(Random==2){
                 enemyList.add(new Golem(world,getAtlasGolem(),new Vector2(rect.getX(),rect.getY()),game));
             }

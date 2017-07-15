@@ -1,0 +1,26 @@
+
+blob.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+blob_attack
+  rotate: false
+  xy: 1, 1
+  size: 185, 44
+  orig: 185, 44
+  offset: 0, 0
+  index: -1
+blob_walking
+  rotate: false
+  xy: 188, 2
+  size: 118, 43
+  orig: 118, 43
+  offset: 0, 0
+  index: -1
+blob
+  rotate: false
+  xy: 308, 12
+  size: 42, 33
+  orig: 42, 33
+  offset: 0, 0
+  index: -1
