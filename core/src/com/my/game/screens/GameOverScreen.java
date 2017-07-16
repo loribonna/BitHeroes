@@ -22,15 +22,20 @@ import com.my.game.tools.PlayScreen;
  */
 
 public class GameOverScreen implements Screen {
-    Stage stage;
-    TextButton buttonExit;
-    TextButton buttonRestart;
-    Skin skin;
-    TextureAtlas buttonAtlas;
-    Viewport port;
-    MyGame game;
-    Camera camera;
-    Texture background;
+    private Stage stage;
+    private TextButton buttonExit;
+    private TextButton buttonRestart;
+    private Skin skin;
+    private TextureAtlas buttonAtlas;
+    private Viewport port;
+    private MyGame game;
+    private Camera camera;
+    private Texture background;
+
+    /**
+     * Display the GameOver screen with the buttons Restart and Exit
+     * @param game
+     */
     public GameOverScreen(final MyGame game){
         this.game=game;
         camera=new OrthographicCamera();
@@ -40,7 +45,7 @@ public class GameOverScreen implements Screen {
 
         skin = new Skin();
 
-        background=new Texture("schermata finale.png");
+        background=new Texture("schermata_game_over.png");
 
         buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttons.pack"));
         skin.addRegions(buttonAtlas);
@@ -96,6 +101,10 @@ public class GameOverScreen implements Screen {
 
     }
 
+    /**
+     * Renders background and buttons(actors) contained in the stage
+     * @param delta
+     */
     @Override
     public void render(float delta) {
         game.getBatch().setProjectionMatrix(camera.combined);

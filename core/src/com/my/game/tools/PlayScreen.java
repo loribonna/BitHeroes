@@ -59,8 +59,8 @@ public abstract class PlayScreen implements Screen{
     protected Music music;
 
     /**
-     * Initialize game world and any entity
-     * @param game Reference to main game instance
+     * Initialize game world and play game music.
+     * @param game: Reference to main game instance
      */
     public PlayScreen(MyGame game){
         this.game=game;
@@ -77,51 +77,81 @@ public abstract class PlayScreen implements Screen{
         animatedTileObjects=new ArrayList<TileObject>();
         bullets=new ArrayList<Bullet>();
 
-        music = game.manager.get("sounds/musica.wav",Music.class);
+        music = game.getManager().get("sounds/musica.wav",Music.class);
         music.setLooping(true);
         music.play();
     }
 
+    /**
+     * @return current score from the hud
+     */
     public int getCurrentScore(){
         return hud.getScore();
     }
 
+    /**
+     * @return blob TextureAtlas
+     */
     public TextureAtlas getAtlasBlob() {
         return this.atlBlob;
     }
 
+    /**
+     * @return player TextureAtlas
+     */
     public TextureAtlas getAtlasPlayer(){
         return this.atlPlayer;
     }
 
+    /**
+     * @return orch TextureAtlas
+     */
     public TextureAtlas getAtlasOrch(){
         return this.atlOrch;
     }
 
+    /**
+     * @return skeleton TextureAtlas
+     */
     public TextureAtlas getAtlasSkeleton(){
         return this.atlSkeleton;
     }
 
+    /**
+     * @return bat TextureAtlas
+     */
     public TextureAtlas getAtlasBat(){
         return this.atlBat;
     }
 
+    /**
+     * @return golem TextureAtlas
+     */
     public TextureAtlas getAtlasGolem(){
         return this.atlGolem;
     }
 
+    /**
+     * @return lizard TextureAtlas
+     */
     public TextureAtlas getAtlasLizard(){
         return this.atlLizard;
     }
 
+    /**
+     * @return mummy TextureAtlas
+     */
     public TextureAtlas getAtlasMummy(){
         return this.atlMummy;
     }
 
+    /**
+     * @return dragon TextureAtlas
+     */
     public TextureAtlas getAtlasDragon(){ return this.atlDragon; }
 
     /**
-     * Add a bullet in the current world.
+     * Add a bullet in the bullet list
      * @param bullet
      */
     public void addBullet(Bullet bullet){
@@ -129,7 +159,7 @@ public abstract class PlayScreen implements Screen{
     }
 
     /**
-     * Process Inputs from Keyboard or Touch
+     * Process Inputs from Keyboard
      * @param dt: Current DeltaTime between frame calls
      */
     public void handleInput(float dt){
@@ -159,14 +189,14 @@ public abstract class PlayScreen implements Screen{
     }
 
     /**
-     * Perform current player jump
+     * Makes the current player jump
      */
     public void playerJump(){
         player.body.applyLinearImpulse(new Vector2(0,4f),player.body.getWorldCenter(),true);
     }
 
     /**
-     * @return: Current player body position.
+     * @return current player body position.
      */
     public Vector2 getPlayerPosition(){
         return player.getPosition();
@@ -174,7 +204,8 @@ public abstract class PlayScreen implements Screen{
 
     /**
      * This method is called once every frame call.
-     * Update Entities and AnimatedTileObject actions and animations.
+     * Draws the animations for the Entities and TileObjects.
+     * Draw the hud and current camera view.
      * @param delta: Current DeltaTime between this frame call and the previous.
      */
     @Override
@@ -201,17 +232,20 @@ public abstract class PlayScreen implements Screen{
             player.draw(game.getBatch());
             game.getBatch().end();
 
-            game.getBatch().setProjectionMatrix(hud.stage.getCamera().combined);
-            hud.stage.draw();
+            hud.getStage().draw();
         }
     }
 
+    /**
+     * Increase the score in the add of the value of a coin
+     */
     public void addCoin(){
         hud.addCoin();
     }
 
     /**
-     * Udate Entity and TiledObject. Handle player inputs.
+     * Update Entities and AnimatedTileObject actions and animations.
+     * Handle player input and clean object to dispose.
      * @param dt: Current DeltaTime between frame calls.
      */
     public void update(float dt) {
@@ -232,7 +266,7 @@ public abstract class PlayScreen implements Screen{
             tileObject.update(dt);
         }
 
-        hud.setlayerLife(player.getLife());
+        hud.setPlayerLife(player.getLife());
 
         world.step(1 / 60f, 6, 2);
 
@@ -254,8 +288,10 @@ public abstract class PlayScreen implements Screen{
 
     /**
      * Since LibGdx doesn't like if a body gets removed inside world simulation,
-     * this must be done outside. Check if body has flag "isFlaggedForDelete" and remove
-     * bodies awaiting for deletion.
+     * this must be done outside.
+     * Check bodies in current world and in bodiesToRemove list.
+     * In the first case the body gets removed if has a flag for deletion.
+     * In the second case the object gets removed from the update list.
      */
     public void sweepDeadBodies() {
         Array<Body> bodies = new Array<Body>();
@@ -319,7 +355,7 @@ public abstract class PlayScreen implements Screen{
     }
 
     /**
-     * Dispose all enemies and objects.
+     * Flags all bodies in the current world and dispose used resources.
      */
     @Override
     public void dispose() {

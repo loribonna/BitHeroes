@@ -27,18 +27,24 @@ import com.my.game.screens.PlayScreens.SecondLevel;
  */
 
 public class Hud implements Disposable{
-    public Stage stage;
+    /**
+     * The stage that will be displayed in the current playing screen
+     */
+    private Stage stage;
     public Viewport port;
-
     private int score;
-
     private Label scoreLabel;
     private Label levelLabel;
     private Label gameLabel;
     private Label lifeLabel;
-
     private Camera guicam;
 
+    /**
+     * Create a hud with a own camera to dislay above the current playing screen.
+     * @param game
+     * @param level: Current playing level
+     * @param initialScore: Value to initialize scores.
+     */
     public Hud(MyGame game,int level,int initialScore){
         score = initialScore;
         guicam=new OrthographicCamera();
@@ -63,19 +69,39 @@ public class Hud implements Disposable{
         stage.addActor(t);
     }
 
-    public void setlayerLife(int life){
+    /**
+     * @return current stage
+     */
+    public Stage getStage(){
+        return stage;
+    }
+
+    /**
+     * Display player's current life.
+     * @param life
+     */
+    public void setPlayerLife(int life){
         lifeLabel.setText(String.valueOf(life));
     }
 
+    /**
+     * Increase current score value of the value of a coin
+     */
     public void addCoin(){
         this.score+=100;
         scoreLabel.setText(String.format("%06d",score));
     }
 
+    /**
+     * @return Current displaying scores
+     */
     public int getScore(){
         return score;
     }
 
+    /**
+     * Dispose current stage
+     */
     @Override
     public void dispose() {
         stage.dispose();

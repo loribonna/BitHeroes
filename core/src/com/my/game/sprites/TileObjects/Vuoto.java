@@ -15,18 +15,28 @@ import com.my.game.tools.TileObject;
  */
 
 public class Vuoto extends TileObject {
-    public Vuoto(World world, TiledMap map, Rectangle rect,MyGame game) {
-        super(world, map, rect,game);
+    /**
+     * Create a Vuoto TileObject
+     * @param world
+     * @param rect
+     * @param game
+     */
+    public Vuoto(World world, Rectangle rect,MyGame game) {
+        super(world, rect,game);
         setCategoryBits(MyGame.VOID_BIT);
     }
 
     @Override
     public void update(float delta) {}
 
-
+    /**
+     * If the player touches the void gets game over.
+     * If a enemy touches the void gets destroyed.
+     * @param entity: Enemy or Player
+     */
     @Override
     public void onHit(Entity entity) {
-        if(!entity.isPlayer) {
+        if(!entity.isPlayer()) {
             entity.destroy();
         }else{
             game.getCurrentPlayScreen().gameOver();

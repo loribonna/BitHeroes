@@ -15,12 +15,18 @@ import com.my.game.MyGame;
 
 public class WorldContactListener implements ContactListener {
     private MyGame game;
+
+    /**
+     * Create the listener for every collision event.
+     * @param game
+     */
     public WorldContactListener(MyGame game){
         this.game=game;
     }
 
     /**
-     * Control all collisions between fixtures in the screen.
+     * Handles all collisions between fixtures in the screen.
+     * Controls fixture filterBits to check the Entity, Bullet or TileObject type
      * @param contact
      */
     @Override
@@ -33,24 +39,36 @@ public class WorldContactListener implements ContactListener {
         Fixture fixEnemyBullet = null;
         Fixture fixEnemyMelee = null;
 
+        /**
+         * Control if one of the fixtures are the Player fixture
+         */
         if (contact.getFixtureA() != null && contact.getFixtureA().getFilterData().categoryBits== MyGame.PLAYER_BIT) {
             fixPlayer = contact.getFixtureA();
         } else if (contact.getFixtureB() != null &&contact.getFixtureB().getFilterData().categoryBits== MyGame.PLAYER_BIT) {
             fixPlayer = contact.getFixtureB();
         }
 
+        /**
+         * Control if one of the fixtures are the EnemyMelee fixture
+         */
         if (contact.getFixtureA() != null && contact.getFixtureA().getFilterData().categoryBits== MyGame.ENEMY_MELEE_BIT) {
             fixEnemyMelee = contact.getFixtureA();
         } else if (contact.getFixtureB() != null &&contact.getFixtureB().getFilterData().categoryBits== MyGame.ENEMY_MELEE_BIT) {
             fixEnemyMelee = contact.getFixtureB();
         }
 
+        /**
+         * Control if one of the fixtures are the PlayerMelee fixture
+         */
         if (contact.getFixtureA() != null && contact.getFixtureA().getFilterData().categoryBits== MyGame.PLAYER_MELEE_BIT) {
             fixPlayerMelee = contact.getFixtureA();
         } else if (contact.getFixtureB() != null &&contact.getFixtureB().getFilterData().categoryBits== MyGame.PLAYER_MELEE_BIT) {
             fixPlayerMelee = contact.getFixtureB();
         }
 
+        /**
+         * Control if one of the fixtures are the EnemyBullet fixture or the PlayerButton fixture
+         */
         if (contact.getFixtureA() != null && contact.getFixtureA().getUserData() instanceof Bullet){
             if(contact.getFixtureA().getFilterData().categoryBits== MyGame.PLAYER_BULLET_BIT) {
                 fixPlayerBullet = contact.getFixtureA();
@@ -65,18 +83,27 @@ public class WorldContactListener implements ContactListener {
             }
         }
 
+        /**
+         * Control if one of the fixtures are the Enemy fixture
+         */
         if (contact.getFixtureA() != null && contact.getFixtureA().getFilterData().categoryBits== MyGame.ENEMY_BIT) {
             fixEnemy = contact.getFixtureA();
         } else if (contact.getFixtureB() != null &&contact.getFixtureB().getFilterData().categoryBits== MyGame.ENEMY_BIT) {
             fixEnemy = contact.getFixtureB();
         }
 
+        /**
+         * Control if one of the fixtures are the TileObject fixture
+         */
         if (contact.getFixtureA() != null && contact.getFixtureA().getUserData() instanceof TileObject) {
             fixObject = contact.getFixtureA();
         } else if (contact.getFixtureB() != null &&contact.getFixtureB().getUserData() instanceof TileObject) {
             fixObject = contact.getFixtureB();
         }
 
+        /**
+         * Handle collision with Player and something else
+         */
         if(fixPlayer!=null) {
             if (fixObject != null) {
                 if(fixPlayer.getUserData() instanceof Entity)
@@ -84,7 +111,7 @@ public class WorldContactListener implements ContactListener {
             }
 
             if(fixEnemyBullet!=null){
-                game.getCurrentPlayScreen().player.hit(((Bullet) fixEnemyBullet.getUserData()).damage);
+                game.getCurrentPlayScreen().player.hit(((Bullet) fixEnemyBullet.getUserData()).getDamage());
                 ((Bullet) fixEnemyBullet.getUserData()).dispose();
             }else if(fixEnemyMelee!=null){
                 game.getCurrentPlayScreen().player.hit((Integer) fixEnemyMelee.getUserData());
@@ -92,10 +119,13 @@ public class WorldContactListener implements ContactListener {
             }
         }
 
+        /**
+         * Handle collision with Enemy and something else
+         */
         if (fixEnemy!=null) {
             if(fixPlayer!=null) {
                 if (fixPlayer.getUserData().toString().contains("feet")) {
-                    if (!((Enemy) fixEnemy.getUserData()).isInvulnerable()&&!((Enemy) fixEnemy.getUserData()).isFlying) {
+                    if (!((Enemy) fixEnemy.getUserData()).isInvulnerable()&&!((Enemy) fixEnemy.getUserData()).isFlying()) {
                         game.getCurrentPlayScreen().player.body.applyLinearImpulse(
                                 new Vector2(0, (-game.getCurrentPlayScreen().player.body.getLinearVelocity().y) + 3),
                                 game.getCurrentPlayScreen().player.body.getWorldCenter(), true
@@ -107,7 +137,7 @@ public class WorldContactListener implements ContactListener {
             }else if(fixObject!=null){
                 ((TileObject) fixObject.getUserData()).onHit(((Enemy)fixEnemy.getUserData()));
             }else if(fixPlayerBullet!=null){
-                ((Enemy) fixEnemy.getUserData()).hit(((Bullet) fixPlayerBullet.getUserData()).damage);
+                ((Enemy) fixEnemy.getUserData()).hit(((Bullet) fixPlayerBullet.getUserData()).getDamage());
                 ((Bullet) fixPlayerBullet.getUserData()).dispose();
             }else if(fixPlayerMelee!=null){
                 ((Enemy) fixEnemy.getUserData()).hit((Integer) fixPlayerMelee.getUserData());
@@ -115,6 +145,9 @@ public class WorldContactListener implements ContactListener {
             }
         }
 
+        /**
+         * Handle collision with enemy and player bullets and the ground
+         */
         if(fixPlayerBullet!=null){
             ((Bullet) fixPlayerBullet.getUserData()).dispose();
         }

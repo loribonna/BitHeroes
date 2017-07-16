@@ -12,16 +12,20 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.my.game.screens.FirstScreen;
+import com.my.game.tools.Interfaces.EntityInterface;
 import com.my.game.tools.PlayScreen;
 
 public class MyGame extends Game {
-	//
-	private SpriteBatch batch;
-	private String currentPlayer;
-	private PlayScreen currentPlayScreen;
-	public AssetManager manager;
 
-	public static String name = "Bit Heroes";
+	/*
+	* It's convenient to have only one SpriteBatch and reference to it
+	*/
+	private SpriteBatch batch;
+	private EntityInterface.PlayerName currentPlayer;
+	private PlayScreen currentPlayScreen;
+	private AssetManager manager;
+
+	public static final String name = "Bit Heroes";
 	public static final float V_WIDTH = 400;
 	public static final float V_HEIGHT = 208;
 	public static final float PPM = 100;
@@ -45,10 +49,8 @@ public class MyGame extends Game {
 	public static final short PLAYER_MELEE_BIT = 1024;
 	public static final short ENEMY_MELEE_BIT = 2048;
 
-
-
 	/**
-	 * Initialize game scenes and SpriteBatch
+	 * Initialize game scenes, SpriteBatch and manager for audio clips
 	 */
 	@Override
 	public void create () {
@@ -61,43 +63,84 @@ public class MyGame extends Game {
 		setScreen(new FirstScreen(this));
 	}
 
+	/**
+	 * @return current asset manager
+	 */
+	public AssetManager getManager(){
+		return manager;
+	}
+
+	/**
+	 * @return currentPlayScreen
+	 */
 	public PlayScreen getCurrentPlayScreen(){
 		return this.currentPlayScreen;
 	}
 
+	/**
+	 * Sets currentPlayScreen
+	 * @param level
+	 */
 	public void setCurrentPlayScreen(PlayScreen level){
 		this.currentPlayScreen=level;
 	}
 
+	/**
+	 * Sets the current playing level.
+	 * @param level
+	 */
 	public void changeLevel(PlayScreen level){
 		setScreen(level);
 	}
 
+	/**
+	 * @return current score from the currentPlayScreen hud.
+	 */
 	public int getScore(){
 		return getCurrentPlayScreen().getCurrentScore();
 	}
 
-	public void setCurrentPlayer(String player){
+	/**
+	 * Sets currentPlayer string name
+	 * @param player
+	 */
+	public void setCurrentPlayer(EntityInterface.PlayerName player){
 		this.currentPlayer=player;
 	}
 
-	public String getCurrentPlayer(){
+	/**
+	 * @return currentPlayer string name
+	 */
+	public EntityInterface.PlayerName getCurrentPlayer(){
 		return this.currentPlayer;
 	}
 
+	/**
+	 * @return global SpriteBatch
+	 */
 	public SpriteBatch getBatch(){
 		return this.batch;
 	}
 
+	/**
+	 * Mark the object obj for sweep in currentPlayScreen and dispose it
+	 * @param obj
+	 */
 	public void removeObject(Object obj){
 		this.currentPlayScreen.objectsToRemove.add(obj);
 	}
 
+	/**
+	 * Calls the ApplicationListener render method to render the application
+	 */
 	@Override
 	public void render () {
 		super.render();
 	}
-	
+
+	/**
+	 * Called when the application is destroyed
+	 */
 	@Override
 	public void dispose () {
 		batch.dispose();

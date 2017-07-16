@@ -12,27 +12,27 @@ public interface TileObjectInterface {
      * Create body and set position on the current position rect.
      * Create fixture around the body.
      */
-    public void define();
+    void define();
+
     /**
-     * Set filter bits to trigger collisions in the current Fixture.
+     * Set filter bits to trigger collisions with other fixtures.
      * @param filterBits
      */
-    public void setCategoryBits(short filterBits);
+    void setCategoryBits(short filterBits);
+
     /**
-    * @param entity: If String is the contact point with player, else is Enemy.
-    */
-    public void onHit(Entity entity);
-    /**
-     * Get tile cell coordinate by scaling up and dividing by the tile size.
-     * @return Tile Cell Coordinate.
+     * Called from WorldContactListener when hit
+     * @param entity: Enemy or Player
      */
-    public TiledMapTileLayer.Cell getCell();
+    void onHit(Entity entity);
+
     /**
-     * Remove current body fixtures.
+     * Update object frames and position of the TileObject
      */
-    public void dispose();
+    void update(float delta);
+
     /**
-     * Update object frames and position if the TileObject has animations.
+     * Remove object and body
      */
-    public abstract void update(float delta);
+    void dispose();
 }

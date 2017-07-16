@@ -32,16 +32,27 @@ import java.awt.geom.RectangularShape;
  */
 
 public class Coin extends TileObject{
-    Animation round;
-    float stateTimer;
-    TextureAtlas atl;
-    public Coin(World world, TiledMap map, Ellipse ell,MyGame game) {
-        super(world, map, ell,game);
+    private Animation round;
+    private float stateTimer;
+    private TextureAtlas atl;
+
+    /**
+     * Create a Coin TileObject
+     * @param world
+     * @param ell
+     * @param game
+     */
+    public Coin(World world, Ellipse ell,MyGame game) {
+        super(world, ell,game);
         setCategoryBits(MyGame.COIN_BIT);
         atl=new TextureAtlas("coinP/coin.pack");
         getAnimations(atl);
     }
 
+    /**
+     * Import coin-specific animations from the Coin atlas.
+     * @param atlas
+     */
     public void getAnimations(TextureAtlas atlas){
         Array<TextureRegion> frames = new Array<TextureRegion>();
         frames.add(new TextureRegion(atlas.findRegion("skullcoin_b1"), 1, 3, 19, 20));
@@ -53,6 +64,10 @@ public class Coin extends TileObject{
         stateTimer = 0;
     }
 
+    /**
+     * @param dt
+     * @return current displaying frame for the given delta time
+     */
     public TextureRegion getFrame(float dt){
         TextureRegion region;
         region = (TextureRegion)round.getKeyFrame(stateTimer, true);
@@ -61,11 +76,18 @@ public class Coin extends TileObject{
         return region;
     }
 
+    /**
+     * Update position and animation of the Coin
+     * @param delta
+     */
     public void update(float delta){
         setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
         setRegion(getFrame(delta));
     }
 
+    /**
+     * Create body and shape with the fixture to collide with the player
+     */
     @Override
     public void define(){
         BodyDef bdef = new BodyDef();
@@ -84,12 +106,13 @@ public class Coin extends TileObject{
     }
 
     /**
-     *
-     * @param entity: If String is the contact point with player, else is Enemy.
+     * Increase the coin count in the hud when the player touches the coin.
+     * Destroy current coin object
+     * @param entity
      */
     @Override
     public void onHit(Entity entity) {
-        if(entity.isPlayer) {
+        if(entity.isPlayer()) {
             setCategoryBits(MyGame.NOTHING_BIT);
             game.removeObject(this);
             body.setUserData(true);

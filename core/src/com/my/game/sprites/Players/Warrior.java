@@ -25,11 +25,22 @@ import com.my.game.tools.Entity;
 
 public class Warrior extends Entity {
 
-    public Warrior(World w, TextureAtlas screenAtlas,Vector2 position,MyGame game) {
-        super(w, screenAtlas,position,game);
+    /**
+     * Create a Archer Warrior with player controls
+     * @param world
+     * @param screenAtlas
+     * @param position
+     * @param game
+     */
+    public Warrior(World world, TextureAtlas screenAtlas,Vector2 position,MyGame game) {
+        super(world, screenAtlas,position,game);
         life=200;
     }
 
+    /**
+     * Import enity-specific animations from the Warrior atlas.
+     * @param atlas
+     */
     @Override
     public void getAnimations(TextureAtlas atlas) {
         standAnimation = new TextureRegion(atlas.findRegion("warrior_idle"), 0, 0, 14, 16);
@@ -53,12 +64,19 @@ public class Warrior extends Entity {
         frames.clear();
     }
 
+    /**
+     * Update current state and animations.
+     * @param delta
+     */
     @Override
     public void update(float delta) {
         setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
         setRegion(getFrame(delta));
     }
 
+    /**
+     * Perform shake movement after hit.
+     */
     @Override
     public void recoil() {
         if(currentState!=State.JUMP) {
@@ -66,11 +84,18 @@ public class Warrior extends Entity {
         }
     }
 
+    /**
+     * If the player gets destroyed the game is over
+     */
     @Override
     public void destroy() {
         game.getCurrentPlayScreen().gameOver();
     }
 
+    /**
+     * Get player filter bits to set collisions.
+     * @return
+     */
     @Override
     public Filter getFilter() {
         Filter f = new Filter();
@@ -81,6 +106,9 @@ public class Warrior extends Entity {
         return f;
     }
 
+    /**
+     * Set fixtures in the current body.
+     */
     @Override
     public void createBorders() {
         FixtureDef fdef = new FixtureDef();
@@ -103,6 +131,9 @@ public class Warrior extends Entity {
 
     }
 
+    /**
+     * Replace the first attack with a melee attack
+     */
     @Override
     public void firstAttack() {
         currentState = State.ATTACK;
@@ -146,46 +177,5 @@ public class Warrior extends Entity {
             }
         }, attackAnimation.getAnimationDuration() / 2);
     }
-
-    @Override
-    public void secondAttack() {
-        lockAttack=false;
-    }
-
-    @Override
-    public void specialAttack() {
-        lockAttack=false;
-    }
-
-    @Override
-    protected FixtureDef createFrontAttackFixture() {
-        FixtureDef fdef = new FixtureDef();
-
-        PolygonShape weaponFront = new PolygonShape();
-        weaponFront.set(new Vector2[]{new Vector2(12,-2).scl(1/MyGame.PPM),new Vector2(12,-4).scl(1/MyGame.PPM)
-                ,new Vector2(8,-2).scl(1/MyGame.PPM),new Vector2(8,-4).scl(1/MyGame.PPM)});
-        fdef.shape = weaponFront;
-        fdef.filter.categoryBits=MyGame.PLAYER_MELEE_BIT;
-        fdef.filter.groupIndex=MyGame.GROUP_BULLET;
-        fdef.filter.maskBits=MyGame.ENEMY_BIT;
-        fdef.isSensor=true;
-        return fdef;
-    }
-
-    @Override
-    protected FixtureDef createBackAttackFixture() {
-        FixtureDef fdef = new FixtureDef();
-
-        PolygonShape weaponBack = new PolygonShape();
-        weaponBack.set(new Vector2[]{new Vector2(-12,-2).scl(1/MyGame.PPM),new Vector2(-12,-4).scl(1/MyGame.PPM)
-                ,new Vector2(-8,-2).scl(1/MyGame.PPM),new Vector2(-8,-4).scl(1/MyGame.PPM)});
-        fdef.shape = weaponBack;
-        fdef.filter.categoryBits=MyGame.PLAYER_MELEE_BIT;
-        fdef.filter.groupIndex=MyGame.GROUP_BULLET;
-        fdef.filter.maskBits=MyGame.ENEMY_BIT;
-        fdef.isSensor=true;
-        return fdef;
-    }
-
 
 }

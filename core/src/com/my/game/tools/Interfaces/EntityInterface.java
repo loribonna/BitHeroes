@@ -3,13 +3,21 @@ package com.my.game.tools.Interfaces;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Filter;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 /**
  * Created by lorib on 11/05/2017.
  */
 
 public interface EntityInterface {
-    public static enum State {
+    enum PlayerName {
+        WARRIOR,
+        ARCHER,
+        FIREBENDER
+    }
+
+    enum State {
         FALL,
         ATTACK,
         STAND,
@@ -18,16 +26,99 @@ public interface EntityInterface {
         THROW,
         SPECIAL
     }
-    public static enum AttackType {
+    enum AttackType {
         FIRST,
         SECOND,
         SPECIAL
     }
 
-    public void update(float delta);
-    public TextureRegion getFrame(float dt);
+    /**
+     * Import enity-specific animations from the atlas.
+     * @param atlas
+     */
+    public abstract void getAnimations(TextureAtlas atlas);
+
+    /**
+     * Get current entity filter to set collisions.
+     * @return
+     */
+    Filter getFilter();
+
+    /**
+     * Update position, target (if enemy) and animation.
+     * @param delta
+     */
+    void update(float delta);
+
+    /**
+     * Process hit event.
+     * @param damage
+     */
+    void hit(int damage);
+
+    /**
+     * Perform some action after Hit event.
+     */
+    void recoil();
+
+    /**
+     * Destroy current body and fixtures.
+     */
+    void destroy();
+
+    /**
+     * @param dt
+     * @return current frame of animation based on the current state.
+     */
+    TextureRegion getFrame(float dt);
+
+    /**
+     * @return: new state based on the action being performed and movement of the body.
+     */
     public State getState();
-    public void define(Vector2 position);
-    public void hit(int damage);
-    public void getAnimations(TextureAtlas atlas);
+
+    /**
+     * Create the body of the entity in the given position in the world.
+     * @param position
+     */
+    void define(Vector2 position);
+
+    /**
+     * Set fixtures in the current body.
+     */
+    void createBorders();
+
+    /**
+     * Perform entity primary attack. Default is nothing.
+     */
+    void firstAttack();
+
+    /**
+     * Perform entity secondary attack. Default is nothing.
+     */
+    void secondAttack();
+
+    /**
+     * Perform entity's special attack. Default is nothing.
+     */
+    void specialAttack();
+
+    /**
+     * Perform attack based on the attackType parameter.
+     * Control if lockAttack is released before perform another attack.
+     * @param attackType
+     */
+    void throwAttack(AttackType attackType);
+
+    /**
+     * Create fixture to trigger collision for Melee attack if the body is flipped.
+     * @return
+     */
+    FixtureDef createBackAttackFixture();
+
+    /**
+     * Create fixture to trigger collision for Melee attack if the attack is front
+     * @return
+     */
+    FixtureDef createFrontAttackFixture();
 }

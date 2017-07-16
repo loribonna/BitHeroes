@@ -16,26 +16,56 @@ import com.my.game.MyGame;
 public abstract class Enemy extends Entity{
     protected enum direction{right,left,stop,up};
     protected float attackRange=0.18f;
+    protected float minPlayerDistance=0.1f;
     protected float maxMoveRange=1.5f;
     protected boolean disableJump=false;
     protected float minHeight=0.1f;
     protected direction XDirection=direction.stop;
     protected direction YDirection=direction.stop;
-    public boolean isFlying=false;
+    protected boolean isFlying=false;
 
-    public Enemy(World w, TextureAtlas screenAtlas, Vector2 position,MyGame game) {
-        super(w, screenAtlas, position, game);
+    /**
+     * Initialize enemy variables and disable body. It will be activated when the player gets close.
+     * @param world
+     * @param screenAtlas
+     * @param position
+     * @param game
+     */
+    public Enemy(World world, TextureAtlas screenAtlas, Vector2 position,MyGame game) {
+        super(world, screenAtlas, position, game);
         isPlayer=false;
         body.setActive(false);
 
     }
 
+    /**
+     * Perform a distance attack if the player is too far
+     */
     protected abstract void distanceAttack();
 
+    /**
+     * Set fliying flag
+     * @param isFlying
+     */
+    public void setFlying(boolean isFlying){
+        this.isFlying=isFlying;
+    }
+
+    /**
+     * @return true if entity is performing a jump
+     */
+    public boolean isFlying(){
+        return isFlying;
+    }
+
+    /**
+     * Perform a melee attack when the player is close enough
+     */
     protected abstract void meleeAttack();
 
     /**
-     * Set current target based on Player position in the current PlayScreen
+     * Set current target based on Player position in the current PlayScreen.
+     * If the Player gets close the enemy gets activated.
      */
     protected void setTarget(){
         Vector2 targetPlayer = game.getCurrentPlayScreen().getPlayerPosition();
@@ -47,17 +77,40 @@ public abstract class Enemy extends Entity{
             if(!body.isActive()) {
                 body.setActive(true);
             }
+            if(Math.abs(dx)>Math.abs(minPlayerDistance)){
+                if(dx>attackRange){
+                    throwAttack(AttackType.SECOND);
+                    XDirection=direction.right;
+                }else if(dx<-attackRange) {
+                    throwAttack(AttackType.SECOND);
+                    XDirection = direction.left;
+                }else if(dy>-attackRange&&dy<attackRange){
+                    XDirection=direction.stop;
+                    throwAttack(AttackType.FIRST);
+                }
+            }else{
+                if(dy>-attackRange&&dy<attackRange) {
+                    throwAttack(AttackType.SECOND);
+                }
 
-            if(dx>attackRange){
-                throwAttack(AttackType.SECOND);
-                XDirection=direction.right;
-            }else if(dx<-attackRange) {
-                throwAttack(AttackType.SECOND);
-                XDirection = direction.left;
-            }else if(dy>-attackRange&&dy<attackRange){
-                XDirection=direction.stop;
-                throwAttack(AttackType.FIRST);
+                if(dx>0)
+                {
+                    if(isFlipX()){
+                        XDirection=direction.right;
+                    }else{
+                        XDirection=direction.stop;
+                    }
+                }else{
+                    if(!isFlipX()){
+                        XDirection=direction.left;
+                    }else{
+                        XDirection=direction.stop;
+                    }
+                }
+
             }
+
+
         }else{
             XDirection=direction.stop;
         }
@@ -69,6 +122,11 @@ public abstract class Enemy extends Entity{
         }
     }
 
+    /**
+     * Perform Artificial-Intelligence controls to set movements and attacks.
+     * Update current state and animations.
+     * @param delta
+     */
     @Override
     public void update(float delta) {
         if(!dead) {
@@ -100,6 +158,9 @@ public abstract class Enemy extends Entity{
         }
     }
 
+    /**
+     * Perform shake movement after hit.
+     */
     @Override
     public void recoil(){
         if(isFlipX())
@@ -107,6 +168,10 @@ public abstract class Enemy extends Entity{
         else body.applyLinearImpulse(new Vector2(-0.2f,1),body.getWorldCenter(),true);
     }
 
+    /**
+     * Get enemy filter bits to set collisions.
+     * @return
+     */
     @Override
     public Filter getFilter() {
         Filter f = new Filter();
@@ -117,6 +182,9 @@ public abstract class Enemy extends Entity{
         return f;
     }
 
+    /**
+     * Destroy current body and fixtures.
+     */
     @Override
     public void destroy(){
         dead=true;
@@ -124,6 +192,9 @@ public abstract class Enemy extends Entity{
         game.removeObject(this);
     }
 
+    /**
+     * Set fixtures in the current body.
+     */
     @Override
     public void createBorders() {
         FixtureDef fdef = new FixtureDef();

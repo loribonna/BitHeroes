@@ -1,8 +1,6 @@
 package com.my.game.screens.PlayScreens;
 
 import static com.badlogic.gdx.math.MathUtils.random;
-
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -20,6 +18,7 @@ import com.my.game.sprites.Players.FireBender;
 import com.my.game.sprites.Enemies.Orch;
 import com.my.game.sprites.Players.Warrior;
 import com.my.game.tools.*;
+import com.my.game.tools.Interfaces.EntityInterface;
 import com.my.game.tools.PlayScreen;
 
 /**
@@ -29,11 +28,13 @@ import com.my.game.tools.PlayScreen;
 public class FirstLevel extends PlayScreen {
 
     /**
-     * Initialize game world and any entity
-     *
-     * @param game Reference to main game instance
+     * Initialize game world and any every entity. Sets initial score.
+     * Enemies are created randomly in positions defined in the level map.
+     * @param game
+     * @param player
+     * @param score
      */
-    public FirstLevel(final MyGame game,String player,int score) {
+    public FirstLevel(final MyGame game, EntityInterface.PlayerName player, int score) {
         super(game);
         hud=new Hud(game,1,score);
         game.setCurrentPlayScreen(this);
@@ -51,15 +52,15 @@ public class FirstLevel extends PlayScreen {
         atlGolem = new TextureAtlas("golemP/GolemPack.pack");
         atlBlob = new TextureAtlas("blobP/blob.pack");
 
-        if(player=="warrior") {
+        if(player==EntityInterface.PlayerName.WARRIOR) {
             atlPlayer = new TextureAtlas("warriorP/warrior.pack");
             this.player = new Warrior(world, getAtlasPlayer(), new Vector2(100, 64),game);
         }
-        if(player=="archer") {
+        if(player==EntityInterface.PlayerName.ARCHER) {
             atlPlayer = new TextureAtlas("archerP/archer.pack");
             this.player = new Archer(world, getAtlasPlayer(), new Vector2(100, 64),game);
         }
-        if(player=="firebender") {
+        if(player==EntityInterface.PlayerName.FIREBENDER) {
             atlPlayer = new TextureAtlas("aceP/ace.pack");
             this.player = new FireBender(world, getAtlasPlayer(), new Vector2(100, 64),game);
         }

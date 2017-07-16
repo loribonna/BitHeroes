@@ -21,10 +21,21 @@ import com.my.game.tools.Entity;
 
 public class FireBender extends Entity {
 
-    public FireBender(World w, TextureAtlas screenAtlas, Vector2 position,MyGame game) {
-        super(w, screenAtlas,position,game);
+    /**
+     * Create a FireBender Entity with player controls
+     * @param world
+     * @param screenAtlas
+     * @param position
+     * @param game
+     */
+    public FireBender(World world, TextureAtlas screenAtlas, Vector2 position,MyGame game) {
+        super(world, screenAtlas,position,game);
     }
 
+    /**
+     * Import enity-specific animations from the FireBender atlas.
+     * @param atlas
+     */
     @Override
     public void getAnimations(TextureAtlas atlas) {
         standAnimation = new TextureRegion(atlas.findRegion("ace_walking"), 0, 0, 27, 43);
@@ -49,12 +60,19 @@ public class FireBender extends Entity {
         frames.clear();
     }
 
+    /**
+     * Update current state and animations.
+     * @param delta
+     */
     @Override
     public void update(float delta) {
         setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
         setRegion(getFrame(delta));
     }
 
+    /**
+     * Perform shake movement after hit.
+     */
     @Override
     public void recoil() {
         if(currentState!=State.JUMP) {
@@ -62,25 +80,25 @@ public class FireBender extends Entity {
         }
     }
 
+    /**
+     * If the player gets destroyed the game is over
+     */
     @Override
     public void destroy() {
         game.getCurrentPlayScreen().gameOver();
     }
 
-    protected void throwBullet() {
+    /**
+     * Add a bullet in the currentPlayScreen
+     */
+    private void throwBullet() {
         game.getCurrentPlayScreen().addBullet(new FireBall(getPosition(), world, isFlipX(),true,game));
     }
 
-    @Override
-    protected FixtureDef createFrontAttackFixture() {
-        return null;
-    }
-
-    @Override
-    protected FixtureDef createBackAttackFixture() {
-        return null;
-    }
-
+    /**
+     * Get player filter bits to set collisions.
+     * @return
+     */
     @Override
     public Filter getFilter() {
         Filter f = new Filter();
@@ -91,6 +109,9 @@ public class FireBender extends Entity {
         return f;
     }
 
+    /**
+     * Set fixtures in the current body.
+     */
     @Override
     public void createBorders() {
         FixtureDef fdef = new FixtureDef();
@@ -113,6 +134,9 @@ public class FireBender extends Entity {
 
     }
 
+    /**
+     * Replace the first attack with a distance attack
+     */
     @Override
     public void firstAttack() {
         currentState = State.THROW;
@@ -134,15 +158,5 @@ public class FireBender extends Entity {
             }
         },throwAnimation.getAnimationDuration()/2);
 
-    }
-
-    @Override
-    public void secondAttack() {
-        lockAttack=false;
-    }
-
-    @Override
-    public void specialAttack() {
-        lockAttack=false;
     }
 }

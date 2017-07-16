@@ -24,22 +24,40 @@ import com.my.game.tools.*;
  */
 
 public class Blob extends Enemy {
-    public Blob(World w, TextureAtlas screenAtlas, Vector2 position, MyGame game) {
-        super(w, screenAtlas,position,game);
+    /**
+     * Create a Blob from Enemy class
+     * @param world
+     * @param screenAtlas
+     * @param position
+     * @param game
+     */
+    public Blob(World world, TextureAtlas screenAtlas, Vector2 position, MyGame game) {
+        super(world, screenAtlas,position,game);
         attackRange=0.18f;
         life=1;
+        minPlayerDistance=maxMoveRange-2;
     }
 
+    /**
+     * Perform a distance attack
+     */
     @Override
     protected void distanceAttack() {
         secondAttack();
     }
 
+    /**
+     * Perform a melee attack
+     */
     @Override
     protected void meleeAttack() {
         firstAttack();
     }
 
+    /**
+     * Import enity-specific animations from the Blob atlas.
+     * @param atlas
+     */
     @Override
     public void getAnimations(TextureAtlas atlas) {
         standAnimation = new TextureRegion(atlas.findRegion("blob_walking"), 40, 1, 32, 34);
@@ -63,11 +81,9 @@ public class Blob extends Enemy {
         frames.clear();
     }
 
-    @Override
-    public void firstAttack() {
-        lockAttack=false;
-    }
-
+    /**
+     * Replace the second attack with a distance attack
+     */
     @Override
     public void secondAttack() {
         currentState = State.THROW;
@@ -90,43 +106,11 @@ public class Blob extends Enemy {
         },throwAnimation.getAnimationDuration()/2);
     }
 
-    @Override
-    public void specialAttack() {
-        lockAttack=false;
-    }
-
-    protected void throwBullet() {
+    /**
+     * Add a bullet in the currentPlayScreen
+     */
+    private void throwBullet() {
         game.getCurrentPlayScreen().addBullet(new BlobBall(getPosition(), world, isFlipX(),false,game));
-    }
-
-    @Override
-    protected FixtureDef createFrontAttackFixture() {
-        FixtureDef fdef = new FixtureDef();
-
-        PolygonShape weaponFront = new PolygonShape();
-        weaponFront.set(new Vector2[]{new Vector2(12,-2).scl(1/MyGame.PPM),new Vector2(12,-4).scl(1/MyGame.PPM)
-                ,new Vector2(8,-2).scl(1/MyGame.PPM),new Vector2(8,-4).scl(1/MyGame.PPM)});
-        fdef.shape = weaponFront;
-        fdef.filter.categoryBits=MyGame.ENEMY_MELEE_BIT;
-        fdef.filter.groupIndex=MyGame.GROUP_BULLET;
-        fdef.filter.maskBits=MyGame.PLAYER_BIT;
-        fdef.isSensor=true;
-        return fdef;
-    }
-
-    @Override
-    protected FixtureDef createBackAttackFixture() {
-        FixtureDef fdef = new FixtureDef();
-
-        PolygonShape weaponBack = new PolygonShape();
-        weaponBack.set(new Vector2[]{new Vector2(-12,-2).scl(1/MyGame.PPM),new Vector2(-12,-4).scl(1/MyGame.PPM)
-                ,new Vector2(-8,-2).scl(1/MyGame.PPM),new Vector2(-8,-4).scl(1/MyGame.PPM)});
-        fdef.shape = weaponBack;
-        fdef.filter.categoryBits=MyGame.ENEMY_MELEE_BIT;
-        fdef.filter.groupIndex=MyGame.GROUP_BULLET;
-        fdef.filter.maskBits=MyGame.PLAYER_BIT;
-        fdef.isSensor=true;
-        return fdef;
     }
 
 }

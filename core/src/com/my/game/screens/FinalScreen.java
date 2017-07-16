@@ -23,12 +23,16 @@ import com.my.game.MyGame;
  */
 
 public class FinalScreen implements Screen {
-    Stage stage;
-    Viewport port;
-    MyGame game;
-    Camera camera;
-    Texture background;
+    private Stage stage;
+    private Viewport port;
+    private MyGame game;
+    private Camera camera;
+    private Texture background;
 
+    /**
+     * Create the FinalScreen and jumps back in MenuScreen after 5 seconds.
+     * @param game
+     */
     public FinalScreen(final MyGame game){
         this.game=game;
 
@@ -49,7 +53,6 @@ public class FinalScreen implements Screen {
             }
         },5);
 
-
     }
 
     @Override
@@ -57,6 +60,10 @@ public class FinalScreen implements Screen {
 
     }
 
+    /**
+     * Renders the background and the empty stage
+     * @param delta
+     */
     @Override
     public void render(float delta) {
         game.getBatch().setProjectionMatrix(camera.combined);
@@ -88,6 +95,6 @@ public class FinalScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 }

@@ -23,22 +23,39 @@ import com.my.game.tools.*;
  */
 
 public class Orch extends Enemy {
-    public Orch(World w, TextureAtlas screenAtlas,Vector2 position,MyGame game) {
-        super(w, screenAtlas,position,game);
+    /**
+     * Create a Orch from Enemy class
+     * @param world
+     * @param screenAtlas
+     * @param position
+     * @param game
+     */
+    public Orch(World world, TextureAtlas screenAtlas,Vector2 position,MyGame game) {
+        super(world, screenAtlas,position,game);
         attackRange=0.18f;
         life=1;
     }
 
+    /**
+     * Perform a distance attack
+     */
     @Override
     protected void distanceAttack() {
         secondAttack();
     }
 
+    /**
+     * Perform a melee attack
+     */
     @Override
     protected void meleeAttack() {
         firstAttack();
     }
 
+    /**
+     * Import enity-specific animations from the Orch atlas.
+     * @param atlas
+     */
     @Override
     public void getAnimations(TextureAtlas atlas) {
         standAnimation = new TextureRegion(atlas.findRegion("orc_walking"), 371-264, 6, 50, 82);
@@ -63,6 +80,9 @@ public class Orch extends Enemy {
         frames.clear();
     }
 
+    /**
+     * Replace the first attack with a melee attack
+     */
     @Override
     public void firstAttack() {
         currentState = State.ATTACK;
@@ -103,46 +123,6 @@ public class Orch extends Enemy {
                 }, attackAnimation.getAnimationDuration() / 2);
             }
         }, attackAnimation.getAnimationDuration() / 2);
-    }
-
-    @Override
-    public void secondAttack() {
-        lockAttack=false;
-    }
-
-    @Override
-    public void specialAttack() {
-        lockAttack=false;
-    }
-
-    @Override
-    protected FixtureDef createFrontAttackFixture() {
-        FixtureDef fdef = new FixtureDef();
-
-        PolygonShape weaponFront = new PolygonShape();
-        weaponFront.set(new Vector2[]{new Vector2(12,-2).scl(1/MyGame.PPM),new Vector2(12,-4).scl(1/MyGame.PPM)
-                ,new Vector2(8,-2).scl(1/MyGame.PPM),new Vector2(8,-4).scl(1/MyGame.PPM)});
-        fdef.shape = weaponFront;
-        fdef.filter.categoryBits=MyGame.ENEMY_MELEE_BIT;
-        fdef.filter.groupIndex=MyGame.GROUP_BULLET;
-        fdef.filter.maskBits=MyGame.PLAYER_BIT;
-        fdef.isSensor=true;
-        return fdef;
-    }
-
-    @Override
-    protected FixtureDef createBackAttackFixture() {
-        FixtureDef fdef = new FixtureDef();
-
-        PolygonShape weaponBack = new PolygonShape();
-        weaponBack.set(new Vector2[]{new Vector2(-12,-2).scl(1/MyGame.PPM),new Vector2(-12,-4).scl(1/MyGame.PPM)
-                ,new Vector2(-8,-2).scl(1/MyGame.PPM),new Vector2(-8,-4).scl(1/MyGame.PPM)});
-        fdef.shape = weaponBack;
-        fdef.filter.categoryBits=MyGame.ENEMY_MELEE_BIT;
-        fdef.filter.groupIndex=MyGame.GROUP_BULLET;
-        fdef.filter.maskBits=MyGame.PLAYER_BIT;
-        fdef.isSensor=true;
-        return fdef;
     }
 
 }

@@ -20,33 +20,38 @@ import com.my.game.MyGame;
 
 public abstract class TileObject extends Sprite implements com.my.game.tools.Interfaces.TileObjectInterface {
     protected World world;
-    protected TiledMap map;
     protected Rectangle rect;
     protected Body body;
     protected Fixture fixture;
     protected Ellipse ell;
     protected MyGame game;
-    public TileObject(World world, TiledMap map,Rectangle rect,MyGame game){
+
+    /**
+     * Create a TileObject with a rectangular shape
+     * @param world: World where to create the TileObject
+     * @param rect: Position and size of the TileObject in the world
+     * @param game
+     */
+    public TileObject(World world, Rectangle rect,MyGame game){
         super();
         this.game=game;
         this.world = world;
-        this.map= map;
         this.rect = rect;
         define();
         fixture.setUserData(this);
     }
 
     /**
-     * Alternative constructor if the object has an elliple shape
-     * @param world
-     * @param map
-     * @param ell
+     * Create a TileObject with a ellipse shape.
+     * The define method must be overridden.
+     * @param world: World where to create the TileObject
+     * @param ell: Position and size of the TileObject in the world
+     * @param game
      */
-    public TileObject(World world, TiledMap map,Ellipse ell,MyGame game){
+    public TileObject(World world, Ellipse ell,MyGame game){
         super();
         this.game=game;
         this.world = world;
-        this.map= map;
         this.ell = ell;
         define();
         fixture.setUserData(this);
@@ -73,12 +78,12 @@ public abstract class TileObject extends Sprite implements com.my.game.tools.Int
     }
 
     /**
-     * Update object frames and position if the TileObject has animations.
+     * Update object frames and position of the TileObject
      */
     public abstract void update(float delta);
 
     /**
-     * Set filter bits to trigger collisions in the current Fixture.
+     * Set filter bits to trigger collisions with other fixtures.
      * @param filterBits
      */
     public void setCategoryBits(short filterBits){
@@ -89,23 +94,13 @@ public abstract class TileObject extends Sprite implements com.my.game.tools.Int
     }
 
     /**
-     * @param entity: If String is the contact point with player, else is Enemy.
+     * Called from WorldContactListener when hit
+     * @param entity: Enemy or Player
      */
     public abstract void onHit(Entity entity);
 
     /**
-     * Get tile cell coordinate by scaling up and dividing by the tile size.
-     * @return Tile Cell Coordinate.
-     */
-    public TiledMapTileLayer.Cell getCell(){
-        TiledMapTileLayer l = (TiledMapTileLayer) map.getLayers().get(1);
-        return l.getCell((int)(body.getPosition().x * MyGame.PPM / 16),
-                (int)(body.getPosition().y * MyGame.PPM / 16));
-
-    }
-
-    /**
-     * Remove current body fixtures.
+     *
      */
     public void dispose(){
         game.removeObject(this);

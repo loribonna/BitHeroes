@@ -12,21 +12,37 @@ import com.my.game.tools.Bullet;
  */
 
 public class BlobBall extends Bullet {
+
+    /**
+     * Create a new BlobBall Bullet
+     * @param position
+     * @param world
+     * @param rightDirection
+     * @param isPlayer
+     * @param game
+     */
     public BlobBall(Vector2 position, World world, boolean rightDirection, boolean isPlayer, MyGame game) {
         super(position,world,rightDirection,isPlayer,game);
         body.applyLinearImpulse(new Vector2(forceAttack,0),body.getWorldCenter(),true);
-        // forceDrag=1; Never fall
         damage=20;
         atl=new TextureAtlas("blobP/blob.pack");
         getAnimations(atl);
     }
 
+    /**
+     * Import BlobBall-specific animations from the Blob atlas.
+     * @param atlas
+     */
     public void getAnimations(TextureAtlas atlas){
         flyBullet = new TextureRegion(atlas.findRegion("blob"), 7, 8, 11, 11);
         if(oppositeDirection) flyBullet.flip(true,false);
         setBounds(0, 0, 10 / MyGame.PPM, 10 / MyGame.PPM);
     }
 
+    /**
+     * Update position and animation. Destroy when speed is too low.
+     * @param delta
+     */
     @Override
     public void update(float delta) {
         setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);

@@ -32,12 +32,23 @@ public abstract class Bullet extends Sprite {
     protected TextureAtlas atl;
     protected float minSpeed=0.1f;
     protected boolean isPlayer;
-    public int damage=0;
-    /// [0-1): fall; 1: still; 1+: ryse
+    protected int damage=0;
+
+    /**
+     * [0-1): fall; 1: still; 1+: ryse
+      */
     protected float forceDrag;
     protected Fixture fixture;
     protected MyGame game;
 
+    /**
+     * Initialize Bullet variables and default drag and force.
+     * @param position: Position of the bullet in the world.
+     * @param world: World where the bullet must be created.
+     * @param oppositeDirection: Reverse direction if true.
+     * @param isPlayer: Flag to setup filter bits.
+     * @param game
+     */
     public Bullet(Vector2 position,World world,boolean oppositeDirection,boolean isPlayer, MyGame game){
         super();
         this.game=game;
@@ -51,8 +62,15 @@ public abstract class Bullet extends Sprite {
     }
 
     /**
-     * Set filter bits to trigger collisions in the current Fixture.
-            * @param filterBits
+     * @return current damage of the bullet
+     */
+    public int getDamage(){
+        return damage;
+    }
+
+    /**
+     * Set filter bits in the current fixture to trigger collisions.
+     * @param filterBits
      */
     public void setCategoryBits(short filterBits){
         Filter filter = new Filter();
@@ -62,8 +80,7 @@ public abstract class Bullet extends Sprite {
     }
 
     /**
-     * Set and return filter used in collisions.
-     * @return
+     * @return filter bits used in collisions
      */
     public Filter getFilter() {
         Filter f = new Filter();
@@ -78,7 +95,7 @@ public abstract class Bullet extends Sprite {
     }
 
     /**
-     * Create bulelt body and shape in the given position in the current world.
+     * Create bullet body and shape in the given position of the current world.
      * @param position
      */
     public void defineBullet(Vector2 position){
@@ -102,13 +119,13 @@ public abstract class Bullet extends Sprite {
     }
 
     /**
-     * Update position of the bullet.
+     * Update the position of the bullet.
      * @param delta
      */
     public abstract void update(float delta);
 
     /**
-     * Remove the bullet from the simulation.
+     * Remove the bullet from the current world.
      */
     public void dispose(){
         game.removeObject(this);

@@ -28,15 +28,20 @@ import com.my.game.MyGame;
  */
 
 public class FirstScreen implements Screen {
-    Stage stage;
-    TextButton button;
-    TextButton.TextButtonStyle textButtonStyle;
-    Skin skin;
-    TextureAtlas buttonAtlas;
-    Texture background;
-    Viewport port;
-    MyGame game;
-    Camera camera;
+    private Stage stage;
+    private TextButton button;
+    private TextButton.TextButtonStyle textButtonStyle;
+    private Skin skin;
+    private TextureAtlas buttonAtlas;
+    private Texture background;
+    private Viewport port;
+    private MyGame game;
+    private Camera camera;
+
+    /**
+     * Create the initial screen of the game with the only Play-Button
+     * @param game
+     */
     public FirstScreen(final MyGame game) {
         this.game=game;
         camera=new OrthographicCamera();
@@ -78,6 +83,10 @@ public class FirstScreen implements Screen {
 
     }
 
+    /**
+     * Renders background and buttons(actors) contained in the stage
+     * @param delta
+     */
     @Override
     public void render(float delta) {
         game.getBatch().setProjectionMatrix(camera.combined);

@@ -12,6 +12,15 @@ import com.my.game.tools.Bullet;
  */
 
 public class DragonBall extends Bullet {
+
+    /**
+     * Create a new DragonBall Bullet
+     * @param position
+     * @param world
+     * @param rightDirection
+     * @param isPlayer
+     * @param game
+     */
     public DragonBall(Vector2 position, World world, boolean rightDirection, boolean isPlayer, MyGame game) {
         super(position,world,rightDirection,isPlayer,game);
         body.applyLinearImpulse(new Vector2(forceAttack,0),body.getWorldCenter(),true);
@@ -21,12 +30,20 @@ public class DragonBall extends Bullet {
         getAnimations(atl);
     }
 
+    /**
+     * Import DragonBall-specific animations from the Dragon atlas.
+     * @param atlas
+     */
     public void getAnimations(TextureAtlas atlas){
         flyBullet = new TextureRegion(atlas.findRegion("dragon_attack"), 1, 9, 71, 34);
         if(oppositeDirection) flyBullet.flip(true,false);
         setBounds(0, 0, 40 / MyGame.PPM, 21 / MyGame.PPM);
     }
 
+    /**
+     * Update position and animation. Destroy when speed is too low.
+     * @param delta
+     */
     @Override
     public void update(float delta) {
         setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);

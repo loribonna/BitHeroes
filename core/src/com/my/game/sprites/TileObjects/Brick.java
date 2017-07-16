@@ -17,8 +17,14 @@ import com.my.game.tools.TileObject;
  */
 
 public class Brick extends TileObject {
-    public Brick(World world, TiledMap map, Rectangle rect, MyGame game) {
-        super(world, map, rect,game);
+    /**
+     * Create a Brick TileObject
+     * @param world
+     * @param rect
+     * @param game
+     */
+    public Brick(World world, Rectangle rect, MyGame game) {
+        super(world, rect,game);
         setCategoryBits(MyGame.BRICK_BIT);
 
     }

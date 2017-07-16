@@ -29,9 +29,15 @@ import com.my.game.tools.Interfaces.EntityInterface;
  */
 
 public class Dragon extends Enemy {
-
-    public Dragon(World w, TextureAtlas screenAtlas, Vector2 position, MyGame game) {
-        super(w, screenAtlas,position,game);
+    /**
+     * Create a Dragon from Enemy class
+     * @param world
+     * @param screenAtlas
+     * @param position
+     * @param game
+     */
+    public Dragon(World world, TextureAtlas screenAtlas, Vector2 position, MyGame game) {
+        super(world, screenAtlas,position,game);
         attackRange=0.2f;
         life=200;
         maxMoveRange=100;
@@ -39,16 +45,25 @@ public class Dragon extends Enemy {
         meleeDamage=35;
     }
 
+    /**
+     * Perform a distance attack
+     */
     @Override
     protected void distanceAttack() {
         secondAttack();
     }
 
+    /**
+     * Perform a melee attack
+     */
     @Override
     protected void meleeAttack() {
         firstAttack();
     }
 
+    /**
+     * Replace default to create bigger shape
+     */
     @Override
     public void createBorders() {
         FixtureDef fdef = new FixtureDef();
@@ -69,6 +84,9 @@ public class Dragon extends Enemy {
         body.createFixture(fdef).setUserData(this);
     }
 
+    /**
+     * Replace default to jump to FinalScreen
+     */
     @Override
     public void destroy(){
         dead=true;
@@ -79,6 +97,10 @@ public class Dragon extends Enemy {
         game.removeObject(this);
     }
 
+    /**
+     * Import enity-specific animations from the Dragon atlas.
+     * @param atlas
+     */
     @Override
     public void getAnimations(TextureAtlas atlas) {
         standAnimation = new TextureRegion(atlas.findRegion("dragon_walking"),8,9, 136, 131);
@@ -108,6 +130,9 @@ public class Dragon extends Enemy {
         throwAnimation = new Animation(0.2f,frames);
     }
 
+    /**
+     * Replace the first attack with a melee attack
+     */
     @Override
     public void firstAttack() {
         currentState = EntityInterface.State.ATTACK;
@@ -150,11 +175,17 @@ public class Dragon extends Enemy {
         }, attackAnimation.getAnimationDuration() / 2);
     }
 
+    /**
+     * Add a bullet in the currentPlayScreen
+     */
     protected void throwBullet() {
         Vector2 position = new Vector2(getPosition().x,getPosition().y+20/MyGame.PPM);
         game.getCurrentPlayScreen().addBullet(new DragonBall(position, world, isFlipX(),false,game));
     }
 
+    /**
+     * Replace the second attack with a distance attack
+     */
     @Override
     public void secondAttack() {
         currentState = State.THROW;
@@ -177,13 +208,12 @@ public class Dragon extends Enemy {
         },throwAnimation.getAnimationDuration()/2);
     }
 
+    /**
+     * Replace default to increase fixture shape
+     * @return
+     */
     @Override
-    public void specialAttack() {
-        lockAttack=false;
-    }
-
-    @Override
-    protected FixtureDef createFrontAttackFixture() {
+    public FixtureDef createFrontAttackFixture() {
         FixtureDef fdef = new FixtureDef();
 
         PolygonShape weaponFront = new PolygonShape();
@@ -197,8 +227,12 @@ public class Dragon extends Enemy {
         return fdef;
     }
 
+    /**
+     * Replace default to increase fixture shape
+     * @return
+     */
     @Override
-    protected FixtureDef createBackAttackFixture() {
+    public FixtureDef createBackAttackFixture() {
         FixtureDef fdef = new FixtureDef();
 
         PolygonShape weaponBack = new PolygonShape();

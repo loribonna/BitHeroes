@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.my.game.MyGame;
+import com.my.game.tools.Interfaces.EntityInterface;
 import com.my.game.tools.PlayScreen;
 
 /**
@@ -22,25 +23,27 @@ import com.my.game.tools.PlayScreen;
  */
 
 public class MenuScreen implements Screen {
-    Stage stage;
-    TextButton buttonWarrior;
-    TextButton buttonArcher;
-    TextButton buttonFireBender;
+    private Stage stage;
+    private TextButton buttonWarrior;
+    private TextButton buttonArcher;
+    private TextButton buttonFireBender;
+    private Skin skin;
+    private TextureAtlas buttonAtlas;
+    private Viewport port;
+    private MyGame game;
+    private Camera camera;
+    private Texture background;
 
-    Skin skin;
-    TextureAtlas buttonAtlas;
-    Viewport port;
-    MyGame game;
-    Camera camera;
-    Texture background;
+    /**
+     * Create the MenuScreen with a background and a button for every playable entity.
+     * @param game
+     */
     public MenuScreen(final MyGame game){
         this.game=game;
-
         camera=new OrthographicCamera();
         port= new FitViewport(MyGame.V_WIDTH,MyGame.V_HEIGHT,camera);
         stage = new Stage(port);
         Gdx.input.setInputProcessor(stage);
-
         background=new Texture("schermata_menu.png");
 
         skin = new Skin();
@@ -61,7 +64,7 @@ public class MenuScreen implements Screen {
                     if (t.isChecked()) {
                         Gdx.app.log("MenuScreen", "checked");
                         dispose();
-                        PlayScreen firstLevel = new com.my.game.screens.PlayScreens.FirstLevel(game, "warrior",0);
+                        PlayScreen firstLevel = new com.my.game.screens.PlayScreens.FirstLevel(game, EntityInterface.PlayerName.WARRIOR,0);
                         game.changeLevel(firstLevel);
                     }
                 }
@@ -83,7 +86,7 @@ public class MenuScreen implements Screen {
                     if (t.isChecked()) {
                         Gdx.app.log("MenuScreen", "checked");
                         dispose();
-                        PlayScreen firstLevel = new com.my.game.screens.PlayScreens.FirstLevel(game, "archer",0);
+                        PlayScreen firstLevel = new com.my.game.screens.PlayScreens.FirstLevel(game, EntityInterface.PlayerName.ARCHER,0);
                         game.changeLevel(firstLevel);
                     }
                 }
@@ -105,7 +108,7 @@ public class MenuScreen implements Screen {
                     if (t.isChecked()) {
                         Gdx.app.log("MenuScreen", "checked");
                         dispose();
-                        PlayScreen firstLevel = new com.my.game.screens.PlayScreens.FirstLevel(game, "firebender",0);
+                        PlayScreen firstLevel = new com.my.game.screens.PlayScreens.FirstLevel(game, EntityInterface.PlayerName.FIREBENDER,0);
                         game.changeLevel(firstLevel);
                     }
                 }
@@ -123,6 +126,10 @@ public class MenuScreen implements Screen {
 
     }
 
+    /**
+     * Renders the background and the stage containing the menu buttons.
+     * @param delta
+     */
     @Override
     public void render(float delta) {
         game.getBatch().setProjectionMatrix(camera.combined);
@@ -153,6 +160,9 @@ public class MenuScreen implements Screen {
 
     }
 
+    /**
+     * Dispose the current stage
+     */
     @Override
     public void dispose() {
         stage.dispose();

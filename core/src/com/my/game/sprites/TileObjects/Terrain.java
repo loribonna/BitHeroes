@@ -18,20 +18,28 @@ import com.sun.org.apache.xpath.internal.operations.String;
  */
 
 public class Terrain extends TileObject {
-
-    public Terrain(World world, TiledMap map, Rectangle rect, MyGame game) {
-        super(world, map, rect,game);
+    /**
+     * Create a Terrain TileObject
+     * @param world
+     * @param rect
+     * @param game
+     */
+    public Terrain(World world, Rectangle rect, MyGame game) {
+        super(world, rect,game);
         setCategoryBits(MyGame.DEFAULT_BIT);
     }
 
     @Override
     public void update(float delta) {}
 
-
+    /**
+     * If a Enemy hits the ground then can jump again.
+     * @param entity: Enemy or Player
+     */
     @Override
     public void onHit(Entity entity) {
-        if(!entity.isPlayer) {
-            ((Enemy) entity).isFlying = false;
+        if(!entity.isPlayer()) {
+            ((Enemy) entity).setFlying(false);
         }
     }
 

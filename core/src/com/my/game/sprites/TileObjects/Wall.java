@@ -14,8 +14,14 @@ import com.my.game.tools.TileObject;
  */
 
 public class Wall extends TileObject {
-    public Wall(World world, TiledMap map, Rectangle rect,MyGame game) {
-        super(world, map, rect,game);
+    /**
+     * Create a Wall TileObject
+     * @param world
+     * @param rect
+     * @param game
+     */
+    public Wall(World world, Rectangle rect,MyGame game) {
+        super(world, rect,game);
         setCategoryBits(MyGame.WALL_BIT);
 
     }
@@ -23,9 +29,6 @@ public class Wall extends TileObject {
     @Override
     public void update(float delta) {}
 
-
     @Override
-    public void onHit(Entity entity) {
-
-    }
+    public void onHit(Entity entity) {}
 }

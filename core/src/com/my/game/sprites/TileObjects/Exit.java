@@ -15,13 +15,24 @@ import com.my.game.tools.TileObject;
  */
 
 public class Exit extends TileObject {
-    public Exit(World world, TiledMap map, Rectangle rect, MyGame game) {
-        super(world, map, rect,game);
+    /**
+     * Create a Exit TileObject
+     * @param world
+     * @param rect
+     * @param game
+     */
+    public Exit(World world, Rectangle rect, MyGame game) {
+        super(world, rect,game);
+        setCategoryBits(MyGame.EXIT_BIT);
     }
 
     @Override
     public void update(float delta) {}
 
+    /**
+     * When the player touches the exit jumps to the next level
+     * @param entity: Enemy or Player
+     */
     @Override
     public void onHit(Entity entity) {
         if(game.getCurrentPlayScreen() instanceof FirstLevel){

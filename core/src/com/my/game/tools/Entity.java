@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Timer;
 import com.my.game.MyGame;
@@ -20,48 +21,65 @@ import com.my.game.sprites.Enemies.Dragon;
  */
 
 public abstract class Entity extends Sprite implements com.my.game.tools.Interfaces.EntityInterface {
-    public World world;
-    public Body body;
-    public boolean isPlayer=true;
-
+    protected World world;
+    protected Body body;
+    protected boolean isPlayer=true;
     protected int life=100;//default
-
     protected State currentState;
     protected State previusState;
-
     protected Animation throwAnimation;
     protected Animation attackAnimation;
     protected Animation runAnimation;
     protected TextureRegion standAnimation;
-
     protected boolean runRight;
     protected float stateTimer;
-
     protected boolean invulnarable=false;
-
     protected boolean lockAttack;
     protected boolean dead=false;
-
     protected int meleeDamage=20;
     protected MyGame game;
-    public Entity(World w, TextureAtlas screenAtlas, Vector2 position, MyGame game) {
+
+    /**
+     * Initialize Entity variables and create borders and animations.
+     * @param world
+     * @param screenAtlas
+     * @param position
+     * @param game
+     */
+    public Entity(World world, TextureAtlas screenAtlas, Vector2 position, MyGame game) {
         super();
         this.game=game;
         currentState = State.STAND;
         previusState = State.STAND;
-        this.world = w;
+        this.world = world;
         define(position);
         getAnimations(screenAtlas);
     }
 
     /**
-     * Return body position.
-     * @return
+     * @return true if the entity is the player
+     */
+    public boolean isPlayer(){
+        return isPlayer;
+    }
+
+    /**
+     * @return current entity body
+     */
+    public Body getBody(){
+        return body;
+    }
+
+    /**
+     * @return body position
      */
     public Vector2 getPosition(){
         return this.body.getPosition();
     }
 
+    /**
+     * @return current life
+     */
     public int getLife(){
         return life;
     }
@@ -74,13 +92,13 @@ public abstract class Entity extends Sprite implements com.my.game.tools.Interfa
     public abstract void getAnimations(TextureAtlas atlas);
 
     /**
-     * Get current entity filter to sei collisions.
+     * Get current entity filter to set collisions.
      * @return
      */
     public abstract Filter getFilter();
 
     /**
-     * Update position, target and animation.
+     * Update position, target (if enemy) and animation.
      * @param delta
      */
     @Override
@@ -112,19 +130,18 @@ public abstract class Entity extends Sprite implements com.my.game.tools.Interfa
     }
 
     /**
-     * Perform action after Hit event.
+     * Perform some action after Hit event.
      */
     public abstract void recoil();
 
     /**
-     * Destroy current body fixtures.
+     * Destroy current body and fixtures.
      */
     public abstract void destroy();
 
     /**
-     * Get current frame of the animation based on the current state.
      * @param dt
-     * @return
+     * @return current frame of animation based on the current state.
      */
     public TextureRegion getFrame(float dt) {
         currentState = getState();
@@ -161,7 +178,7 @@ public abstract class Entity extends Sprite implements com.my.game.tools.Interfa
     }
 
     /**
-     * @return: Current state based on the action being performed and movement of the body.
+     * @return: new state based on the action being performed and movement of the body.
      */
     public State getState() {
         if (previusState == State.ATTACK) {
@@ -210,8 +227,7 @@ public abstract class Entity extends Sprite implements com.my.game.tools.Interfa
     }
 
     /**
-     * Create body of the entity in the given position in the world.
-     * Call method to set fixtures.
+     * Create the body of the entity in the given position in the world.
      * @param position
      */
     public void define(Vector2 position) {
@@ -229,13 +245,30 @@ public abstract class Entity extends Sprite implements com.my.game.tools.Interfa
      */
     public abstract void createBorders();
 
-    public abstract void firstAttack();
-    public abstract void secondAttack();
-    public abstract void specialAttack();
+    /**
+     * Perform entity primary attack. Default is nothing.
+     */
+    public void firstAttack(){
+        lockAttack=false;
+    }
+
+    /**
+     * Perform entity secondary attack. Default is nothing.
+     */
+    public void secondAttack(){
+        lockAttack=false;
+    }
+
+    /**
+     * Perform entity's special attack. Default is nothing.
+     */
+    public void specialAttack(){
+        lockAttack=false;
+    }
 
     /**
      * Perform attack based on the attackType parameter.
-     * Control if lockAttack object is released before perform another attack.
+     * Control if lockAttack is released before perform another attack.
      * @param attackType
      */
     public void throwAttack(AttackType attackType) {
@@ -255,13 +288,49 @@ public abstract class Entity extends Sprite implements com.my.game.tools.Interfa
      * Create fixture to trigger collision for Melee attack if the attack is front
      * @return
      */
-    protected abstract FixtureDef createFrontAttackFixture();
+    public FixtureDef createFrontAttackFixture() {
+        FixtureDef fdef = new FixtureDef();
+
+        PolygonShape weaponFront = new PolygonShape();
+        weaponFront.set(new Vector2[]{new Vector2(16,-2).scl(1/MyGame.PPM),new Vector2(16,-4).scl(1/MyGame.PPM)
+                ,new Vector2(8,-2).scl(1/MyGame.PPM),new Vector2(8,-4).scl(1/MyGame.PPM)});
+        fdef.shape = weaponFront;
+        if(isPlayer){
+            fdef.filter.categoryBits=MyGame.PLAYER_MELEE_BIT;
+            fdef.filter.groupIndex=MyGame.GROUP_BULLET;
+            fdef.filter.maskBits=MyGame.ENEMY_BIT;
+        }else{
+            fdef.filter.categoryBits=MyGame.ENEMY_MELEE_BIT;
+            fdef.filter.groupIndex=MyGame.GROUP_BULLET;
+            fdef.filter.maskBits=MyGame.PLAYER_BIT;
+        }
+        fdef.isSensor=true;
+        return fdef;
+    }
 
     /**
      * Create fixture to trigger collision for Melee attack if the body is flipped.
      * @return
      */
-    protected abstract FixtureDef createBackAttackFixture();
+    public FixtureDef createBackAttackFixture() {
+        FixtureDef fdef = new FixtureDef();
+
+        PolygonShape weaponBack = new PolygonShape();
+        weaponBack.set(new Vector2[]{new Vector2(-16,-2).scl(1/MyGame.PPM),new Vector2(-16,-4).scl(1/MyGame.PPM)
+                ,new Vector2(-8,-2).scl(1/MyGame.PPM),new Vector2(-8,-4).scl(1/MyGame.PPM)});
+        fdef.shape = weaponBack;
+        if(isPlayer){
+            fdef.filter.categoryBits=MyGame.PLAYER_MELEE_BIT;
+            fdef.filter.groupIndex=MyGame.GROUP_BULLET;
+            fdef.filter.maskBits=MyGame.ENEMY_BIT;
+        }else{
+            fdef.filter.categoryBits=MyGame.ENEMY_MELEE_BIT;
+            fdef.filter.groupIndex=MyGame.GROUP_BULLET;
+            fdef.filter.maskBits=MyGame.PLAYER_BIT;
+        }
+        fdef.isSensor=true;
+        return fdef;
+    }
 
 
 }
