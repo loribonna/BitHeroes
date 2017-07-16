@@ -17,6 +17,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.my.game.MyGame;
+import com.my.game.screens.FinalScreen;
 import com.my.game.screens.MenuScreen;
 import com.my.game.sprites.Throwables.Arrow;
 import com.my.game.sprites.Throwables.DragonBall;
@@ -69,25 +70,13 @@ public class Dragon extends Enemy {
     }
 
     @Override
-    public void hit(int damage){
-        life-=damage;
-        if(life<=0){
-            //TODO: goto win
-            game.getCurrentPlayScreen().dispose();
-            Screen screen;
-            screen = new MenuScreen(game);
-            game.setScreen(screen);
-            destroy();
-        }else if(damage>0){
-            recoil();
-        }
-        invulnarable=true;
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                invulnarable=false;
-            }
-        },1);
+    public void destroy(){
+        dead=true;
+        game.getCurrentPlayScreen().dispose();
+        Screen screen = new FinalScreen(game);
+        game.setScreen(screen);
+        body.setUserData(new Boolean(true));
+        game.removeObject(this);
     }
 
     @Override
