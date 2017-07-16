@@ -1,8 +1,11 @@
 package com.my.game.tools;
 
+import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -53,6 +56,8 @@ public abstract class PlayScreen implements Screen{
     protected TextureAtlas atlMummy;
     protected TextureAtlas atlDragon;
     protected TextureAtlas atlBlob;
+    protected Music music;
+
     /**
      * Initialize game world and any entity
      * @param game Reference to main game instance
@@ -71,6 +76,10 @@ public abstract class PlayScreen implements Screen{
         enemyList=new ArrayList<Enemy>();
         animatedTileObjects=new ArrayList<TileObject>();
         bullets=new ArrayList<Bullet>();
+
+        music = game.manager.get("sounds/musica.wav",Music.class);
+        music.setLooping(true);
+        music.play();
     }
 
     public int getCurrentScore(){

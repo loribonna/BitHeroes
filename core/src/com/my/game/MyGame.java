@@ -4,9 +4,13 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Array;
 import com.my.game.screens.FirstScreen;
 import com.my.game.tools.PlayScreen;
 
@@ -15,6 +19,7 @@ public class MyGame extends Game {
 	private SpriteBatch batch;
 	private String currentPlayer;
 	private PlayScreen currentPlayScreen;
+	public AssetManager manager;
 
 	public static String name = "Bit Heroes";
 	public static final float V_WIDTH = 400;
@@ -40,12 +45,19 @@ public class MyGame extends Game {
 	public static final short PLAYER_MELEE_BIT = 1024;
 	public static final short ENEMY_MELEE_BIT = 2048;
 
+
+
 	/**
 	 * Initialize game scenes and SpriteBatch
 	 */
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
+		manager = new AssetManager();
+		for(FileHandle sound : Gdx.files.internal("sounds").list()){
+			manager.load(sound.path(), Music.class);
+		}
+		manager.finishLoading();
 		setScreen(new FirstScreen(this));
 	}
 
@@ -89,5 +101,6 @@ public class MyGame extends Game {
 	@Override
 	public void dispose () {
 		batch.dispose();
+		manager.dispose();
 	}
 }
