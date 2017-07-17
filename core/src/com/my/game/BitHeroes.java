@@ -15,7 +15,7 @@ import com.my.game.screens.FirstScreen;
 import com.my.game.tools.Interfaces.EntityInterface;
 import com.my.game.tools.PlayScreen;
 
-public class MyGame extends Game {
+public class BitHeroes extends Game {
 
 	/*
 	* It's convenient to have only one SpriteBatch and reference to it

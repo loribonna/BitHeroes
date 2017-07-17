@@ -1,6 +1,6 @@
 package com.my.game.tools;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -13,8 +13,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Timer;
-import com.my.game.MyGame;
-import com.my.game.sprites.Enemies.Dragon;
+import com.my.game.BitHeroes;
 
 /**
  * Created by lorib on 11/05/2017.
@@ -24,7 +23,7 @@ public abstract class Entity extends Sprite implements com.my.game.tools.Interfa
     protected World world;
     protected Body body;
     protected boolean isPlayer=true;
-    protected int life=100;//default
+    protected int life=100;
     protected State currentState;
     protected State previusState;
     protected Animation throwAnimation;
@@ -37,7 +36,8 @@ public abstract class Entity extends Sprite implements com.my.game.tools.Interfa
     protected boolean lockAttack;
     protected boolean dead=false;
     protected int meleeDamage=20;
-    protected MyGame game;
+    protected BitHeroes game;
+    protected Music music;
 
     /**
      * Initialize Entity variables and create borders and animations.
@@ -46,7 +46,7 @@ public abstract class Entity extends Sprite implements com.my.game.tools.Interfa
      * @param position
      * @param game
      */
-    public Entity(World world, TextureAtlas screenAtlas, Vector2 position, MyGame game) {
+    public Entity(World world, TextureAtlas screenAtlas, Vector2 position, BitHeroes game) {
         super();
         this.game=game;
         currentState = State.STAND;
@@ -92,8 +92,7 @@ public abstract class Entity extends Sprite implements com.my.game.tools.Interfa
     public abstract void getAnimations(TextureAtlas atlas);
 
     /**
-     * Get current entity filter to set collisions.
-     * @return
+     * @return current entity filter to set collisions.
      */
     public abstract Filter getFilter();
 
@@ -105,7 +104,7 @@ public abstract class Entity extends Sprite implements com.my.game.tools.Interfa
     public abstract void update(float delta);
 
     /**
-     * @return: True if entity is invulnerable
+     * @return True if entity is invulnerable
      */
     public boolean isInvulnerable(){return invulnarable;}
 
@@ -178,7 +177,7 @@ public abstract class Entity extends Sprite implements com.my.game.tools.Interfa
     }
 
     /**
-     * @return: new state based on the action being performed and movement of the body.
+     * @return new state based on the action being performed and movement of the body.
      */
     public State getState() {
         if (previusState == State.ATTACK) {
@@ -233,7 +232,7 @@ public abstract class Entity extends Sprite implements com.my.game.tools.Interfa
     public void define(Vector2 position) {
         BodyDef bdef= new BodyDef();
 
-        bdef.position.set(position.x / MyGame.PPM,position.y / MyGame.PPM);
+        bdef.position.set(position.x / BitHeroes.PPM,position.y / BitHeroes.PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
         body=world.createBody(bdef);
 
@@ -285,48 +284,46 @@ public abstract class Entity extends Sprite implements com.my.game.tools.Interfa
     }
 
     /**
-     * Create fixture to trigger collision for Melee attack if the attack is front
-     * @return
+     * @return fixture to trigger collision for Melee attack if the attack is front
      */
     public FixtureDef createFrontAttackFixture() {
         FixtureDef fdef = new FixtureDef();
 
         PolygonShape weaponFront = new PolygonShape();
-        weaponFront.set(new Vector2[]{new Vector2(16,-2).scl(1/MyGame.PPM),new Vector2(16,-4).scl(1/MyGame.PPM)
-                ,new Vector2(8,-2).scl(1/MyGame.PPM),new Vector2(8,-4).scl(1/MyGame.PPM)});
+        weaponFront.set(new Vector2[]{new Vector2(16,-2).scl(1/ BitHeroes.PPM),new Vector2(16,-4).scl(1/ BitHeroes.PPM)
+                ,new Vector2(8,-2).scl(1/ BitHeroes.PPM),new Vector2(8,-4).scl(1/ BitHeroes.PPM)});
         fdef.shape = weaponFront;
         if(isPlayer){
-            fdef.filter.categoryBits=MyGame.PLAYER_MELEE_BIT;
-            fdef.filter.groupIndex=MyGame.GROUP_BULLET;
-            fdef.filter.maskBits=MyGame.ENEMY_BIT;
+            fdef.filter.categoryBits= BitHeroes.PLAYER_MELEE_BIT;
+            fdef.filter.groupIndex= BitHeroes.GROUP_BULLET;
+            fdef.filter.maskBits= BitHeroes.ENEMY_BIT;
         }else{
-            fdef.filter.categoryBits=MyGame.ENEMY_MELEE_BIT;
-            fdef.filter.groupIndex=MyGame.GROUP_BULLET;
-            fdef.filter.maskBits=MyGame.PLAYER_BIT;
+            fdef.filter.categoryBits= BitHeroes.ENEMY_MELEE_BIT;
+            fdef.filter.groupIndex= BitHeroes.GROUP_BULLET;
+            fdef.filter.maskBits= BitHeroes.PLAYER_BIT;
         }
         fdef.isSensor=true;
         return fdef;
     }
 
     /**
-     * Create fixture to trigger collision for Melee attack if the body is flipped.
-     * @return
+     * @return fixture to trigger collision for Melee attack if the body is flipped.
      */
     public FixtureDef createBackAttackFixture() {
         FixtureDef fdef = new FixtureDef();
 
         PolygonShape weaponBack = new PolygonShape();
-        weaponBack.set(new Vector2[]{new Vector2(-16,-2).scl(1/MyGame.PPM),new Vector2(-16,-4).scl(1/MyGame.PPM)
-                ,new Vector2(-8,-2).scl(1/MyGame.PPM),new Vector2(-8,-4).scl(1/MyGame.PPM)});
+        weaponBack.set(new Vector2[]{new Vector2(-16,-2).scl(1/ BitHeroes.PPM),new Vector2(-16,-4).scl(1/ BitHeroes.PPM)
+                ,new Vector2(-8,-2).scl(1/ BitHeroes.PPM),new Vector2(-8,-4).scl(1/ BitHeroes.PPM)});
         fdef.shape = weaponBack;
         if(isPlayer){
-            fdef.filter.categoryBits=MyGame.PLAYER_MELEE_BIT;
-            fdef.filter.groupIndex=MyGame.GROUP_BULLET;
-            fdef.filter.maskBits=MyGame.ENEMY_BIT;
+            fdef.filter.categoryBits= BitHeroes.PLAYER_MELEE_BIT;
+            fdef.filter.groupIndex= BitHeroes.GROUP_BULLET;
+            fdef.filter.maskBits= BitHeroes.ENEMY_BIT;
         }else{
-            fdef.filter.categoryBits=MyGame.ENEMY_MELEE_BIT;
-            fdef.filter.groupIndex=MyGame.GROUP_BULLET;
-            fdef.filter.maskBits=MyGame.PLAYER_BIT;
+            fdef.filter.categoryBits= BitHeroes.ENEMY_MELEE_BIT;
+            fdef.filter.groupIndex= BitHeroes.GROUP_BULLET;
+            fdef.filter.maskBits= BitHeroes.PLAYER_BIT;
         }
         fdef.isSensor=true;
         return fdef;

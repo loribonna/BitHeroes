@@ -22,7 +22,7 @@ public interface TileObjectInterface {
 
     /**
      * Called from WorldContactListener when hit
-     * @param entity: Enemy or Player
+     * @param entity Enemy or Player
      */
     void onHit(Entity entity);
 

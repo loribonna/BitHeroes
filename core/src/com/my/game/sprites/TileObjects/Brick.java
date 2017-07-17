@@ -1,15 +1,9 @@
 package com.my.game.sprites.TileObjects;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.my.game.MyGame;
+import com.my.game.BitHeroes;
 import com.my.game.tools.Entity;
-import com.my.game.tools.PlayScreen;
 import com.my.game.tools.TileObject;
 
 /**
@@ -23,9 +17,9 @@ public class Brick extends TileObject {
      * @param rect
      * @param game
      */
-    public Brick(World world, Rectangle rect, MyGame game) {
+    public Brick(World world, Rectangle rect, BitHeroes game) {
         super(world, rect,game);
-        setCategoryBits(MyGame.BRICK_BIT);
+        setCategoryBits(BitHeroes.BRICK_BIT);
 
     }
 

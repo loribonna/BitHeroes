@@ -6,16 +6,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.EdgeShape;
-import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
-import com.my.game.MyGame;
+import com.my.game.BitHeroes;
 import com.my.game.tools.*;
 
 /**
@@ -30,7 +25,7 @@ public class Golem extends Enemy {
      * @param position
      * @param game
      */
-    public Golem(World world, TextureAtlas screenAtlas,Vector2 position,MyGame game) {
+    public Golem(World world, TextureAtlas screenAtlas,Vector2 position,BitHeroes game) {
         super(world, screenAtlas,position,game);
         attackRange=0.18f;
         life=1;
@@ -59,7 +54,7 @@ public class Golem extends Enemy {
     @Override
     public void getAnimations(TextureAtlas atlas) {
         standAnimation = new TextureRegion(atlas.findRegion("golem_walking"), 44,-1,38,62);
-        setBounds(0, 0, 24 / MyGame.PPM, 30 / MyGame.PPM);
+        setBounds(0, 0, 24 / BitHeroes.PPM, 30 / BitHeroes.PPM);
         setRegion(standAnimation);
         currentState = State.STAND;
         previusState = State.STAND;

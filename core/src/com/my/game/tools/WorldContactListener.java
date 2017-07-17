@@ -1,26 +1,25 @@
 package com.my.game.tools;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.my.game.MyGame;
+import com.my.game.BitHeroes;
 
 /**
  * Created by lorib on 13/05/2017.
  */
 
 public class WorldContactListener implements ContactListener {
-    private MyGame game;
+    private BitHeroes game;
 
     /**
      * Create the listener for every collision event.
      * @param game
      */
-    public WorldContactListener(MyGame game){
+    public WorldContactListener(BitHeroes game){
         this.game=game;
     }
 
@@ -42,27 +41,27 @@ public class WorldContactListener implements ContactListener {
         /**
          * Control if one of the fixtures are the Player fixture
          */
-        if (contact.getFixtureA() != null && contact.getFixtureA().getFilterData().categoryBits== MyGame.PLAYER_BIT) {
+        if (contact.getFixtureA() != null && contact.getFixtureA().getFilterData().categoryBits== BitHeroes.PLAYER_BIT) {
             fixPlayer = contact.getFixtureA();
-        } else if (contact.getFixtureB() != null &&contact.getFixtureB().getFilterData().categoryBits== MyGame.PLAYER_BIT) {
+        } else if (contact.getFixtureB() != null &&contact.getFixtureB().getFilterData().categoryBits== BitHeroes.PLAYER_BIT) {
             fixPlayer = contact.getFixtureB();
         }
 
         /**
          * Control if one of the fixtures are the EnemyMelee fixture
          */
-        if (contact.getFixtureA() != null && contact.getFixtureA().getFilterData().categoryBits== MyGame.ENEMY_MELEE_BIT) {
+        if (contact.getFixtureA() != null && contact.getFixtureA().getFilterData().categoryBits== BitHeroes.ENEMY_MELEE_BIT) {
             fixEnemyMelee = contact.getFixtureA();
-        } else if (contact.getFixtureB() != null &&contact.getFixtureB().getFilterData().categoryBits== MyGame.ENEMY_MELEE_BIT) {
+        } else if (contact.getFixtureB() != null &&contact.getFixtureB().getFilterData().categoryBits== BitHeroes.ENEMY_MELEE_BIT) {
             fixEnemyMelee = contact.getFixtureB();
         }
 
         /**
          * Control if one of the fixtures are the PlayerMelee fixture
          */
-        if (contact.getFixtureA() != null && contact.getFixtureA().getFilterData().categoryBits== MyGame.PLAYER_MELEE_BIT) {
+        if (contact.getFixtureA() != null && contact.getFixtureA().getFilterData().categoryBits== BitHeroes.PLAYER_MELEE_BIT) {
             fixPlayerMelee = contact.getFixtureA();
-        } else if (contact.getFixtureB() != null &&contact.getFixtureB().getFilterData().categoryBits== MyGame.PLAYER_MELEE_BIT) {
+        } else if (contact.getFixtureB() != null &&contact.getFixtureB().getFilterData().categoryBits== BitHeroes.PLAYER_MELEE_BIT) {
             fixPlayerMelee = contact.getFixtureB();
         }
 
@@ -70,13 +69,13 @@ public class WorldContactListener implements ContactListener {
          * Control if one of the fixtures are the EnemyBullet fixture or the PlayerButton fixture
          */
         if (contact.getFixtureA() != null && contact.getFixtureA().getUserData() instanceof Bullet){
-            if(contact.getFixtureA().getFilterData().categoryBits== MyGame.PLAYER_BULLET_BIT) {
+            if(contact.getFixtureA().getFilterData().categoryBits== BitHeroes.PLAYER_BULLET_BIT) {
                 fixPlayerBullet = contact.getFixtureA();
-            }else if (contact.getFixtureA().getFilterData().categoryBits== MyGame.ENEMY_BULLET_BIT){
+            }else if (contact.getFixtureA().getFilterData().categoryBits== BitHeroes.ENEMY_BULLET_BIT){
                 fixEnemyBullet = contact.getFixtureA();
             }
         } else if (contact.getFixtureB() != null && contact.getFixtureB().getUserData() instanceof Bullet){
-            if(contact.getFixtureB().getFilterData().categoryBits== MyGame.PLAYER_BULLET_BIT){
+            if(contact.getFixtureB().getFilterData().categoryBits== BitHeroes.PLAYER_BULLET_BIT){
                 fixPlayerBullet = contact.getFixtureB();
             } else {
                 fixEnemyBullet = contact.getFixtureB();
@@ -86,9 +85,9 @@ public class WorldContactListener implements ContactListener {
         /**
          * Control if one of the fixtures are the Enemy fixture
          */
-        if (contact.getFixtureA() != null && contact.getFixtureA().getFilterData().categoryBits== MyGame.ENEMY_BIT) {
+        if (contact.getFixtureA() != null && contact.getFixtureA().getFilterData().categoryBits== BitHeroes.ENEMY_BIT) {
             fixEnemy = contact.getFixtureA();
-        } else if (contact.getFixtureB() != null &&contact.getFixtureB().getFilterData().categoryBits== MyGame.ENEMY_BIT) {
+        } else if (contact.getFixtureB() != null &&contact.getFixtureB().getFilterData().categoryBits== BitHeroes.ENEMY_BIT) {
             fixEnemy = contact.getFixtureB();
         }
 

@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.my.game.MyGame;
+import com.my.game.BitHeroes;
 import com.my.game.tools.Interfaces.EntityInterface;
 import com.my.game.tools.PlayScreen;
 
@@ -30,7 +30,7 @@ public class MenuScreen implements Screen {
     private Skin skin;
     private TextureAtlas buttonAtlas;
     private Viewport port;
-    private MyGame game;
+    private BitHeroes game;
     private Camera camera;
     private Texture background;
 
@@ -38,10 +38,10 @@ public class MenuScreen implements Screen {
      * Create the MenuScreen with a background and a button for every playable entity.
      * @param game
      */
-    public MenuScreen(final MyGame game){
+    public MenuScreen(final BitHeroes game){
         this.game=game;
         camera=new OrthographicCamera();
-        port= new FitViewport(MyGame.V_WIDTH,MyGame.V_HEIGHT,camera);
+        port= new FitViewport(BitHeroes.V_WIDTH, BitHeroes.V_HEIGHT,camera);
         stage = new Stage(port);
         Gdx.input.setInputProcessor(stage);
         background=new Texture("schermata_menu.png");
@@ -55,7 +55,7 @@ public class MenuScreen implements Screen {
         textButtonWarriorStyle.font = new BitmapFont();
         textButtonWarriorStyle.up = skin.getDrawable("guerriero");
         buttonWarrior = new TextButton("", textButtonWarriorStyle);
-        buttonWarrior.setBounds(MyGame.V_WIDTH / 2 - MyGame.V_WIDTH / 2.5f, MyGame.V_HEIGHT / 2 - MyGame.V_HEIGHT / 4, MyGame.V_WIDTH / 5, MyGame.V_HEIGHT / 5);
+        buttonWarrior.setBounds(BitHeroes.V_WIDTH / 2 - BitHeroes.V_WIDTH / 2.5f, BitHeroes.V_HEIGHT / 2 - BitHeroes.V_HEIGHT / 4, BitHeroes.V_WIDTH / 5, BitHeroes.V_HEIGHT / 5);
         buttonWarrior.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
@@ -77,7 +77,7 @@ public class MenuScreen implements Screen {
         textButtonArcherStyle.font = new BitmapFont();
         textButtonArcherStyle.up = skin.getDrawable("archer");
         buttonArcher = new TextButton("", textButtonArcherStyle);
-        buttonArcher.setBounds(MyGame.V_WIDTH / 2 - MyGame.V_WIDTH / 10, MyGame.V_HEIGHT / 2 - MyGame.V_HEIGHT / 4, MyGame.V_WIDTH / 5, MyGame.V_HEIGHT / 5);
+        buttonArcher.setBounds(BitHeroes.V_WIDTH / 2 - BitHeroes.V_WIDTH / 10, BitHeroes.V_HEIGHT / 2 - BitHeroes.V_HEIGHT / 4, BitHeroes.V_WIDTH / 5, BitHeroes.V_HEIGHT / 5);
         buttonArcher.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
@@ -99,7 +99,7 @@ public class MenuScreen implements Screen {
         textButtonFireBenderStyle.font = new BitmapFont();
         textButtonFireBenderStyle.up = skin.getDrawable("firebender");
         buttonFireBender = new TextButton("", textButtonFireBenderStyle);
-        buttonFireBender.setBounds(MyGame.V_WIDTH / 2 +MyGame.V_WIDTH / 5, MyGame.V_HEIGHT / 2 - MyGame.V_HEIGHT / 4, MyGame.V_WIDTH / 5, MyGame.V_HEIGHT / 5);
+        buttonFireBender.setBounds(BitHeroes.V_WIDTH / 2 + BitHeroes.V_WIDTH / 5, BitHeroes.V_HEIGHT / 2 - BitHeroes.V_HEIGHT / 4, BitHeroes.V_WIDTH / 5, BitHeroes.V_HEIGHT / 5);
         buttonFireBender.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {

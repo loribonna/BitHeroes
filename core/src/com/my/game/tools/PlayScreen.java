@@ -1,11 +1,9 @@
 package com.my.game.tools;
 
-import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -20,7 +18,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.my.game.MyGame;
+import com.my.game.BitHeroes;
 import com.my.game.screens.Hud;
 import com.my.game.screens.GameOverScreen;
 
@@ -33,7 +31,7 @@ import java.util.Iterator;
 
 public abstract class PlayScreen implements Screen{
     protected boolean gameOver=false;
-    protected final MyGame game;
+    protected final BitHeroes game;
     protected OrthographicCamera camera;
     protected Viewport port;
     protected Hud hud;
@@ -60,13 +58,13 @@ public abstract class PlayScreen implements Screen{
 
     /**
      * Initialize game world and play game music.
-     * @param game: Reference to main game instance
+     * @param game Reference to main game instance
      */
-    public PlayScreen(MyGame game){
+    public PlayScreen(BitHeroes game){
         this.game=game;
         objectsToRemove=new ArrayList<Object>();
         camera=new OrthographicCamera();
-        port=new FitViewport(MyGame.V_WIDTH / MyGame.PPM,MyGame.V_HEIGHT / MyGame.PPM,camera);
+        port=new FitViewport(BitHeroes.V_WIDTH / BitHeroes.PPM, BitHeroes.V_HEIGHT / BitHeroes.PPM,camera);
 
         mapLoader=new TmxMapLoader();
         camera.position.set(port.getWorldWidth()/2,port.getWorldHeight()/2,0);
@@ -76,10 +74,6 @@ public abstract class PlayScreen implements Screen{
         enemyList=new ArrayList<Enemy>();
         animatedTileObjects=new ArrayList<TileObject>();
         bullets=new ArrayList<Bullet>();
-
-        music = game.getManager().get("sounds/musica.wav",Music.class);
-        music.setLooping(true);
-        music.play();
     }
 
     /**
@@ -160,7 +154,7 @@ public abstract class PlayScreen implements Screen{
 
     /**
      * Process Inputs from Keyboard
-     * @param dt: Current DeltaTime between frame calls
+     * @param dt Current DeltaTime between frame calls
      */
     public void handleInput(float dt){
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP)
@@ -206,7 +200,7 @@ public abstract class PlayScreen implements Screen{
      * This method is called once every frame call.
      * Draws the animations for the Entities and TileObjects.
      * Draw the hud and current camera view.
-     * @param delta: Current DeltaTime between this frame call and the previous.
+     * @param delta Current DeltaTime between this frame call and the previous.
      */
     @Override
     public void render(float delta) {
@@ -216,7 +210,8 @@ public abstract class PlayScreen implements Screen{
             update(delta);
             mapRenderer.render();
 
-            b2dr.render(world, camera.combined);
+            // Show border around shapes if in Debug
+            //b2dr.render(world, camera.combined);
 
             game.getBatch().setProjectionMatrix(camera.combined);
             game.getBatch().begin();
@@ -246,7 +241,7 @@ public abstract class PlayScreen implements Screen{
     /**
      * Update Entities and AnimatedTileObject actions and animations.
      * Handle player input and clean object to dispose.
-     * @param dt: Current DeltaTime between frame calls.
+     * @param dt Current DeltaTime between frame calls.
      */
     public void update(float dt) {
         handleInput(dt);
@@ -359,6 +354,8 @@ public abstract class PlayScreen implements Screen{
      */
     @Override
     public void dispose() {
+        music.setLooping(false);
+        music.stop();
         Array<Body> bodies=new Array<Body>();
         world.getBodies(bodies);
         for(Body b : bodies){

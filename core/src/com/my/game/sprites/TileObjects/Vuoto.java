@@ -1,13 +1,9 @@
 package com.my.game.sprites.TileObjects;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
-import com.my.game.MyGame;
-import com.my.game.tools.Enemy;
+import com.my.game.BitHeroes;
 import com.my.game.tools.Entity;
-import com.my.game.tools.PlayScreen;
 import com.my.game.tools.TileObject;
 
 /**
@@ -21,9 +17,9 @@ public class Vuoto extends TileObject {
      * @param rect
      * @param game
      */
-    public Vuoto(World world, Rectangle rect,MyGame game) {
+    public Vuoto(World world, Rectangle rect,BitHeroes game) {
         super(world, rect,game);
-        setCategoryBits(MyGame.VOID_BIT);
+        setCategoryBits(BitHeroes.VOID_BIT);
     }
 
     @Override
@@ -32,7 +28,7 @@ public class Vuoto extends TileObject {
     /**
      * If the player touches the void gets game over.
      * If a enemy touches the void gets destroyed.
-     * @param entity: Enemy or Player
+     * @param entity Enemy or Player
      */
     @Override
     public void onHit(Entity entity) {

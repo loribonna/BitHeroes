@@ -1,14 +1,13 @@
 package com.my.game.sprites.Enemies;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -16,10 +15,8 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
-import com.my.game.MyGame;
+import com.my.game.BitHeroes;
 import com.my.game.screens.FinalScreen;
-import com.my.game.screens.MenuScreen;
-import com.my.game.sprites.Throwables.Arrow;
 import com.my.game.sprites.Throwables.DragonBall;
 import com.my.game.tools.Enemy;
 import com.my.game.tools.Interfaces.EntityInterface;
@@ -36,7 +33,7 @@ public class Dragon extends Enemy {
      * @param position
      * @param game
      */
-    public Dragon(World world, TextureAtlas screenAtlas, Vector2 position, MyGame game) {
+    public Dragon(World world, TextureAtlas screenAtlas, Vector2 position, BitHeroes game) {
         super(world, screenAtlas,position,game);
         attackRange=0.2f;
         life=200;
@@ -75,10 +72,10 @@ public class Dragon extends Enemy {
 
         PolygonShape bShape = new PolygonShape();
         bShape.set(new Vector2[]{
-                new Vector2(-6,15).scl(1/MyGame.PPM),
-                new Vector2(6,15).scl(1/MyGame.PPM),
-                new Vector2(6,-15).scl(1/MyGame.PPM),
-                new Vector2(-6,-15).scl(1/MyGame.PPM)
+                new Vector2(-6,15).scl(1/ BitHeroes.PPM),
+                new Vector2(6,15).scl(1/ BitHeroes.PPM),
+                new Vector2(6,-15).scl(1/ BitHeroes.PPM),
+                new Vector2(-6,-15).scl(1/ BitHeroes.PPM)
         });
         fdef.shape=bShape;
         body.createFixture(fdef).setUserData(this);
@@ -104,7 +101,7 @@ public class Dragon extends Enemy {
     @Override
     public void getAnimations(TextureAtlas atlas) {
         standAnimation = new TextureRegion(atlas.findRegion("dragon_walking"),8,9, 136, 131);
-        setBounds(0, 0, 100 / MyGame.PPM, 100 / MyGame.PPM);
+        setBounds(0, 0, 100 / BitHeroes.PPM, 100 / BitHeroes.PPM);
         setRegion(standAnimation);
         currentState = EntityInterface.State.STAND;
         previusState = EntityInterface.State.STAND;
@@ -154,6 +151,10 @@ public class Dragon extends Enemy {
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
+                music = game.getManager().get("sounds/ruggito.wav",Music.class);
+                music.setLooping(false);
+                music.setVolume(1);
+                music.play();
                 final Body attackBody = world.createBody(bDef);
                 attackBody.setGravityScale(0);
 
@@ -179,7 +180,7 @@ public class Dragon extends Enemy {
      * Add a bullet in the currentPlayScreen
      */
     protected void throwBullet() {
-        Vector2 position = new Vector2(getPosition().x,getPosition().y+20/MyGame.PPM);
+        Vector2 position = new Vector2(getPosition().x,getPosition().y+20/ BitHeroes.PPM);
         game.getCurrentPlayScreen().addBullet(new DragonBall(position, world, isFlipX(),false,game));
     }
 
@@ -203,6 +204,10 @@ public class Dragon extends Enemy {
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
+                music = game.getManager().get("sounds/ruggito.wav",Music.class);
+                music.setLooping(false);
+                music.setVolume(1);
+                music.play();
                 throwBullet();
             }
         },throwAnimation.getAnimationDuration()/2);
@@ -210,38 +215,38 @@ public class Dragon extends Enemy {
 
     /**
      * Replace default to increase fixture shape
-     * @return
+     * @return fixture to trigger collision for Melee attack if the attack is front
      */
     @Override
     public FixtureDef createFrontAttackFixture() {
         FixtureDef fdef = new FixtureDef();
 
         PolygonShape weaponFront = new PolygonShape();
-        weaponFront.set(new Vector2[]{new Vector2(25,-6).scl(1/MyGame.PPM),new Vector2(25,-10).scl(1/MyGame.PPM)
-                ,new Vector2(8,-6).scl(1/MyGame.PPM),new Vector2(8,-10).scl(1/MyGame.PPM)});
+        weaponFront.set(new Vector2[]{new Vector2(25,-6).scl(1/ BitHeroes.PPM),new Vector2(25,-10).scl(1/ BitHeroes.PPM)
+                ,new Vector2(8,-6).scl(1/ BitHeroes.PPM),new Vector2(8,-10).scl(1/ BitHeroes.PPM)});
         fdef.shape = weaponFront;
-        fdef.filter.categoryBits=MyGame.ENEMY_MELEE_BIT;
-        fdef.filter.groupIndex=MyGame.GROUP_BULLET;
-        fdef.filter.maskBits=MyGame.PLAYER_BIT;
+        fdef.filter.categoryBits= BitHeroes.ENEMY_MELEE_BIT;
+        fdef.filter.groupIndex= BitHeroes.GROUP_BULLET;
+        fdef.filter.maskBits= BitHeroes.PLAYER_BIT;
         fdef.isSensor=true;
         return fdef;
     }
 
     /**
      * Replace default to increase fixture shape
-     * @return
+     * @return fixture to trigger collision for Melee attack if the body is flipped.
      */
     @Override
     public FixtureDef createBackAttackFixture() {
         FixtureDef fdef = new FixtureDef();
 
         PolygonShape weaponBack = new PolygonShape();
-        weaponBack.set(new Vector2[]{new Vector2(-25,-6).scl(1/MyGame.PPM),new Vector2(-25,-10).scl(1/MyGame.PPM)
-                ,new Vector2(-8,-6).scl(1/MyGame.PPM),new Vector2(-8,-10).scl(1/MyGame.PPM)});
+        weaponBack.set(new Vector2[]{new Vector2(-25,-6).scl(1/ BitHeroes.PPM),new Vector2(-25,-10).scl(1/ BitHeroes.PPM)
+                ,new Vector2(-8,-6).scl(1/ BitHeroes.PPM),new Vector2(-8,-10).scl(1/ BitHeroes.PPM)});
         fdef.shape = weaponBack;
-        fdef.filter.categoryBits=MyGame.ENEMY_MELEE_BIT;
-        fdef.filter.groupIndex=MyGame.GROUP_BULLET;
-        fdef.filter.maskBits=MyGame.PLAYER_BIT;
+        fdef.filter.categoryBits= BitHeroes.ENEMY_MELEE_BIT;
+        fdef.filter.groupIndex= BitHeroes.GROUP_BULLET;
+        fdef.filter.maskBits= BitHeroes.PLAYER_BIT;
         fdef.isSensor=true;
         return fdef;
     }

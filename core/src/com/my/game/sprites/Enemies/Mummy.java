@@ -7,14 +7,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
-import com.my.game.MyGame;
+import com.my.game.BitHeroes;
 import com.my.game.tools.Enemy;
-import com.my.game.tools.PlayScreen;
 
 /**
  * Created by user on 12/07/2017.
@@ -28,7 +25,7 @@ public class Mummy extends Enemy {
      * @param position
      * @param game
      */
-    public Mummy(World world, TextureAtlas screenAtlas, Vector2 position,MyGame game) {
+    public Mummy(World world, TextureAtlas screenAtlas, Vector2 position,BitHeroes game) {
         super(world, screenAtlas,position,game);
         attackRange=0.18f;
         life=1;
@@ -57,7 +54,7 @@ public class Mummy extends Enemy {
     @Override
     public void getAnimations(TextureAtlas atlas) {
         standAnimation = new TextureRegion(atlas.findRegion("mummia_walking"), 34,9, 31, 36);
-        setBounds(0, 0, 24 / MyGame.PPM, 30 / MyGame.PPM);
+        setBounds(0, 0, 24 / BitHeroes.PPM, 30 / BitHeroes.PPM);
         setRegion(standAnimation);
         currentState = State.STAND;
         previusState = State.STAND;
@@ -86,13 +83,13 @@ public class Mummy extends Enemy {
         currentState = State.ATTACK;
         previusState = State.ATTACK;
         stateTimer = 0;
-        setSize(24 / MyGame.PPM, 30 / MyGame.PPM);
+        setSize(24 / BitHeroes.PPM, 30 / BitHeroes.PPM);
         setRegion(getFrame(0));
 
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
-                setSize(24 / MyGame.PPM, 30 / MyGame.PPM);
+                setSize(24 / BitHeroes.PPM, 30 / BitHeroes.PPM);
                 lockAttack=false;
             }
         },attackAnimation.getAnimationDuration());

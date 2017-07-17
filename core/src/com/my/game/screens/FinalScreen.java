@@ -3,7 +3,6 @@ package com.my.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -13,10 +12,9 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.my.game.MyGame;
+import com.my.game.BitHeroes;
 
 /**
  * Created by lorib on 16/07/2017.
@@ -24,8 +22,12 @@ import com.my.game.MyGame;
 
 public class FinalScreen implements Screen {
     private Stage stage;
+    private TextButton buttonExit;
+    private TextButton buttonRestart;
+    private Skin skin;
+    private TextureAtlas buttonAtlas;
     private Viewport port;
-    private MyGame game;
+    private BitHeroes game;
     private Camera camera;
     private Texture background;
 
@@ -33,26 +35,63 @@ public class FinalScreen implements Screen {
      * Create the FinalScreen and jumps back in MenuScreen after 5 seconds.
      * @param game
      */
-    public FinalScreen(final MyGame game){
+    public FinalScreen(final BitHeroes game){
         this.game=game;
-
         camera=new OrthographicCamera();
-        port= new FitViewport(MyGame.V_WIDTH,MyGame.V_HEIGHT,camera);
+        port= new FitViewport(BitHeroes.V_WIDTH, BitHeroes.V_HEIGHT,camera);
         stage = new Stage(port);
         Gdx.input.setInputProcessor(stage);
 
         background=new Texture("schermata_finale.png");
 
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                dispose();
-                Screen screen;
-                screen = new MenuScreen(game);
-                game.setScreen(screen);
-            }
-        },5);
+        skin = new Skin();
 
+        buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttons.pack"));
+        skin.addRegions(buttonAtlas);
+        TextButton.TextButtonStyle textButtonRestartStyle;
+        textButtonRestartStyle = new TextButton.TextButtonStyle();
+        textButtonRestartStyle.font = new BitmapFont();
+        textButtonRestartStyle.up = skin.getDrawable("uscita");
+        buttonExit = new TextButton("", textButtonRestartStyle);
+        buttonExit.setBounds(BitHeroes.V_WIDTH/2- BitHeroes.V_WIDTH/10, BitHeroes.V_HEIGHT/2- BitHeroes.V_HEIGHT/3, BitHeroes.V_WIDTH/5, BitHeroes.V_HEIGHT/7);
+        buttonExit.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                if(event.getListenerActor() instanceof TextButton){
+                    TextButton t =((TextButton)event.getListenerActor());
+                    if(t.isChecked()){
+                        dispose();
+                        Gdx.app.exit();
+                    }
+                }
+                return false;
+            }
+        });
+
+        TextButton.TextButtonStyle textButtonExitStyle;
+        textButtonExitStyle = new TextButton.TextButtonStyle();
+        textButtonExitStyle.font = new BitmapFont();
+        textButtonExitStyle.up = skin.getDrawable("ricomincia");
+        buttonRestart = new TextButton("", textButtonExitStyle);
+        buttonRestart.setBounds(BitHeroes.V_WIDTH/2- BitHeroes.V_WIDTH/10, BitHeroes.V_HEIGHT/2- BitHeroes.V_HEIGHT/7, BitHeroes.V_WIDTH/5, BitHeroes.V_HEIGHT/7);
+        buttonRestart.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                if(event.getListenerActor() instanceof TextButton){
+                    TextButton t =((TextButton)event.getListenerActor());
+                    if(t.isChecked()){
+                        dispose();
+                        Screen screen;
+                        screen = new MenuScreen(game);
+                        game.setScreen(screen);
+                    }
+                }
+                return false;
+            }
+        });
+
+        stage.addActor(buttonRestart);
+        stage.addActor(buttonExit);
     }
 
     @Override

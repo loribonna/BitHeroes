@@ -1,5 +1,6 @@
 package com.my.game.screens.PlayScreens;
 
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -7,7 +8,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.my.game.MyGame;
+import com.my.game.BitHeroes;
 import com.my.game.screens.Hud;
 import com.my.game.sprites.Enemies.Dragon;
 import com.my.game.sprites.Players.Archer;
@@ -31,13 +32,13 @@ public class ThirdLevel extends PlayScreen {
      * @param player
      * @param score
      */
-    public ThirdLevel(final MyGame game, EntityInterface.PlayerName player, int score) {
+    public ThirdLevel(final BitHeroes game, EntityInterface.PlayerName player, int score) {
         super(game);
         hud=new Hud(game,3,score);
         game.setCurrentPlayScreen(this);
         game.setCurrentPlayer(player);
         map=mapLoader.load("livello3.tmx");
-        mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / MyGame.PPM);
+        mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / BitHeroes.PPM);
 
         new B2WorldCreator(world,map,animatedTileObjects,game);
 
@@ -64,5 +65,10 @@ public class ThirdLevel extends PlayScreen {
         }
 
         world.setContactListener(new WorldContactListener(game));
+
+        music = game.getManager().get("sounds/bossfight.mp3",Music.class);
+        music.setLooping(true);
+        music.setVolume(0.5f);
+        music.play();
     }
 }

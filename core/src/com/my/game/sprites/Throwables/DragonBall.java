@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.my.game.MyGame;
+import com.my.game.BitHeroes;
 import com.my.game.tools.Bullet;
 
 /**
@@ -21,7 +21,7 @@ public class DragonBall extends Bullet {
      * @param isPlayer
      * @param game
      */
-    public DragonBall(Vector2 position, World world, boolean rightDirection, boolean isPlayer, MyGame game) {
+    public DragonBall(Vector2 position, World world, boolean rightDirection, boolean isPlayer, BitHeroes game) {
         super(position,world,rightDirection,isPlayer,game);
         body.applyLinearImpulse(new Vector2(forceAttack,0),body.getWorldCenter(),true);
         // forceDrag=1; Never fall
@@ -37,7 +37,7 @@ public class DragonBall extends Bullet {
     public void getAnimations(TextureAtlas atlas){
         flyBullet = new TextureRegion(atlas.findRegion("dragon_attack"), 1, 9, 71, 34);
         if(oppositeDirection) flyBullet.flip(true,false);
-        setBounds(0, 0, 40 / MyGame.PPM, 21 / MyGame.PPM);
+        setBounds(0, 0, 40 / BitHeroes.PPM, 21 / BitHeroes.PPM);
     }
 
     /**
@@ -53,7 +53,7 @@ public class DragonBall extends Bullet {
         }
         if(body.getLinearVelocity().y+body.getLinearVelocity().x<minSpeed&&!oppositeDirection||
                 body.getLinearVelocity().y+body.getLinearVelocity().x>-minSpeed&&oppositeDirection){
-            setCategoryBits(MyGame.NOTHING_BIT);
+            setCategoryBits(BitHeroes.NOTHING_BIT);
             dispose();
         }
         setRegion(flyBullet);

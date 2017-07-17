@@ -1,13 +1,12 @@
 package com.my.game.tools;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
-import com.my.game.MyGame;
+import com.my.game.BitHeroes;
 
 /**
  * Created by lorib on 29/05/2017.
@@ -17,7 +16,7 @@ public abstract class Enemy extends Entity{
     protected enum direction{right,left,stop,up};
     protected float attackRange=0.18f;
     protected float minPlayerDistance=0.1f;
-    protected float maxMoveRange=1.5f;
+    protected float maxMoveRange=1.7f;
     protected boolean disableJump=false;
     protected float minHeight=0.1f;
     protected direction XDirection=direction.stop;
@@ -31,7 +30,7 @@ public abstract class Enemy extends Entity{
      * @param position
      * @param game
      */
-    public Enemy(World world, TextureAtlas screenAtlas, Vector2 position,MyGame game) {
+    public Enemy(World world, TextureAtlas screenAtlas, Vector2 position,BitHeroes game) {
         super(world, screenAtlas, position, game);
         isPlayer=false;
         body.setActive(false);
@@ -169,16 +168,15 @@ public abstract class Enemy extends Entity{
     }
 
     /**
-     * Get enemy filter bits to set collisions.
-     * @return
+     * @return enemy filter bits to set collisions.
      */
     @Override
     public Filter getFilter() {
         Filter f = new Filter();
-        f.categoryBits = MyGame.ENEMY_BIT;
-        f.maskBits =(MyGame.DEFAULT_BIT | MyGame.BRICK_BIT | MyGame.COIN_BIT |
-                MyGame.PLAYER_BIT | MyGame.VOID_BIT | MyGame.PLAYER_BULLET_BIT | MyGame.PLAYER_MELEE_BIT);
-        f.groupIndex = MyGame.GROUP_ENEMIES;
+        f.categoryBits = BitHeroes.ENEMY_BIT;
+        f.maskBits =(BitHeroes.DEFAULT_BIT | BitHeroes.BRICK_BIT | BitHeroes.COIN_BIT |
+                BitHeroes.PLAYER_BIT | BitHeroes.VOID_BIT | BitHeroes.PLAYER_BULLET_BIT | BitHeroes.PLAYER_MELEE_BIT);
+        f.groupIndex = BitHeroes.GROUP_ENEMIES;
         return f;
     }
 
@@ -205,7 +203,7 @@ public abstract class Enemy extends Entity{
         fdef.filter.maskBits=filter.maskBits;
 
         CircleShape bShape = new CircleShape();
-        bShape.setRadius(6/MyGame.PPM);
+        bShape.setRadius(6/ BitHeroes.PPM);
         fdef.shape=bShape;
         body.createFixture(fdef).setUserData(this);
     }

@@ -14,8 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.my.game.MyGame;
-import com.my.game.tools.PlayScreen;
+import com.my.game.BitHeroes;
 
 /**
  * Created by lorib on 24/05/2017.
@@ -28,7 +27,7 @@ public class GameOverScreen implements Screen {
     private Skin skin;
     private TextureAtlas buttonAtlas;
     private Viewport port;
-    private MyGame game;
+    private BitHeroes game;
     private Camera camera;
     private Texture background;
 
@@ -36,10 +35,10 @@ public class GameOverScreen implements Screen {
      * Display the GameOver screen with the buttons Restart and Exit
      * @param game
      */
-    public GameOverScreen(final MyGame game){
+    public GameOverScreen(final BitHeroes game){
         this.game=game;
         camera=new OrthographicCamera();
-        port= new FitViewport(MyGame.V_WIDTH,MyGame.V_HEIGHT,camera);
+        port= new FitViewport(BitHeroes.V_WIDTH, BitHeroes.V_HEIGHT,camera);
         stage = new Stage(port);
         Gdx.input.setInputProcessor(stage);
 
@@ -54,7 +53,7 @@ public class GameOverScreen implements Screen {
         textButtonRestartStyle.font = new BitmapFont();
         textButtonRestartStyle.up = skin.getDrawable("uscita");
         buttonExit = new TextButton("", textButtonRestartStyle);
-        buttonExit.setBounds(MyGame.V_WIDTH/2-MyGame.V_WIDTH/10,MyGame.V_HEIGHT/2-MyGame.V_HEIGHT/3,MyGame.V_WIDTH/5,MyGame.V_HEIGHT/7);
+        buttonExit.setBounds(BitHeroes.V_WIDTH/2- BitHeroes.V_WIDTH/10, BitHeroes.V_HEIGHT/2- BitHeroes.V_HEIGHT/3, BitHeroes.V_WIDTH/5, BitHeroes.V_HEIGHT/7);
         buttonExit.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
@@ -74,7 +73,7 @@ public class GameOverScreen implements Screen {
         textButtonExitStyle.font = new BitmapFont();
         textButtonExitStyle.up = skin.getDrawable("ricomincia");
         buttonRestart = new TextButton("", textButtonExitStyle);
-        buttonRestart.setBounds(MyGame.V_WIDTH/2-MyGame.V_WIDTH/10,MyGame.V_HEIGHT/2-MyGame.V_HEIGHT/7,MyGame.V_WIDTH/5,MyGame.V_HEIGHT/7);
+        buttonRestart.setBounds(BitHeroes.V_WIDTH/2- BitHeroes.V_WIDTH/10, BitHeroes.V_HEIGHT/2- BitHeroes.V_HEIGHT/7, BitHeroes.V_WIDTH/5, BitHeroes.V_HEIGHT/7);
         buttonRestart.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {

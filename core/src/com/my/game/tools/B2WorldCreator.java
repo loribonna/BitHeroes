@@ -8,7 +8,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
-import com.my.game.MyGame;
+import com.my.game.BitHeroes;
 import com.my.game.screens.PlayScreens.FirstLevel;
 import com.my.game.screens.PlayScreens.SecondLevel;
 
@@ -23,10 +23,10 @@ public class B2WorldCreator {
     /**
      * Create a TileObject to every object and layer in the current TiledMap of the current World.
      * Every level map has different map structure.
-     * @param world: Current world
-     * @param map: Current map
+     * @param world Current world
+     * @param map Current map
      */
-    public B2WorldCreator(World world, TiledMap map, ArrayList<TileObject> animatedObjects,MyGame game) {
+    public B2WorldCreator(World world, TiledMap map, ArrayList<TileObject> animatedObjects,BitHeroes game) {
         if (game.getCurrentPlayScreen() instanceof FirstLevel) {
             MapLayer l = map.getLayers().get(2);
             for (MapObject obj : l.getObjects().getByType(RectangleMapObject.class)) {

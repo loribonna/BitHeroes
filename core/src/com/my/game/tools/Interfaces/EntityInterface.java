@@ -39,8 +39,7 @@ public interface EntityInterface {
     public abstract void getAnimations(TextureAtlas atlas);
 
     /**
-     * Get current entity filter to set collisions.
-     * @return
+     * @return current entity filter to set collisions.
      */
     Filter getFilter();
 
@@ -73,7 +72,7 @@ public interface EntityInterface {
     TextureRegion getFrame(float dt);
 
     /**
-     * @return: new state based on the action being performed and movement of the body.
+     * @return new state based on the action being performed and movement of the body.
      */
     public State getState();
 
@@ -111,14 +110,12 @@ public interface EntityInterface {
     void throwAttack(AttackType attackType);
 
     /**
-     * Create fixture to trigger collision for Melee attack if the body is flipped.
-     * @return
+     * @return fixture to trigger collision for Melee attack if the body is flipped.
      */
     FixtureDef createBackAttackFixture();
 
     /**
-     * Create fixture to trigger collision for Melee attack if the attack is front
-     * @return
+     * @return fixture to trigger collision for Melee attack if the attack is front
      */
     FixtureDef createFrontAttackFixture();
 }

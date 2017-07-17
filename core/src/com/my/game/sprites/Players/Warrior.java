@@ -1,5 +1,6 @@
 package com.my.game.sprites.Players;
 
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,11 +12,10 @@ import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
-import com.my.game.MyGame;
+import com.my.game.BitHeroes;
 import com.my.game.tools.Entity;
 
 
@@ -32,9 +32,9 @@ public class Warrior extends Entity {
      * @param position
      * @param game
      */
-    public Warrior(World world, TextureAtlas screenAtlas,Vector2 position,MyGame game) {
+    public Warrior(World world, TextureAtlas screenAtlas,Vector2 position,BitHeroes game) {
         super(world, screenAtlas,position,game);
-        life=200;
+        life=480;
     }
 
     /**
@@ -44,7 +44,7 @@ public class Warrior extends Entity {
     @Override
     public void getAnimations(TextureAtlas atlas) {
         standAnimation = new TextureRegion(atlas.findRegion("warrior_idle"), 0, 0, 14, 16);
-        setBounds(0, 0, 16 / MyGame.PPM, 16 / MyGame.PPM);
+        setBounds(0, 0, 16 / BitHeroes.PPM, 16 / BitHeroes.PPM);
         setRegion(standAnimation);
         currentState = State.STAND;
         previusState = State.STAND;
@@ -89,20 +89,23 @@ public class Warrior extends Entity {
      */
     @Override
     public void destroy() {
+        music = game.getManager().get("sounds/morte.wav",Music.class);
+        music.setLooping(false);
+        music.setVolume(1);
+        music.play();
         game.getCurrentPlayScreen().gameOver();
     }
 
     /**
-     * Get player filter bits to set collisions.
-     * @return
+     * @return player filter bits to set collisions.
      */
     @Override
     public Filter getFilter() {
         Filter f = new Filter();
-        f.categoryBits = MyGame.PLAYER_BIT;
-        f.maskBits =(MyGame.DEFAULT_BIT | MyGame.BRICK_BIT | MyGame.COIN_BIT | MyGame.ENEMY_BIT |
-                MyGame.VOID_BIT | MyGame.WALL_BIT | MyGame.EXIT_BIT | MyGame.ENEMY_BULLET_BIT | MyGame.ENEMY_MELEE_BIT);
-        f.groupIndex = MyGame.GROUP_PLAYER;
+        f.categoryBits = BitHeroes.PLAYER_BIT;
+        f.maskBits =(BitHeroes.DEFAULT_BIT | BitHeroes.BRICK_BIT | BitHeroes.COIN_BIT | BitHeroes.ENEMY_BIT |
+                BitHeroes.VOID_BIT | BitHeroes.WALL_BIT | BitHeroes.EXIT_BIT | BitHeroes.ENEMY_BULLET_BIT | BitHeroes.ENEMY_MELEE_BIT);
+        f.groupIndex = BitHeroes.GROUP_PLAYER;
         return f;
     }
 
@@ -119,12 +122,12 @@ public class Warrior extends Entity {
         fdef.filter.maskBits=filter.maskBits;
 
         CircleShape bShape = new CircleShape();
-        bShape.setRadius(6/MyGame.PPM);
+        bShape.setRadius(6/ BitHeroes.PPM);
         fdef.shape=bShape;
         body.createFixture(fdef).setUserData(this);
 
         EdgeShape feet = new EdgeShape();
-        feet.set(new Vector2(-4,-6).scl(1/MyGame.PPM),new Vector2(4,-6).scl(1/MyGame.PPM));
+        feet.set(new Vector2(-4,-6).scl(1/ BitHeroes.PPM),new Vector2(4,-6).scl(1/ BitHeroes.PPM));
         fdef.shape = feet;
         fdef.isSensor=true;
         body.createFixture(fdef).setUserData("good_feet");
@@ -139,14 +142,14 @@ public class Warrior extends Entity {
         currentState = State.ATTACK;
         previusState = State.ATTACK;
         stateTimer = 0;
-        setSize(27 / MyGame.PPM, 16 / MyGame.PPM);
+        setSize(27 / BitHeroes.PPM, 16 / BitHeroes.PPM);
         setRegion(getFrame(0));
 
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
                 lockAttack=false;
-                setSize(16 / MyGame.PPM, 16 / MyGame.PPM);
+                setSize(16 / BitHeroes.PPM, 16 / BitHeroes.PPM);
             }
         },attackAnimation.getAnimationDuration());
 
@@ -159,6 +162,11 @@ public class Warrior extends Entity {
             public void run() {
                 final Body attackBody = world.createBody(bDef);
                 attackBody.setGravityScale(0);
+
+                music = game.getManager().get("sounds/spadata.mp3",Music.class);
+                music.setLooping(false);
+                music.setVolume(1);
+                music.play();
 
                 if (isFlipX()) {
                     final Fixture f = attackBody.createFixture(createBackAttackFixture());
