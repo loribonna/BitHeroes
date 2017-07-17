@@ -11,11 +11,12 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.my.game.BitHeroes;
 import com.my.game.screens.PlayScreens.FirstLevel;
 import com.my.game.screens.PlayScreens.SecondLevel;
+import com.my.game.sprites.TileObjects.Void;
 
 import java.util.ArrayList;
 
 /**
- * Created by lorib on 09/05/2017.
+ * Create the world's TileObjects
  */
 
 public class B2WorldCreator {
@@ -37,7 +38,7 @@ public class B2WorldCreator {
             l = map.getLayers().get(3);
             for (MapObject obj : l.getObjects().getByType(RectangleMapObject.class)) {
                 Rectangle rect = ((RectangleMapObject) obj).getRectangle();
-                new com.my.game.sprites.TileObjects.Vuoto(world, rect,game);
+                new Void(world, rect,game);
             }
 
             l = map.getLayers().get(6);
@@ -73,7 +74,7 @@ public class B2WorldCreator {
             l = map.getLayers().get(2);
             for (MapObject obj : l.getObjects().getByType(RectangleMapObject.class)) {
                 Rectangle rect = ((RectangleMapObject) obj).getRectangle();
-                new com.my.game.sprites.TileObjects.Vuoto(world, rect,game);
+                new Void(world, rect,game);
             }
 
             l = map.getLayers().get(5);

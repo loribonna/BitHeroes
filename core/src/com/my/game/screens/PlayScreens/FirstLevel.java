@@ -23,7 +23,7 @@ import com.my.game.tools.Interfaces.EntityInterface;
 import com.my.game.tools.PlayScreen;
 
 /**
- * Created by lorib on 03/05/2017.
+ * First level screen
  */
 
 public class FirstLevel extends PlayScreen {

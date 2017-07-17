@@ -14,7 +14,7 @@ import com.my.game.BitHeroes;
 import com.my.game.tools.*;
 
 /**
- * Created by lorib on 11/05/2017.
+ * Create a Orch entity from Enemy class
  */
 
 public class Orch extends Enemy {

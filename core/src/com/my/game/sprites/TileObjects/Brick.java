@@ -7,7 +7,7 @@ import com.my.game.tools.Entity;
 import com.my.game.tools.TileObject;
 
 /**
- * Created by lorib on 13/05/2017.
+ * Create a solid Brick TileObject
  */
 
 public class Brick extends TileObject {

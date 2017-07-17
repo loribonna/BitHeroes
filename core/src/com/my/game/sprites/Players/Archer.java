@@ -17,7 +17,7 @@ import com.my.game.sprites.Throwables.Arrow;
 import com.my.game.tools.Entity;
 
 /**
- * Created by lorib on 09/05/2017.
+ * Create a playable Archer entity
  */
 
 public class Archer extends Entity {

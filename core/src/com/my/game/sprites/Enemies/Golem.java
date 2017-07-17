@@ -14,9 +14,8 @@ import com.my.game.BitHeroes;
 import com.my.game.tools.*;
 
 /**
- * Created by lorib on 11/05/2017.
+ * Create a Golem entity from Enemy class
  */
-
 public class Golem extends Enemy {
     /**
      * Create a Golem from Enemy class

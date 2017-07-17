@@ -8,7 +8,7 @@ import com.my.game.BitHeroes;
 import com.my.game.tools.Bullet;
 
 /**
- * Created by lorib on 02/06/2017.
+ * Create a Arrow bullet
  */
 
 public class Arrow extends Bullet {

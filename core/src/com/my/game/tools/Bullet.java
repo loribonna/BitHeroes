@@ -14,7 +14,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.my.game.BitHeroes;
 
 /**
- * Created by lorib on 02/06/2017.
+ * Abstract class with Bullet controls
  */
 
 public abstract class Bullet extends Sprite {

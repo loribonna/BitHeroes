@@ -7,17 +7,17 @@ import com.my.game.tools.Entity;
 import com.my.game.tools.TileObject;
 
 /**
- * Created by lorib on 17/05/2017.
+ * Create a solid Void TileObject to destroy player and enemies
  */
 
-public class Vuoto extends TileObject {
+public class Void extends TileObject {
     /**
-     * Create a Vuoto TileObject
+     * Create a Void TileObject
      * @param world
      * @param rect
      * @param game
      */
-    public Vuoto(World world, Rectangle rect,BitHeroes game) {
+    public Void(World world, Rectangle rect, BitHeroes game) {
         super(world, rect,game);
         setCategoryBits(BitHeroes.VOID_BIT);
     }

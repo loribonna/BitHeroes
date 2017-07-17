@@ -16,7 +16,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.my.game.BitHeroes;
 
 /**
- * Created by lorib on 11/05/2017.
+ * Abstract class with Entity controls
  */
 
 public abstract class Entity extends Sprite implements com.my.game.tools.Interfaces.EntityInterface {

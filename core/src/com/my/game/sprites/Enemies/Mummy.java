@@ -14,7 +14,7 @@ import com.my.game.BitHeroes;
 import com.my.game.tools.Enemy;
 
 /**
- * Created by user on 12/07/2017.
+ * Create a Mummy entity from Enemy class
  */
 
 public class Mummy extends Enemy {

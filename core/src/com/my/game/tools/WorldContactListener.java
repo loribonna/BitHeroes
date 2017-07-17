@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.my.game.BitHeroes;
 
 /**
- * Created by lorib on 13/05/2017.
+ * Create the contact listener for the current world
  */
 
 public class WorldContactListener implements ContactListener {

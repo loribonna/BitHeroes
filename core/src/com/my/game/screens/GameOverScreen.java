@@ -17,7 +17,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.my.game.BitHeroes;
 
 /**
- * Created by lorib on 24/05/2017.
+ * GameOver screen with return and exit button
  */
 
 public class GameOverScreen implements Screen {

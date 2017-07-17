@@ -20,7 +20,7 @@ import com.my.game.tools.Entity;
 
 
 /**
- * Created by lorib on 09/05/2017.
+ * Create a playable Warrior entity
  */
 
 public class Warrior extends Entity {

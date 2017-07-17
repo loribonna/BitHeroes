@@ -24,7 +24,7 @@ import com.my.game.tools.PlayScreen;
 import com.my.game.tools.WorldContactListener;
 
 /**
- * Created by lorib on 30/05/2017.
+ * Second level screen
  */
 
 public class SecondLevel extends PlayScreen{

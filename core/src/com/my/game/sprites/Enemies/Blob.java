@@ -12,7 +12,7 @@ import com.my.game.sprites.Throwables.BlobBall;
 import com.my.game.tools.*;
 
 /**
- * Created by lorib on 11/05/2017.
+ * Create a Blob entity from Enemy class
  */
 
 public class Blob extends Enemy {

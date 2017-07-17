@@ -19,7 +19,7 @@ import com.my.game.tools.Interfaces.EntityInterface;
 import com.my.game.tools.PlayScreen;
 
 /**
- * Created by lorib on 17/05/2017.
+ * Create menu screen with buttons to choose the player
  */
 
 public class MenuScreen implements Screen {

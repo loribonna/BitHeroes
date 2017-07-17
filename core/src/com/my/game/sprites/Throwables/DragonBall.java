@@ -8,8 +8,9 @@ import com.my.game.BitHeroes;
 import com.my.game.tools.Bullet;
 
 /**
- * Created by lorib on 15/07/2017.
+ * Create a DragonBall bullet
  */
+
 
 public class DragonBall extends Bullet {
 

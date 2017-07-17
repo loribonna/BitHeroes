@@ -8,7 +8,7 @@ import com.my.game.tools.Entity;
 import com.my.game.tools.TileObject;
 
 /**
- * Created by lorib on 13/05/2017.
+ * Create a solid Terrain TileObject
  */
 
 public class Terrain extends TileObject {

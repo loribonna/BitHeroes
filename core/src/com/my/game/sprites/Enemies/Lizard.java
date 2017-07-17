@@ -14,7 +14,7 @@ import com.my.game.BitHeroes;
 import com.my.game.tools.*;
 
 /**
- * Created by lorib on 11/05/2017.
+ * Create a Lizard entity from Enemy class
  */
 
 public class Lizard extends Enemy {

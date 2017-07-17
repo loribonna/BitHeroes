@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.my.game.BitHeroes;
 
 /**
- * Created by lorib on 29/05/2017.
+ * Abstract class with Enemy controls and artificial intelligence
  */
 
 public abstract class Enemy extends Entity{

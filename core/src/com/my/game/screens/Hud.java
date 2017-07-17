@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.my.game.BitHeroes;
 
 /**
- * Created by lorib on 04/05/2017.
+ * Create Hud above the screen
  */
 
 public class Hud implements Disposable{
@@ -31,7 +31,7 @@ public class Hud implements Disposable{
     private int life;
 
     /**
-     * Create a hud with a own camera to dislay above the current playing screen.
+     * Create a hud with a own camera to display above the current playing screen.
      * @param game
      * @param level Current playing level
      * @param initialScore Value to initialize scores.

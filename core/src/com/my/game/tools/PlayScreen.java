@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * Created by lorib on 29/05/2017.
+ * Abstract class with PlayScreen controls
  */
 
 public abstract class PlayScreen implements Screen{

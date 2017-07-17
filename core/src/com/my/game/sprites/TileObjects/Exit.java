@@ -11,7 +11,7 @@ import com.my.game.tools.Entity;
 import com.my.game.tools.TileObject;
 
 /**
- * Created by lorib on 10/06/2017.
+ * Create a solid Exit TileObject to jump to the next level
  */
 
 public class Exit extends TileObject {

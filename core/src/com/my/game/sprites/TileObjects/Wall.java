@@ -7,7 +7,7 @@ import com.my.game.tools.Entity;
 import com.my.game.tools.TileObject;
 
 /**
- * Created by lorib on 24/05/2017.
+ * Create a solid Wall TileObject
  */
 
 public class Wall extends TileObject {

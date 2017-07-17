@@ -20,7 +20,7 @@ import com.my.game.tools.PlayScreen;
 import com.my.game.tools.WorldContactListener;
 
 /**
- * Created by lorib on 30/05/2017.
+ * Third level screen
  */
 
 public class ThirdLevel extends PlayScreen {

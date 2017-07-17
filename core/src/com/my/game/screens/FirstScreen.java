@@ -17,7 +17,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.my.game.BitHeroes;
 
 /**
- * Created by lorib on 17/05/2017.
+ * First screen with play button
  */
 
 public class FirstScreen implements Screen {

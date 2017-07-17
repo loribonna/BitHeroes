@@ -22,7 +22,7 @@ import com.my.game.tools.Enemy;
 import com.my.game.tools.Interfaces.EntityInterface;
 
 /**
- * Created by lorib on 15/07/2017.
+ * Create a Dragon entity from Enemy class
  */
 
 public class Dragon extends Enemy {

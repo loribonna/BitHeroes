@@ -17,7 +17,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.my.game.BitHeroes;
 
 /**
- * Created by lorib on 16/07/2017.
+ * Final screen with return and exit button
  */
 
 public class FinalScreen implements Screen {
@@ -32,7 +32,7 @@ public class FinalScreen implements Screen {
     private Texture background;
 
     /**
-     * Create the FinalScreen and jumps back in MenuScreen after 5 seconds.
+     * Display the final screen with the buttons Restart and Exit
      * @param game
      */
     public FinalScreen(final BitHeroes game){
@@ -100,7 +100,7 @@ public class FinalScreen implements Screen {
     }
 
     /**
-     * Renders the background and the empty stage
+     * Renders the background and the buttons in the stage
      * @param delta
      */
     @Override

@@ -14,7 +14,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.my.game.BitHeroes;
 
 /**
- * Created by lorib on 13/05/2017.
+ * Abstract class with TileObject controls
  */
 
 public abstract class TileObject extends Sprite implements com.my.game.tools.Interfaces.TileObjectInterface {

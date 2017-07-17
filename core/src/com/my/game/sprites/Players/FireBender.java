@@ -17,7 +17,7 @@ import com.my.game.sprites.Throwables.FireBall;
 import com.my.game.tools.Entity;
 
 /**
- * Created by lorib on 13/07/2017.
+ * Create a playable FireBender entity
  */
 
 public class FireBender extends Entity {

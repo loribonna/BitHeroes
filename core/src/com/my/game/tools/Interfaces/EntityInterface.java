@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 /**
- * Created by lorib on 11/05/2017.
+ * Interface for Entity with enums
  */
 
 public interface EntityInterface {

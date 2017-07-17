@@ -8,7 +8,7 @@ import com.my.game.BitHeroes;
 import com.my.game.tools.Bullet;
 
 /**
- * Created by lorib on 13/07/2017.
+ * Create a FireBall bullet
  */
 
 public class FireBall extends Bullet {
