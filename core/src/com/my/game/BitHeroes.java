@@ -56,9 +56,14 @@ public class BitHeroes extends Game {
 	public void create () {
 		batch = new SpriteBatch();
 		manager = new AssetManager();
-		for(FileHandle sound : Gdx.files.internal("sounds").list()){
-			manager.load(sound.path(), Music.class);
+		try{
+			for(FileHandle sound : Gdx.files.internal("sounds").list()){
+				manager.load(sound.path(), Music.class);
+			}
+		}catch (Exception e){
+			Gdx.app.log("Error","Path 'sounds' not found, unable to load Music");
 		}
+
 		manager.finishLoading();
 		setScreen(new FirstScreen(this));
 	}

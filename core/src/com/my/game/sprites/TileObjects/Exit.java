@@ -1,5 +1,6 @@
 package com.my.game.sprites.TileObjects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
@@ -35,10 +36,14 @@ public class Exit extends TileObject {
      */
     @Override
     public void onHit(Entity entity) {
-        music = game.getManager().get("sounds/passLivello.wav",Music.class);
-        music.setLooping(false);
-        music.setVolume(1);
-        music.play();
+        try{
+            music = game.getManager().get("sounds/passLivello.wav",Music.class);
+            music.setLooping(false);
+            music.setVolume(1);
+            music.play();
+        }catch (Exception e){
+            Gdx.app.log("Error","audio file not found");
+        }
         if(game.getCurrentPlayScreen() instanceof FirstLevel){
             game.changeLevel(new SecondLevel(game,game.getCurrentPlayer(),game.getScore()));
         }

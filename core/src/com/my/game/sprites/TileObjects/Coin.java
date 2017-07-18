@@ -1,5 +1,6 @@
 package com.my.game.sprites.TileObjects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -100,10 +101,14 @@ public class Coin extends TileObject{
     @Override
     public void onHit(Entity entity) {
         if(entity.isPlayer()) {
-            music = game.getManager().get("sounds/coin.wav",Music.class);
-            music.setLooping(false);
-            music.setVolume(0.5f);
-            music.play();
+            try{
+                music = game.getManager().get("sounds/coin.wav",Music.class);
+                music.setLooping(false);
+                music.setVolume(0.5f);
+                music.play();
+            }catch (Exception e){
+                Gdx.app.log("Error","audio file not found");
+            }
             setCategoryBits(BitHeroes.NOTHING_BIT);
             game.removeObject(this);
             body.setUserData(true);

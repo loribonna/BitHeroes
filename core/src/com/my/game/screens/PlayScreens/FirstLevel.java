@@ -2,6 +2,7 @@ package com.my.game.screens.PlayScreens;
 
 import static com.badlogic.gdx.math.MathUtils.random;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapLayer;
@@ -49,7 +50,7 @@ public class FirstLevel extends PlayScreen {
         new B2WorldCreator(world,map,animatedTileObjects,game);
 
         atlOrch = new TextureAtlas("orcoP/orc.pack");
-        atlGolem = new TextureAtlas("golemP/GolemPack.pack");
+        atlGolem = new TextureAtlas("golemP/golemPack.pack");
         atlMummy = new TextureAtlas("mummiaP/mummia.pack");
 
         if(player==EntityInterface.PlayerName.WARRIOR) {
@@ -80,11 +81,14 @@ public class FirstLevel extends PlayScreen {
         }
 
         world.setContactListener(new WorldContactListener(game));
-
-        music = game.getManager().get("sounds/musica.wav",Music.class);
-        music.setLooping(true);
-        music.setVolume(0.5f);
-        music.play();
+        try {
+            music = game.getManager().get("sounds/musica.wav", Music.class);
+            music.setLooping(true);
+            music.setVolume(0.5f);
+            music.play();
+        }catch (Exception e){
+            Gdx.app.log("Error","audio file not found");
+        }
     }
 
 }

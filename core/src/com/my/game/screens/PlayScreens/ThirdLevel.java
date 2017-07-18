@@ -1,5 +1,6 @@
 package com.my.game.screens.PlayScreens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapLayer;
@@ -65,10 +66,13 @@ public class ThirdLevel extends PlayScreen {
         }
 
         world.setContactListener(new WorldContactListener(game));
-
-        music = game.getManager().get("sounds/bossfight.mp3",Music.class);
-        music.setLooping(true);
-        music.setVolume(0.5f);
-        music.play();
+        try{
+            music = game.getManager().get("sounds/bossfight.mp3",Music.class);
+            music.setLooping(true);
+            music.setVolume(0.5f);
+            music.play();
+        }catch (Exception e){
+            Gdx.app.log("Error","audio file not found");
+        }
     }
 }

@@ -354,8 +354,12 @@ public abstract class PlayScreen implements Screen{
      */
     @Override
     public void dispose() {
-        music.setLooping(false);
-        music.stop();
+        try{
+            music.setLooping(false);
+            music.stop();
+        }catch (Exception e){
+            Gdx.app.log("Error",e.getMessage());
+        }
         Array<Body> bodies=new Array<Body>();
         world.getBodies(bodies);
         for(Body b : bodies){

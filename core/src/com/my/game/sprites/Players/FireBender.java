@@ -1,5 +1,6 @@
 package com.my.game.sprites.Players;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -87,10 +88,14 @@ public class FireBender extends Entity {
      */
     @Override
     public void destroy() {
-        music = game.getManager().get("sounds/morte.wav",Music.class);
-        music.setLooping(false);
-        music.setVolume(1);
-        music.play();
+        try{
+            music = game.getManager().get("sounds/morte.wav",Music.class);
+            music.setLooping(false);
+            music.setVolume(1);
+            music.play();
+        }catch (Exception e){
+            Gdx.app.log("Error","audio file not found");
+        }
         game.getCurrentPlayScreen().gameOver();
     }
 
@@ -159,10 +164,14 @@ public class FireBender extends Entity {
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
-                music = game.getManager().get("sounds/attaccofuoco.wav",Music.class);
-                music.setLooping(false);
-                music.setVolume(1);
-                music.play();
+                try {
+                    music = game.getManager().get("sounds/attaccofuoco.wav", Music.class);
+                    music.setLooping(false);
+                    music.setVolume(1);
+                    music.play();
+                }catch (Exception e){
+                    Gdx.app.log("Error","audio file not found");
+                }
                 throwBullet();
             }
         },throwAnimation.getAnimationDuration()/2);
