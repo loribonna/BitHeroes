@@ -32,22 +32,6 @@ public class Lizard extends Enemy {
     }
 
     /**
-     * Perform a distance attack
-     */
-    @Override
-    protected void distanceAttack() {
-        secondAttack();
-    }
-
-    /**
-     * Perform a melee attack
-     */
-    @Override
-    protected void meleeAttack() {
-        firstAttack();
-    }
-
-    /**
      * Import enity-specific animations from the Lizard atlas.
      * @param atlas
      */
@@ -59,7 +43,7 @@ public class Lizard extends Enemy {
         setBounds(0, 0, 24 / BitHeroes.PPM, 30 / BitHeroes.PPM);
         setRegion(standAnimation);
         currentState = State.STAND;
-        previusState = State.STAND;
+        previousState = State.STAND;
         stateTimer = 0;
         runRight = true;
         Array<TextureRegion> frames = new Array<TextureRegion>();
@@ -83,9 +67,9 @@ public class Lizard extends Enemy {
      * Replace the first attack with a melee attack
      */
     @Override
-    public void firstAttack() {
+    public void meleeAttack() {
         currentState = State.ATTACK;
-        previusState = State.ATTACK;
+        previousState = State.ATTACK;
         stateTimer = 0;
         setRegion(getFrame(0));
 

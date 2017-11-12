@@ -45,7 +45,7 @@ public class FireBender extends Entity {
         setBounds(0, 0, 24 / BitHeroes.PPM, 20 / BitHeroes.PPM);
         setRegion(standAnimation);
         currentState = State.STAND;
-        previusState = State.STAND;
+        previousState = State.STAND;
         stateTimer = 0;
         runRight = true;
         Array<TextureRegion> frames = new Array<TextureRegion>();
@@ -148,9 +148,9 @@ public class FireBender extends Entity {
      * Replace the first attack with a distance attack
      */
     @Override
-    public void firstAttack() {
+    public void meleeAttack() {
         currentState = State.THROW;
-        previusState = State.THROW;
+        previousState = State.THROW;
         stateTimer = 0;
         setRegion(getFrame(0));
 

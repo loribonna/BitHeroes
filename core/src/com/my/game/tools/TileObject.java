@@ -12,12 +12,13 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.my.game.BitHeroes;
+import com.my.game.tools.Interfaces.ITileObject;
 
 /**
  * Abstract class with TileObject controls
  */
 
-public abstract class TileObject extends Sprite implements com.my.game.tools.Interfaces.TileObjectInterface {
+public abstract class TileObject extends Sprite implements ITileObject{
     protected World world;
     protected Rectangle rect;
     protected Body body;

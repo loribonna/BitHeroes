@@ -1,18 +1,13 @@
 package com.my.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Array;
 import com.my.game.screens.FirstScreen;
-import com.my.game.tools.Interfaces.EntityInterface;
+import com.my.game.tools.Interfaces.IEntity;
 import com.my.game.tools.PlayScreen;
 
 public class BitHeroes extends Game {
@@ -21,13 +16,13 @@ public class BitHeroes extends Game {
 	* It's convenient to have only one SpriteBatch and reference to it
 	*/
 	private SpriteBatch batch;
-	private EntityInterface.PlayerName currentPlayer;
+	private IEntity.PlayerName currentPlayer;
 	private PlayScreen currentPlayScreen;
 	private AssetManager manager;
 
 	public static final String name = "Bit Heroes";
 	public static final float V_WIDTH = 400;
-	public static final float V_HEIGHT = 208;
+	public static final float V_HEIGHT = 225;
 	public static final float PPM = 100;
 
 	public static final short GROUP_PLAYER = 1;
@@ -109,14 +104,14 @@ public class BitHeroes extends Game {
 	 * Sets currentPlayer string name
 	 * @param player
 	 */
-	public void setCurrentPlayer(EntityInterface.PlayerName player){
+	public void setCurrentPlayer(IEntity.PlayerName player){
 		this.currentPlayer=player;
 	}
 
 	/**
 	 * @return currentPlayer string name
 	 */
-	public EntityInterface.PlayerName getCurrentPlayer(){
+	public IEntity.PlayerName getCurrentPlayer(){
 		return this.currentPlayer;
 	}
 

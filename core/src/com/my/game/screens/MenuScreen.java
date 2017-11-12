@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.my.game.BitHeroes;
-import com.my.game.tools.Interfaces.EntityInterface;
+import com.my.game.tools.Interfaces.IEntity;
 import com.my.game.tools.PlayScreen;
 
 /**
@@ -64,7 +64,7 @@ public class MenuScreen implements Screen {
                     if (t.isChecked()) {
                         Gdx.app.log("MenuScreen", "checked");
                         dispose();
-                        PlayScreen firstLevel = new com.my.game.screens.PlayScreens.FirstLevel(game, EntityInterface.PlayerName.WARRIOR,0);
+                        PlayScreen firstLevel = new com.my.game.screens.PlayScreens.FirstLevel(game, IEntity.PlayerName.WARRIOR,0);
                         game.changeLevel(firstLevel);
                     }
                 }
@@ -86,7 +86,7 @@ public class MenuScreen implements Screen {
                     if (t.isChecked()) {
                         Gdx.app.log("MenuScreen", "checked");
                         dispose();
-                        PlayScreen firstLevel = new com.my.game.screens.PlayScreens.FirstLevel(game, EntityInterface.PlayerName.ARCHER,0);
+                        PlayScreen firstLevel = new com.my.game.screens.PlayScreens.FirstLevel(game, IEntity.PlayerName.ARCHER,0);
                         game.changeLevel(firstLevel);
                     }
                 }
@@ -108,7 +108,7 @@ public class MenuScreen implements Screen {
                     if (t.isChecked()) {
                         Gdx.app.log("MenuScreen", "checked");
                         dispose();
-                        PlayScreen firstLevel = new com.my.game.screens.PlayScreens.FirstLevel(game, EntityInterface.PlayerName.FIREBENDER,0);
+                        PlayScreen firstLevel = new com.my.game.screens.PlayScreens.FirstLevel(game, IEntity.PlayerName.FIREBENDER,0);
                         game.changeLevel(firstLevel);
                     }
                 }

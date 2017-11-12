@@ -48,7 +48,7 @@ public class Warrior extends Entity {
         setBounds(0, 0, 16 / BitHeroes.PPM, 16 / BitHeroes.PPM);
         setRegion(standAnimation);
         currentState = State.STAND;
-        previusState = State.STAND;
+        previousState = State.STAND;
         stateTimer = 0;
         runRight = true;
         Array<TextureRegion> frames = new Array<TextureRegion>();
@@ -143,9 +143,9 @@ public class Warrior extends Entity {
      * Replace the first attack with a melee attack
      */
     @Override
-    public void firstAttack() {
+    public void meleeAttack() {
         currentState = State.ATTACK;
-        previusState = State.ATTACK;
+        previousState = State.ATTACK;
         stateTimer = 0;
         setSize(27 / BitHeroes.PPM, 16 / BitHeroes.PPM);
         setRegion(getFrame(0));

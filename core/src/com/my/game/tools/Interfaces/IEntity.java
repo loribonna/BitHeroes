@@ -10,7 +10,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
  * Interface for Entity with enums
  */
 
-public interface EntityInterface {
+public interface IEntity {
     enum PlayerName {
         WARRIOR,
         ARCHER,
@@ -26,21 +26,9 @@ public interface EntityInterface {
         THROW,
         SPECIAL
     }
-    enum AttackType {
-        FIRST,
-        SECOND,
-        SPECIAL
-    }
 
-    /**
-     * Import enity-specific animations from the atlas.
-     * @param atlas
-     */
-    public abstract void getAnimations(TextureAtlas atlas);
+    void getAnimations(TextureAtlas atlas);
 
-    /**
-     * @return current entity filter to set collisions.
-     */
     Filter getFilter();
 
     /**
@@ -74,7 +62,7 @@ public interface EntityInterface {
     /**
      * @return new state based on the action being performed and movement of the body.
      */
-    public State getState();
+    State getState();
 
     /**
      * Create the body of the entity in the given position in the world.
@@ -86,36 +74,4 @@ public interface EntityInterface {
      * Set fixtures in the current body.
      */
     void createBorders();
-
-    /**
-     * Perform entity primary attack. Default is nothing.
-     */
-    void firstAttack();
-
-    /**
-     * Perform entity secondary attack. Default is nothing.
-     */
-    void secondAttack();
-
-    /**
-     * Perform entity's special attack. Default is nothing.
-     */
-    void specialAttack();
-
-    /**
-     * Perform attack based on the attackType parameter.
-     * Control if lockAttack is released before perform another attack.
-     * @param attackType
-     */
-    void throwAttack(AttackType attackType);
-
-    /**
-     * @return fixture to trigger collision for Melee attack if the body is flipped.
-     */
-    FixtureDef createBackAttackFixture();
-
-    /**
-     * @return fixture to trigger collision for Melee attack if the attack is front
-     */
-    FixtureDef createFrontAttackFixture();
 }

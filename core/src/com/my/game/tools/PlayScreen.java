@@ -158,9 +158,9 @@ public abstract class PlayScreen implements Screen{
      */
     public void handleInput(float dt){
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP)
-                && player.getState()!= com.my.game.tools.Interfaces.EntityInterface.State.JUMP
-                && player.getState()!= com.my.game.tools.Interfaces.EntityInterface.State.FALL
-                && player.getState()!= com.my.game.tools.Interfaces.EntityInterface.State.ATTACK){
+                && player.getState()!= com.my.game.tools.Interfaces.IEntity.State.JUMP
+                && player.getState()!= com.my.game.tools.Interfaces.IEntity.State.FALL
+                && player.getState()!= com.my.game.tools.Interfaces.IEntity.State.ATTACK){
             playerJump();
         }
 
@@ -174,11 +174,11 @@ public abstract class PlayScreen implements Screen{
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            player.throwAttack(com.my.game.tools.Interfaces.EntityInterface.AttackType.FIRST);
+            player.throwAttack(com.my.game.tools.Interfaces.IFight.AttackType.MELEE);
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.CONTROL_LEFT)){
-            player.throwAttack(com.my.game.tools.Interfaces.EntityInterface.AttackType.SECOND);
+            player.throwAttack(com.my.game.tools.Interfaces.IFight.AttackType.MELEE);
         }
     }
 

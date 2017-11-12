@@ -20,7 +20,7 @@ import com.my.game.BitHeroes;
 import com.my.game.screens.FinalScreen;
 import com.my.game.sprites.Throwables.DragonBall;
 import com.my.game.tools.Enemy;
-import com.my.game.tools.Interfaces.EntityInterface;
+import com.my.game.tools.Interfaces.IEntity;
 
 /**
  * Create a Dragon entity from Enemy class
@@ -41,22 +41,6 @@ public class Dragon extends Enemy {
         maxMoveRange=100;
         disableJump=true;
         meleeDamage=35;
-    }
-
-    /**
-     * Perform a distance attack
-     */
-    @Override
-    protected void distanceAttack() {
-        secondAttack();
-    }
-
-    /**
-     * Perform a melee attack
-     */
-    @Override
-    protected void meleeAttack() {
-        firstAttack();
     }
 
     /**
@@ -104,8 +88,8 @@ public class Dragon extends Enemy {
         standAnimation = new TextureRegion(atlas.findRegion("dragon_walking"),8,9, 136, 131);
         setBounds(0, 0, 100 / BitHeroes.PPM, 100 / BitHeroes.PPM);
         setRegion(standAnimation);
-        currentState = EntityInterface.State.STAND;
-        previusState = EntityInterface.State.STAND;
+        currentState = IEntity.State.STAND;
+        previousState = IEntity.State.STAND;
         stateTimer = 0;
         runRight = true;
         Array<TextureRegion> frames = new Array<TextureRegion>();
@@ -132,9 +116,9 @@ public class Dragon extends Enemy {
      * Replace the first attack with a melee attack
      */
     @Override
-    public void firstAttack() {
-        currentState = EntityInterface.State.ATTACK;
-        previusState = EntityInterface.State.ATTACK;
+    public void meleeAttack() {
+        currentState = IEntity.State.ATTACK;
+        previousState = IEntity.State.ATTACK;
         stateTimer = 0;
         setRegion(getFrame(0));
 
@@ -193,9 +177,9 @@ public class Dragon extends Enemy {
      * Replace the second attack with a distance attack
      */
     @Override
-    public void secondAttack() {
+    public void distanceAttack() {
         currentState = State.THROW;
-        previusState = State.THROW;
+        previousState = State.THROW;
         stateTimer = 0;
         setRegion(getFrame(0));
 

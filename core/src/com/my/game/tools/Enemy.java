@@ -38,11 +38,6 @@ public abstract class Enemy extends Entity{
     }
 
     /**
-     * Perform a distance attack if the player is too far
-     */
-    protected abstract void distanceAttack();
-
-    /**
      * Set fliying flag
      * @param isFlying
      */
@@ -56,11 +51,6 @@ public abstract class Enemy extends Entity{
     public boolean isFlying(){
         return isFlying;
     }
-
-    /**
-     * Perform a melee attack when the player is close enough
-     */
-    protected abstract void meleeAttack();
 
     /**
      * Set current target based on Player position in the current PlayScreen.
@@ -78,18 +68,18 @@ public abstract class Enemy extends Entity{
             }
             if(Math.abs(dx)>Math.abs(minPlayerDistance)){
                 if(dx>attackRange){
-                    throwAttack(AttackType.SECOND);
+                    throwAttack(AttackType.DISTANCE);
                     XDirection=direction.right;
                 }else if(dx<-attackRange) {
-                    throwAttack(AttackType.SECOND);
+                    throwAttack(AttackType.DISTANCE);
                     XDirection = direction.left;
                 }else if(dy>-attackRange&&dy<attackRange){
                     XDirection=direction.stop;
-                    throwAttack(AttackType.FIRST);
+                    throwAttack(AttackType.MELEE);
                 }
             }else{
                 if(dy>-attackRange&&dy<attackRange) {
-                    throwAttack(AttackType.SECOND);
+                    throwAttack(AttackType.DISTANCE);
                 }
 
                 if(dx>0)

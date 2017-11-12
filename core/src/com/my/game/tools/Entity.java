@@ -14,25 +14,27 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Timer;
 import com.my.game.BitHeroes;
+import com.my.game.tools.Interfaces.IEntity;
+import com.my.game.tools.Interfaces.IFight;
 
 /**
- * Abstract class with Entity controls
+ * Common controls for any Entity
  */
 
-public abstract class Entity extends Sprite implements com.my.game.tools.Interfaces.EntityInterface {
+public abstract class Entity extends Sprite implements IEntity,IFight {
     protected World world;
     protected Body body;
     protected boolean isPlayer=true;
     protected int life=100;
     protected State currentState;
-    protected State previusState;
+    protected State previousState;
     protected Animation throwAnimation;
     protected Animation attackAnimation;
     protected Animation runAnimation;
     protected TextureRegion standAnimation;
     protected boolean runRight;
     protected float stateTimer;
-    protected boolean invulnarable=false;
+    protected boolean invulnerable=false;
     protected boolean lockAttack;
     protected boolean dead=false;
     protected int meleeDamage=20;
@@ -50,63 +52,39 @@ public abstract class Entity extends Sprite implements com.my.game.tools.Interfa
         super();
         this.game=game;
         currentState = State.STAND;
-        previusState = State.STAND;
+        previousState = State.STAND;
         this.world = world;
         define(position);
         getAnimations(screenAtlas);
     }
 
-    /**
-     * @return true if the entity is the player
-     */
     public boolean isPlayer(){
         return isPlayer;
     }
 
-    /**
-     * @return current entity body
-     */
     public Body getBody(){
         return body;
     }
 
-    /**
-     * @return body position
-     */
     public Vector2 getPosition(){
         return this.body.getPosition();
     }
 
-    /**
-     * @return current life
-     */
     public int getLife(){
         return life;
     }
 
-    /**
-     * Import enity-specific animations from the atlas.
-     * @param atlas
-     */
-    @Override
     public abstract void getAnimations(TextureAtlas atlas);
 
-    /**
-     * @return current entity filter to set collisions.
-     */
     public abstract Filter getFilter();
 
     /**
      * Update position, target (if enemy) and animation.
      * @param delta
      */
-    @Override
     public abstract void update(float delta);
 
-    /**
-     * @return True if entity is invulnerable
-     */
-    public boolean isInvulnerable(){return invulnarable;}
+    public boolean isInvulnerable(){return invulnerable;}
 
     /**
      * Process hit event.
@@ -119,11 +97,11 @@ public abstract class Entity extends Sprite implements com.my.game.tools.Interfa
         }else if(damage>0){
             recoil();
         }
-        invulnarable=true;
+        invulnerable =true;
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
-                invulnarable=false;
+                invulnerable =false;
             }
         },1);
     }
@@ -167,12 +145,12 @@ public abstract class Entity extends Sprite implements com.my.game.tools.Interfa
             runRight = true;
         }
 
-        if (currentState == previusState) {
+        if (currentState == previousState) {
             stateTimer = stateTimer + dt;
         } else {
             stateTimer = 0;
         }
-        previusState = currentState;
+        previousState = currentState;
         return region;
     }
 
@@ -180,24 +158,24 @@ public abstract class Entity extends Sprite implements com.my.game.tools.Interfa
      * @return new state based on the action being performed and movement of the body.
      */
     public State getState() {
-        if (previusState == State.ATTACK) {
+        if (previousState == State.ATTACK) {
             if (!attackAnimation.isAnimationFinished(stateTimer))
                 return State.ATTACK;
             else {
                 if (body.getLinearVelocity().x != 0) {
                     return State.RUN;
-                } else if (previusState != State.ATTACK) {
+                } else if (previousState != State.ATTACK) {
                     return State.STAND;
                 }
             }
-        }else if(previusState == State.THROW){
+        }else if(previousState == State.THROW){
             if(throwAnimation!=null) {
                 if (!throwAnimation.isAnimationFinished(stateTimer))
                     return State.THROW;
                 else{
                     if (body.getLinearVelocity().x != 0) {
                         return State.RUN;
-                    } else if (previusState != State.ATTACK) {
+                    } else if (previousState != State.ATTACK) {
                         return State.STAND;
                     }
                 }
@@ -205,7 +183,7 @@ public abstract class Entity extends Sprite implements com.my.game.tools.Interfa
                 if(!lockAttack) {
                     if (body.getLinearVelocity().x != 0) {
                         return State.RUN;
-                    } else if (previusState != State.ATTACK) {
+                    } else if (previousState != State.ATTACK) {
                         return State.STAND;
                     }
                 }
@@ -245,16 +223,16 @@ public abstract class Entity extends Sprite implements com.my.game.tools.Interfa
     public abstract void createBorders();
 
     /**
-     * Perform entity primary attack. Default is nothing.
+     * Perform entity melee attack. Default is nothing.
      */
-    public void firstAttack(){
+    public void meleeAttack(){
         lockAttack=false;
     }
 
     /**
-     * Perform entity secondary attack. Default is nothing.
+     * Perform entity distance attack. Default is nothing.
      */
-    public void secondAttack(){
+    public void distanceAttack(){
         lockAttack=false;
     }
 
@@ -273,10 +251,10 @@ public abstract class Entity extends Sprite implements com.my.game.tools.Interfa
     public void throwAttack(AttackType attackType) {
         if(!lockAttack) {
             lockAttack=true;
-            if (attackType == AttackType.SECOND) {
-                secondAttack();
+            if (attackType == AttackType.DISTANCE) {
+                distanceAttack();
             } else {
-                firstAttack();
+                meleeAttack();
             }
         }else{
             return;

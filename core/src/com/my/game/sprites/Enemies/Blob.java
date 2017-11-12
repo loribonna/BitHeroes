@@ -31,22 +31,6 @@ public class Blob extends Enemy {
     }
 
     /**
-     * Perform a distance attack
-     */
-    @Override
-    protected void distanceAttack() {
-        secondAttack();
-    }
-
-    /**
-     * Perform a melee attack
-     */
-    @Override
-    protected void meleeAttack() {
-        firstAttack();
-    }
-
-    /**
      * Import enity-specific animations from the Blob atlas.
      * @param atlas
      */
@@ -56,7 +40,7 @@ public class Blob extends Enemy {
         setBounds(0, 0, 24 / BitHeroes.PPM, 30 / BitHeroes.PPM);
         setRegion(standAnimation);
         currentState = State.STAND;
-        previusState = State.STAND;
+        previousState = State.STAND;
         stateTimer = 0;
         runRight = true;
         Array<TextureRegion> frames = new Array<TextureRegion>();
@@ -77,9 +61,9 @@ public class Blob extends Enemy {
      * Replace the second attack with a distance attack
      */
     @Override
-    public void secondAttack() {
+    public void distanceAttack() {
         currentState = State.THROW;
-        previusState = State.THROW;
+        previousState = State.THROW;
         stateTimer = 0;
         setRegion(getFrame(0));
 

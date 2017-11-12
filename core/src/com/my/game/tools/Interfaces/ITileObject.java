@@ -7,7 +7,7 @@ import com.my.game.tools.Entity;
  * Interface for TileObject
  */
 
-public interface TileObjectInterface {
+public interface ITileObject {
     /**
      * Create body and set position on the current position rect.
      * Create fixture around the body.

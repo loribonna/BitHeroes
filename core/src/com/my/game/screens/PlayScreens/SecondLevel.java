@@ -20,7 +20,7 @@ import com.my.game.sprites.Players.Archer;
 import com.my.game.sprites.Players.FireBender;
 import com.my.game.sprites.Players.Warrior;
 import com.my.game.tools.B2WorldCreator;
-import com.my.game.tools.Interfaces.EntityInterface;
+import com.my.game.tools.Interfaces.IEntity;
 import com.my.game.tools.PlayScreen;
 import com.my.game.tools.WorldContactListener;
 
@@ -37,7 +37,7 @@ public class SecondLevel extends PlayScreen{
      * @param player
      * @param score
      */
-    public SecondLevel(final BitHeroes game, EntityInterface.PlayerName player, int score) {
+    public SecondLevel(final BitHeroes game, IEntity.PlayerName player, int score) {
         super(game);
         hud=new Hud(game,2,score);
         game.setCurrentPlayScreen(this);
@@ -54,15 +54,15 @@ public class SecondLevel extends PlayScreen{
         atlBlob = new TextureAtlas("blobP/blob.pack");
         atlSkeleton = new TextureAtlas("skeletonP/scheletro.pack");
 
-        if(player==EntityInterface.PlayerName.WARRIOR) {
+        if(player==IEntity.PlayerName.WARRIOR) {
             atlPlayer = new TextureAtlas("warriorP/warrior.pack");
             this.player = new Warrior(world, getAtlasPlayer(), new Vector2(100, 64),game);
         }
-        if(player==EntityInterface.PlayerName.ARCHER) {
+        if(player==IEntity.PlayerName.ARCHER) {
             atlPlayer = new TextureAtlas("archerP/archer.pack");
             this.player = new Archer(world, getAtlasPlayer(), new Vector2(100, 64),game);
         }
-        if(player==EntityInterface.PlayerName.FIREBENDER) {
+        if(player==IEntity.PlayerName.FIREBENDER) {
             atlPlayer = new TextureAtlas("aceP/ace.pack");
             this.player = new FireBender(world, getAtlasPlayer(), new Vector2(100, 64),game);
         }
