@@ -9,6 +9,6 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width=1200;
 		config.height=624;
-		new LwjglApplication(new BitHeroes(), config);
+		new LwjglApplication(BitHeroes.getInstance(), config);
 	}
 }

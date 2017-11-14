@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.my.game.BitHeroes;
+import com.my.game.tools.AppConstants;
 import com.my.game.tools.PlayScreen;
 
 /**
@@ -30,7 +31,7 @@ public class MenuScreen implements Screen {
     private Camera camera;
     private Texture background;
 
-    private TextButton createButton(TextureAtlas atlas, String drawable, final IEntity.PlayerName playerName, float positionX){
+    private TextButton createButton(TextureAtlas atlas, String drawable, final AppConstants.PlayerName playerName, float positionX){
         skin.addRegions(atlas);
         TextButton.TextButtonStyle textButtonStyle;
         textButtonStyle = new TextButton.TextButtonStyle();
@@ -74,9 +75,9 @@ public class MenuScreen implements Screen {
         TextButton buttonFireBender;
 
         buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttons.pack"));
-        buttonWarrior=createButton(buttonAtlas,"guerriero",IEntity.PlayerName.WARRIOR,-2.5f);
-        buttonArcher=createButton(buttonAtlas,"archer",IEntity.PlayerName.ARCHER,-10f);
-        buttonFireBender=createButton(buttonAtlas,"firebender",IEntity.PlayerName.FIREBENDER,5f);
+        buttonWarrior=createButton(buttonAtlas,"guerriero",AppConstants.PlayerName.WARRIOR,-2.5f);
+        buttonArcher=createButton(buttonAtlas,"archer",AppConstants.PlayerName.ARCHER,-10f);
+        buttonFireBender=createButton(buttonAtlas,"firebender",AppConstants.PlayerName.FIREBENDER,5f);
 
         stage.addActor(buttonFireBender);
         stage.addActor(buttonArcher);

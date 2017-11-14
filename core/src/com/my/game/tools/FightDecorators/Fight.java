@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.my.game.BitHeroes;
-import com.badlogic.gdx.audio.Music;
+import com.my.game.tools.AppConstants;
 import com.my.game.tools.AppConstants.Direction;
 import com.my.game.tools.AppConstants.AttackType;
 import com.my.game.tools.Entity;
@@ -27,31 +27,51 @@ public abstract class Fight {
     protected Entity entity;
     protected World world;
     protected HashMap<AttackType,Animation> animations;
-    protected HashMap<AttackType,Float> damages;
+    protected HashMap<AttackType,Integer> damages;
     protected HashMap<AttackType,String> attackSounds;
-    protected float minDistance=0.1f;
     protected float attackRange=0.18f;
     protected Music music;
     protected BitHeroes game;
     protected Rectangle attackFixtureMargins;
+    protected AppConstants.Float2 defaultSize;
+    protected AppConstants.Float2 attackSize;
+    protected Fight fight;
 
-    public Fight(boolean isPlayer,Entity entity,World world,BitHeroes game){
+    public Fight(boolean isPlayer, Entity entity, World world, BitHeroes game, AppConstants.Float2 defaultSize){
         this.isPlayer=isPlayer;
         this.attackFixtureMargins=new Rectangle(16,-4,2,-8);
         this.game=game;
         this.entity=entity;
         this.world=world;
         this.animations=new HashMap<AttackType, Animation>();
-        this.damages=new HashMap<AttackType, Float>();
+        this.damages=new HashMap<AttackType, Integer>();
         this.attackSounds=new HashMap<AttackType, String>();
+        this.defaultSize=defaultSize;
+        this.attackSize=defaultSize;
+    }
+
+    public Fight(boolean isPlayer, Entity entity, World world, BitHeroes game){
+        this.isPlayer=isPlayer;
+        this.attackFixtureMargins=new Rectangle(16,-4,2,-8);
+        this.game=game;
+        this.entity=entity;
+        this.world=world;
+        this.animations=new HashMap<AttackType, Animation>();
+        this.damages=new HashMap<AttackType, Integer>();
+        this.attackSounds=new HashMap<AttackType, String>();
+    }
+
+    public void updateSize(AppConstants.Float2 attackSize){
+        this.attackSize=attackSize;
+    }
+
+    public void updateSize(AppConstants.Float2 defaultSize, AppConstants.Float2 attackSize){
+        this.defaultSize=defaultSize;
+        this.attackSize=attackSize;
     }
 
     public void setAttackFixtureMargins(int x,int y,int width,int height){
         this.attackFixtureMargins=new Rectangle(x,y,width,height);
-    }
-
-    public void setMinDistance(float value){
-        this.minDistance=value;
     }
 
     public void setAttackRange(float value){
@@ -65,6 +85,8 @@ public abstract class Fight {
     public Direction setTarget(float targetDistanceX, float targetDistanceY){
         return Direction.NONE;
     }
+
+    public void performAttack(AttackType type){}
 
     public void setAttackSound(AttackType type,String sound){
         if(!this.attackSounds.containsKey(type)){

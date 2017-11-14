@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.my.game.BitHeroes;
-import com.my.game.tools.*;
+import com.my.game.tools.Enemy;
 import com.my.game.tools.FightDecorators.ArtificialFight.ArtificialMeleeFight;
 import com.my.game.tools.AppConstants.State;
 
@@ -26,7 +26,7 @@ public class Bat extends Enemy {
      */
     public Bat(World world, TextureAtlas screenAtlas,Vector2 position,BitHeroes game) {
         super(world, screenAtlas,position,game);
-        this.attackSystem=new ArtificialMeleeFight(meleeDamage,this,world,this.attackSystem,attackAnimation,game);
+        this.attackSystem=new ArtificialMeleeFight(20,this,world,this.attackSystem,attackAnimation,game);
         life=1;
     }
 
@@ -55,6 +55,4 @@ public class Bat extends Enemy {
         attackAnimation = new Animation (0.1f, frames);
         frames.clear();
     }
-
-    public void throwBullet(){}
 }

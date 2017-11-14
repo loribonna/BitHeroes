@@ -33,8 +33,8 @@ public class Dragon extends Enemy {
      */
     public Dragon(World world, TextureAtlas screenAtlas, Vector2 position, BitHeroes game) {
         super(world, screenAtlas,position,game);
-        this.attackSystem=new ArtificialDistanceFight(this,world,this.attackSystem,this.throwAnimation,game);
-        this.attackSystem=new ArtificialMeleeFight(meleeDamage,this,world,this.attackSystem,this.attackAnimation,game);
+        this.attackSystem=new ArtificialDistanceFight(this,world,this.attackSystem,this.throwAnimation,game,DragonBall.class);
+        this.attackSystem=new ArtificialMeleeFight(35,this,world,this.attackSystem,this.attackAnimation,game);
         this.attackSystem.setAttackRange(0.2f);
         this.attackSystem.setAttackSound(AppConstants.AttackType.MELEE,"sounds/ruggito.wav");
         this.attackSystem.setAttackSound(AppConstants.AttackType.DISTANCE,"sounds/ruggito.wav");
@@ -42,7 +42,6 @@ public class Dragon extends Enemy {
         life=200;
         maxMoveRange=100;
         disableJump=true;
-        meleeDamage=35;
     }
 
     /**
@@ -112,14 +111,6 @@ public class Dragon extends Enemy {
         frames.add(new TextureRegion(atlas.findRegion("dragon_first_attack"), 18, 20, 170, 110));
         frames.add(new TextureRegion(atlas.findRegion("dragon_first_attack"), 660, 20, 200, 110));
         throwAnimation = new Animation(0.2f,frames);
-    }
-
-    /**
-     * Add a bullet in the currentPlayScreen
-     */
-    public void throwBullet() {
-        Vector2 position = new Vector2(getPosition().x,getPosition().y+20/ BitHeroes.PPM);
-        game.getCurrentPlayScreen().addBullet(new DragonBall(position, world, isFlipX(),false,game));
     }
 
 }

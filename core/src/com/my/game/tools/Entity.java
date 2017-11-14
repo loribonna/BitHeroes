@@ -1,5 +1,6 @@
 package com.my.game.tools;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -12,7 +13,6 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Timer;
 import com.my.game.BitHeroes;
-import com.my.game.tools.FightDecorators.DefaultFight;
 import com.my.game.tools.AppConstants.State;
 import com.my.game.tools.FightDecorators.Fight;
 
@@ -23,7 +23,7 @@ import com.my.game.tools.FightDecorators.Fight;
 public abstract class Entity extends Sprite {
     protected World world;
     protected Body body;
-    protected boolean isPlayer=true;
+    protected boolean isPlayer;
     protected int life=100;
     protected State currentState;
     protected State previousState;
@@ -35,10 +35,11 @@ public abstract class Entity extends Sprite {
     protected float stateTimer;
     protected boolean invulnerable=false;
     protected boolean dead=false;
-    protected int meleeDamage=20;
     protected BitHeroes game;
     protected Music music;
     protected Fight attackSystem;
+    protected float moveSpeed=1;
+
     /**
      * Initialize Entity variables and create borders and animations.
      * @param world
@@ -102,6 +103,10 @@ public abstract class Entity extends Sprite {
                 invulnerable =false;
             }
         },1);
+    }
+
+    public void setMoveSpeed(float value){
+        this.moveSpeed=value;
     }
 
     /**
@@ -208,6 +213,25 @@ public abstract class Entity extends Sprite {
         return State.STAND;
     }
 
+    protected void jump(float power){
+        if(power<0) return;
+        body.applyLinearImpulse(new Vector2(0, power), body.getWorldCenter(), true);
+    }
+
+    protected void moveRight(float power){
+        if(power<0) return;
+        body.applyLinearImpulse(new Vector2(0.1f*power,0),body.getWorldCenter(),true);
+    }
+
+    protected void moveLeft(float power){
+        if(power<0) return;
+        body.applyLinearImpulse(new Vector2(-0.1f*power,0),body.getWorldCenter(),true);
+    }
+
+    public void updateSize(float width,float height){
+        setSize(width / BitHeroes.PPM, height / BitHeroes.PPM);
+    }
+
     /**
      * Create the body of the entity in the given position in the world.
      * @param position
@@ -222,13 +246,9 @@ public abstract class Entity extends Sprite {
         createBorders();
     }
 
-    public abstract void throwBullet();
-
     /**
      * Set fixtures in the current body.
      */
     public abstract void createBorders();
-
-
 
 }

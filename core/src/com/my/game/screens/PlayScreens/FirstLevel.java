@@ -35,7 +35,7 @@ public class FirstLevel extends PlayScreen {
      * @param player
      * @param score
      */
-    public FirstLevel(final BitHeroes game, IEntity.PlayerName player, int score) {
+    public FirstLevel(final BitHeroes game, AppConstants.PlayerName player, int score) {
         super(game);
         hud=new Hud(game,1,score);
         game.setCurrentPlayScreen(this);
@@ -52,17 +52,17 @@ public class FirstLevel extends PlayScreen {
         atlGolem = new TextureAtlas("golemP/golemPack.pack");
         atlMummy = new TextureAtlas("mummiaP/mummia.pack");
 
-        if(player==IEntity.PlayerName.WARRIOR) {
+        if(player==AppConstants.PlayerName.WARRIOR) {
             atlPlayer = new TextureAtlas("warriorP/warrior.pack");
-            this.player = new Warrior(world, getAtlasPlayer(), new Vector2(100, 64),game);
+            this.player = new Warrior(world, getAtlasPlayer(), new Vector2(100, 80),game);
         }
-        if(player==IEntity.PlayerName.ARCHER) {
+        if(player==AppConstants.PlayerName.ARCHER) {
             atlPlayer = new TextureAtlas("archerP/archer.pack");
-            this.player = new Archer(world, getAtlasPlayer(), new Vector2(100, 64),game);
+            this.player = new Archer(world, getAtlasPlayer(), new Vector2(100, 80),game);
         }
-        if(player==IEntity.PlayerName.FIREBENDER) {
+        if(player==AppConstants.PlayerName.FIREBENDER) {
             atlPlayer = new TextureAtlas("aceP/ace.pack");
-            this.player = new FireBender(world, getAtlasPlayer(), new Vector2(100, 64),game);
+            this.player = new FireBender(world, getAtlasPlayer(), new Vector2(100, 80),game);
         }
 
         MapLayer l;

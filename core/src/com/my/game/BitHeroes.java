@@ -7,17 +7,31 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.my.game.screens.FirstScreen;
+import com.my.game.tools.AppConstants;
 import com.my.game.tools.PlayScreen;
 
 public class BitHeroes extends Game {
+
+	private static BitHeroes instance;
+
+	private BitHeroes(){}
+
+	public static BitHeroes getInstance(){
+		if(instance==null){
+			instance=new BitHeroes();
+		}
+		return instance;
+	}
 
 	/*
 	* It's convenient to have only one SpriteBatch and reference to it
 	*/
 	private SpriteBatch batch;
-	private IEntity.PlayerName currentPlayer;
+	private AppConstants.PlayerName currentPlayer;
 	private PlayScreen currentPlayScreen;
 	private AssetManager manager;
+
+	public static boolean disableAudio=true;
 
 	public static final String name = "Bit Heroes";
 	public static final float V_WIDTH = 360;
@@ -50,14 +64,15 @@ public class BitHeroes extends Game {
 	public void create () {
 		batch = new SpriteBatch();
 		manager = new AssetManager();
-		try{
-			for(FileHandle sound : Gdx.files.internal("sounds").list()){
-				manager.load(sound.path(), Music.class);
+		if(!BitHeroes.disableAudio){
+			try{
+				for(FileHandle sound : Gdx.files.internal("sounds").list()){
+					manager.load(sound.path(), Music.class);
+				}
+			}catch (Exception e){
+				Gdx.app.log("Error","Path 'sounds' not found, unable to load Music");
 			}
-		}catch (Exception e){
-			Gdx.app.log("Error","Path 'sounds' not found, unable to load Music");
 		}
-
 		manager.finishLoading();
 		setScreen(new FirstScreen(this));
 	}
@@ -103,14 +118,14 @@ public class BitHeroes extends Game {
 	 * Sets currentPlayer string name
 	 * @param player
 	 */
-	public void setCurrentPlayer(IEntity.PlayerName player){
+	public void setCurrentPlayer(AppConstants.PlayerName player){
 		this.currentPlayer=player;
 	}
 
 	/**
 	 * @return currentPlayer string name
 	 */
-	public IEntity.PlayerName getCurrentPlayer(){
+	public AppConstants.PlayerName getCurrentPlayer(){
 		return this.currentPlayer;
 	}
 

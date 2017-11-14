@@ -1,5 +1,6 @@
 package com.my.game.tools;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -15,9 +16,9 @@ import com.my.game.tools.FightDecorators.DefaultFight;
  * Abstract class with Enemy controls and artificial intelligence
  */
 
-public abstract class Enemy extends Entity{
+public abstract class Enemy extends Entity {
     protected boolean disableJump=false;
-    protected AppConstants.Direction XDirection=AppConstants.Direction.STOP;
+    protected Direction XDirection= AppConstants.Direction.STOP;
     protected AppConstants.Direction YDirection=AppConstants.Direction.STOP;
     protected boolean isFlying=false;
     protected float maxMoveRange=1.7f;
@@ -33,7 +34,8 @@ public abstract class Enemy extends Entity{
         super(world, screenAtlas, position, game);
         isPlayer=false;
         body.setActive(false);
-        this.attackSystem=new DefaultFight(false,this,world);
+        this.attackSystem=new DefaultFight(false,this,world,game);
+        setMoveSpeed(0.5f);
     }
 
     /**
@@ -60,28 +62,20 @@ public abstract class Enemy extends Entity{
         Vector2 entityPosition= getPosition();
         float dy=targetPlayer.y-entityPosition.y;
         float dx=targetPlayer.x-entityPosition.x;
-        float m=dy/dx;
+
         if(Math.abs(dx)<maxMoveRange){
+
             if(!body.isActive()) {
                 body.setActive(true);
             }
-
             XDirection=attackSystem.setTarget(dx,dy);
 
             if(XDirection==Direction.NONE){
                 if(dx>0)
                 {
-                    if(isFlipX()){
-                        XDirection=Direction.RIGHT;
-                    }else{
-                        XDirection=Direction.STOP;
-                    }
+                    XDirection=Direction.RIGHT;
                 }else{
-                    if(!isFlipX()){
-                        XDirection=Direction.LEFT;
-                    }else{
-                        XDirection=Direction.STOP;
-                    }
+                    XDirection=Direction.LEFT;
                 }
             }
 
@@ -107,10 +101,10 @@ public abstract class Enemy extends Entity{
             setTarget();
             if (XDirection == Direction.RIGHT) {
                 if (body.getLinearVelocity().x <= 1)
-                    body.applyLinearImpulse(new Vector2(0.1f, 0), body.getWorldCenter(), true);
+                    moveRight(moveSpeed);
             } else if (XDirection == Direction.LEFT) {
                 if (body.getLinearVelocity().x >= -1)
-                    body.applyLinearImpulse(new Vector2(-0.1f, 0), body.getWorldCenter(), true);
+                    moveLeft(moveSpeed);
             } else if (XDirection == Direction.STOP) {
                 body.setLinearVelocity(0, body.getLinearVelocity().y);
             }
@@ -121,7 +115,7 @@ public abstract class Enemy extends Entity{
                         this.getState() != State.ATTACK) {
                     if(!isFlying) {
                         isFlying=true;
-                        body.applyLinearImpulse(new Vector2(0, 3), body.getWorldCenter(), true);
+                        jump(3);
                     }
 
                 }

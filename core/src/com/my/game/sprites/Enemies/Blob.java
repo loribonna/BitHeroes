@@ -6,10 +6,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Timer;
 import com.my.game.BitHeroes;
 import com.my.game.sprites.Throwables.BlobBall;
 import com.my.game.tools.*;
+import com.my.game.tools.Enemy;
 import com.my.game.tools.FightDecorators.ArtificialFight.ArtificialDistanceFight;
 
 /**
@@ -26,9 +26,9 @@ public class Blob extends Enemy {
      */
     public Blob(World world, TextureAtlas screenAtlas, Vector2 position, BitHeroes game) {
         super(world, screenAtlas,position,game);
-        this.attackSystem=new ArtificialDistanceFight(this,world,this.attackSystem,this.attackAnimation,game);
+        this.attackSystem=new ArtificialDistanceFight(this,world,this.attackSystem,this.attackAnimation,game,BlobBall.class);
         life=1;
-        this.attackSystem.setMinDistance(maxMoveRange-2);
+        this.attackSystem.setAttackRange(maxMoveRange-2);
     }
 
     /**
@@ -58,7 +58,4 @@ public class Blob extends Enemy {
         frames.clear();
     }
 
-    public void throwBullet() {
-        game.getCurrentPlayScreen().addBullet(new BlobBall(getPosition(), world, isFlipX(),false,game));
-    }
 }

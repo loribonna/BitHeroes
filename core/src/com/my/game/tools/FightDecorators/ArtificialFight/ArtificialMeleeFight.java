@@ -18,20 +18,22 @@ import com.my.game.tools.FightDecorators.Fight;
  */
 
 public class ArtificialMeleeFight extends ArtificialFightDecorator {
-    private Fight fight;
 
-    public ArtificialMeleeFight(float damage, Entity entity, World world, Fight fight, Animation animation, BitHeroes game){
-        super(entity, world,game,animation);
+    public ArtificialMeleeFight(int damage, Entity entity, World world, Fight fight, Animation animation, BitHeroes game){
+        super(entity, world,game);
         this.fight=fight;
         if(!damages.containsKey(AppConstants.AttackType.MELEE)){
             damages.put(AppConstants.AttackType.MELEE,damage);
+        }
+        if(!animations.containsKey(AppConstants.AttackType.MELEE)){
+            animations.put(AppConstants.AttackType.MELEE,animation);
         }
     }
 
     public Direction setTarget(float targetDistanceX,float targetDistanceY){
         Direction returnDirection=fight.setTarget(targetDistanceX,targetDistanceY);
         if(returnDirection==Direction.NONE){
-            if(Math.abs(targetDistanceX)>Math.abs(minDistance)&&
+            if(Math.abs(targetDistanceX)<Math.abs(attackRange)&&
                     targetDistanceY>-attackRange&&targetDistanceY<attackRange){
 
                 returnDirection=Direction.STOP;
@@ -42,6 +44,7 @@ public class ArtificialMeleeFight extends ArtificialFightDecorator {
         return returnDirection;
     }
 
+    @Override
     protected void meleeAttack(){
         entity.updateState(AppConstants.State.ATTACK,AppConstants.State.ATTACK);
 

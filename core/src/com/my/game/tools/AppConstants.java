@@ -5,6 +5,20 @@ package com.my.game.tools;
  */
 
 public class AppConstants {
+    public static class Float2 {
+        public float x;
+        public float y;
+
+        public Float2(float x,float y){
+            this.x=x;
+            this.y=y;
+        }
+
+        public String toString(){
+            return (Float.toString(x)+","+Float.toString(y));
+        }
+    };
+
     public enum AttackType {
         MELEE,
         DISTANCE,

@@ -15,4 +15,6 @@ public class DefaultFight extends Fight {
 
     }
 
+
+
 }

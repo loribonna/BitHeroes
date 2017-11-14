@@ -41,7 +41,7 @@ public abstract class PlayScreen implements Screen{
     protected World world;
     protected Box2DDebugRenderer b2dr;
     protected ArrayList<Enemy> enemyList;
-    protected Entity player;
+    protected Player player;
     protected ArrayList<Bullet> bullets;
     protected ArrayList<TileObject> animatedTileObjects;
     public ArrayList<Object> objectsToRemove;
@@ -76,109 +76,71 @@ public abstract class PlayScreen implements Screen{
         bullets=new ArrayList<Bullet>();
     }
 
-    /**
-     * @return current score from the hud
-     */
     public int getCurrentScore(){
         return hud.getScore();
     }
 
-    /**
-     * @return blob TextureAtlas
-     */
     public TextureAtlas getAtlasBlob() {
         return this.atlBlob;
     }
 
-    /**
-     * @return player TextureAtlas
-     */
     public TextureAtlas getAtlasPlayer(){
         return this.atlPlayer;
     }
 
-    /**
-     * @return orch TextureAtlas
-     */
     public TextureAtlas getAtlasOrch(){
         return this.atlOrch;
     }
 
-    /**
-     * @return skeleton TextureAtlas
-     */
     public TextureAtlas getAtlasSkeleton(){
         return this.atlSkeleton;
     }
 
-    /**
-     * @return bat TextureAtlas
-     */
     public TextureAtlas getAtlasBat(){
         return this.atlBat;
     }
 
-    /**
-     * @return golem TextureAtlas
-     */
     public TextureAtlas getAtlasGolem(){
         return this.atlGolem;
     }
 
-    /**
-     * @return lizard TextureAtlas
-     */
     public TextureAtlas getAtlasLizard(){
         return this.atlLizard;
     }
 
-    /**
-     * @return mummy TextureAtlas
-     */
     public TextureAtlas getAtlasMummy(){
         return this.atlMummy;
     }
 
-    /**
-     * @return dragon TextureAtlas
-     */
     public TextureAtlas getAtlasDragon(){ return this.atlDragon; }
 
-    /**
-     * Add a bullet in the bullet list
-     * @param bullet
-     */
     public void addBullet(Bullet bullet){
         this.bullets.add(bullet);
     }
 
-    /**
-     * Process Inputs from Keyboard
-     * @param dt Current DeltaTime between frame calls
-     */
-    public void handleInput(float dt){
+    public void handleInput(){
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP)
-                && player.getState()!= com.my.game.tools.Interfaces.IEntity.State.JUMP
-                && player.getState()!= com.my.game.tools.Interfaces.IEntity.State.FALL
-                && player.getState()!= com.my.game.tools.Interfaces.IEntity.State.ATTACK){
+                && player.getState()!= AppConstants.State.JUMP
+                && player.getState()!= AppConstants.State.FALL
+                && player.getState()!= AppConstants.State.ATTACK){
             playerJump();
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.body.getLinearVelocity().x<=1){
-            player.body.applyLinearImpulse(new Vector2(0.1f,0),player.body.getWorldCenter(),true);
+            player.moveRight(1);
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.body.getLinearVelocity().x>=-1){
-            player.body.applyLinearImpulse(new Vector2(-0.1f,0),player.body.getWorldCenter(),true);
+            player.moveLeft(1);
 
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            player.throwAttack(com.my.game.tools.Interfaces.IFight.AttackType.MELEE);
+            player.attack(AppConstants.AttackType.MELEE);
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.CONTROL_LEFT)){
-            player.throwAttack(com.my.game.tools.Interfaces.IFight.AttackType.MELEE);
+            player.attack(AppConstants.AttackType.DISTANCE);
         }
     }
 
@@ -186,7 +148,7 @@ public abstract class PlayScreen implements Screen{
      * Makes the current player jump
      */
     public void playerJump(){
-        player.body.applyLinearImpulse(new Vector2(0,4f),player.body.getWorldCenter(),true);
+        player.jump(4);
     }
 
     /**
@@ -244,7 +206,7 @@ public abstract class PlayScreen implements Screen{
      * @param dt Current DeltaTime between frame calls.
      */
     public void update(float dt) {
-        handleInput(dt);
+        handleInput();
 
         camera.position.x = player.body.getPosition().x;
 

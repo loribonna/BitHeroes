@@ -4,14 +4,11 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Timer;
 import com.my.game.BitHeroes;
 import com.my.game.tools.*;
+import com.my.game.tools.Enemy;
 import com.my.game.tools.FightDecorators.ArtificialFight.ArtificialMeleeFight;
 
 /**
@@ -28,11 +25,9 @@ public class Lizard extends Enemy {
      */
     public Lizard(World world, TextureAtlas screenAtlas,Vector2 position,BitHeroes game) {
         super(world, screenAtlas,position,game);
-        this.attackSystem=new ArtificialMeleeFight(meleeDamage,this,world,this.attackSystem,attackAnimation,game);
+        this.attackSystem=new ArtificialMeleeFight(20,this,world,this.attackSystem,attackAnimation,game);
         life=1;
     }
-
-    public void throwBullet(){}
 
     /**
      * Import enity-specific animations from the Lizard atlas.
