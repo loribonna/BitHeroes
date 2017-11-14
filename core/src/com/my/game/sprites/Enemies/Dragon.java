@@ -1,26 +1,23 @@
 package com.my.game.sprites.Enemies;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Filter;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Timer;
 import com.my.game.BitHeroes;
 import com.my.game.screens.FinalScreen;
 import com.my.game.sprites.Throwables.DragonBall;
+import com.my.game.tools.AppConstants;
 import com.my.game.tools.Enemy;
-import com.my.game.tools.Interfaces.IEntity;
+import com.my.game.tools.AppConstants.State;
+import com.my.game.tools.FightDecorators.ArtificialFight.ArtificialDistanceFight;
+import com.my.game.tools.FightDecorators.ArtificialFight.ArtificialMeleeFight;
 
 /**
  * Create a Dragon entity from Enemy class
@@ -36,7 +33,12 @@ public class Dragon extends Enemy {
      */
     public Dragon(World world, TextureAtlas screenAtlas, Vector2 position, BitHeroes game) {
         super(world, screenAtlas,position,game);
-        attackRange=0.2f;
+        this.attackSystem=new ArtificialDistanceFight(this,world,this.attackSystem,this.throwAnimation,game);
+        this.attackSystem=new ArtificialMeleeFight(meleeDamage,this,world,this.attackSystem,this.attackAnimation,game);
+        this.attackSystem.setAttackRange(0.2f);
+        this.attackSystem.setAttackSound(AppConstants.AttackType.MELEE,"sounds/ruggito.wav");
+        this.attackSystem.setAttackSound(AppConstants.AttackType.DISTANCE,"sounds/ruggito.wav");
+        this.attackSystem.setAttackFixtureMargins(25,-10,4,-17);
         life=200;
         maxMoveRange=100;
         disableJump=true;
@@ -88,8 +90,8 @@ public class Dragon extends Enemy {
         standAnimation = new TextureRegion(atlas.findRegion("dragon_walking"),8,9, 136, 131);
         setBounds(0, 0, 100 / BitHeroes.PPM, 100 / BitHeroes.PPM);
         setRegion(standAnimation);
-        currentState = IEntity.State.STAND;
-        previousState = IEntity.State.STAND;
+        currentState = State.STAND;
+        previousState = State.STAND;
         stateTimer = 0;
         runRight = true;
         Array<TextureRegion> frames = new Array<TextureRegion>();
@@ -113,134 +115,11 @@ public class Dragon extends Enemy {
     }
 
     /**
-     * Replace the first attack with a melee attack
-     */
-    @Override
-    public void meleeAttack() {
-        currentState = IEntity.State.ATTACK;
-        previousState = IEntity.State.ATTACK;
-        stateTimer = 0;
-        setRegion(getFrame(0));
-
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                lockAttack=false;
-            }
-        },attackAnimation.getAnimationDuration());
-
-
-        final BodyDef bDef=new BodyDef();
-        bDef.position.set(body.getPosition());
-        bDef.type = BodyDef.BodyType.DynamicBody;
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                try {
-                    music = game.getManager().get("sounds/ruggito.wav", Music.class);
-                    music.setLooping(false);
-                    music.setVolume(1);
-                    music.play();
-                }catch (Exception e){
-                    Gdx.app.log("Error","audio file not found");
-                }
-                final Body attackBody = world.createBody(bDef);
-                attackBody.setGravityScale(0);
-
-                if (isFlipX()) {
-                    final Fixture f = attackBody.createFixture(createBackAttackFixture());
-                    f.setUserData(meleeDamage);
-
-                } else {
-                    final Fixture f = attackBody.createFixture(createFrontAttackFixture());
-                    f.setUserData(meleeDamage);
-                }
-                Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        attackBody.setUserData(true);
-                    }
-                }, attackAnimation.getAnimationDuration() / 2);
-            }
-        }, attackAnimation.getAnimationDuration() / 2);
-    }
-
-    /**
      * Add a bullet in the currentPlayScreen
      */
-    protected void throwBullet() {
+    public void throwBullet() {
         Vector2 position = new Vector2(getPosition().x,getPosition().y+20/ BitHeroes.PPM);
         game.getCurrentPlayScreen().addBullet(new DragonBall(position, world, isFlipX(),false,game));
     }
 
-    /**
-     * Replace the second attack with a distance attack
-     */
-    @Override
-    public void distanceAttack() {
-        currentState = State.THROW;
-        previousState = State.THROW;
-        stateTimer = 0;
-        setRegion(getFrame(0));
-
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                lockAttack=false;
-            }
-        },throwAnimation.getAnimationDuration());
-
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                try {
-                    music = game.getManager().get("sounds/ruggito.wav", Music.class);
-                    music.setLooping(false);
-                    music.setVolume(1);
-                    music.play();
-                }catch (Exception e){
-                    Gdx.app.log("Error","audio file not found");
-                }
-                throwBullet();
-            }
-        },throwAnimation.getAnimationDuration()/2);
-    }
-
-    /**
-     * Replace default to increase fixture shape
-     * @return fixture to trigger collision for Melee attack if the attack is front
-     */
-    @Override
-    public FixtureDef createFrontAttackFixture() {
-        FixtureDef fdef = new FixtureDef();
-
-        PolygonShape weaponFront = new PolygonShape();
-        weaponFront.set(new Vector2[]{new Vector2(25,-6).scl(1/ BitHeroes.PPM),new Vector2(25,-10).scl(1/ BitHeroes.PPM)
-                ,new Vector2(8,-6).scl(1/ BitHeroes.PPM),new Vector2(8,-10).scl(1/ BitHeroes.PPM)});
-        fdef.shape = weaponFront;
-        fdef.filter.categoryBits= BitHeroes.ENEMY_MELEE_BIT;
-        fdef.filter.groupIndex= BitHeroes.GROUP_BULLET;
-        fdef.filter.maskBits= BitHeroes.PLAYER_BIT;
-        fdef.isSensor=true;
-        return fdef;
-    }
-
-    /**
-     * Replace default to increase fixture shape
-     * @return fixture to trigger collision for Melee attack if the body is flipped.
-     */
-    @Override
-    public FixtureDef createBackAttackFixture() {
-        FixtureDef fdef = new FixtureDef();
-
-        PolygonShape weaponBack = new PolygonShape();
-        weaponBack.set(new Vector2[]{new Vector2(-25,-6).scl(1/ BitHeroes.PPM),new Vector2(-25,-10).scl(1/ BitHeroes.PPM)
-                ,new Vector2(-8,-6).scl(1/ BitHeroes.PPM),new Vector2(-8,-10).scl(1/ BitHeroes.PPM)});
-        fdef.shape = weaponBack;
-        fdef.filter.categoryBits= BitHeroes.ENEMY_MELEE_BIT;
-        fdef.filter.groupIndex= BitHeroes.GROUP_BULLET;
-        fdef.filter.maskBits= BitHeroes.PLAYER_BIT;
-        fdef.isSensor=true;
-        return fdef;
-    }
 }

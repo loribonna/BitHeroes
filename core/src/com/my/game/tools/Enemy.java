@@ -7,22 +7,21 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.my.game.BitHeroes;
+import com.my.game.tools.AppConstants.Direction;
+import com.my.game.tools.AppConstants.State;
+import com.my.game.tools.FightDecorators.DefaultFight;
 
 /**
  * Abstract class with Enemy controls and artificial intelligence
  */
 
 public abstract class Enemy extends Entity{
-    protected enum direction{right,left,stop,up};
-    protected float attackRange=0.18f;
-    protected float minPlayerDistance=0.1f;
-    protected float maxMoveRange=1.7f;
     protected boolean disableJump=false;
-    protected float minHeight=0.1f;
-    protected direction XDirection=direction.stop;
-    protected direction YDirection=direction.stop;
+    protected AppConstants.Direction XDirection=AppConstants.Direction.STOP;
+    protected AppConstants.Direction YDirection=AppConstants.Direction.STOP;
     protected boolean isFlying=false;
-
+    protected float maxMoveRange=1.7f;
+    protected final float minHeight=0.1f;
     /**
      * Initialize enemy variables and disable body. It will be activated when the player gets close.
      * @param world
@@ -34,7 +33,7 @@ public abstract class Enemy extends Entity{
         super(world, screenAtlas, position, game);
         isPlayer=false;
         body.setActive(false);
-
+        this.attackSystem=new DefaultFight(false,this,world);
     }
 
     /**
@@ -66,48 +65,34 @@ public abstract class Enemy extends Entity{
             if(!body.isActive()) {
                 body.setActive(true);
             }
-            if(Math.abs(dx)>Math.abs(minPlayerDistance)){
-                if(dx>attackRange){
-                    throwAttack(AttackType.DISTANCE);
-                    XDirection=direction.right;
-                }else if(dx<-attackRange) {
-                    throwAttack(AttackType.DISTANCE);
-                    XDirection = direction.left;
-                }else if(dy>-attackRange&&dy<attackRange){
-                    XDirection=direction.stop;
-                    throwAttack(AttackType.MELEE);
-                }
-            }else{
-                if(dy>-attackRange&&dy<attackRange) {
-                    throwAttack(AttackType.DISTANCE);
-                }
 
+            XDirection=attackSystem.setTarget(dx,dy);
+
+            if(XDirection==Direction.NONE){
                 if(dx>0)
                 {
                     if(isFlipX()){
-                        XDirection=direction.right;
+                        XDirection=Direction.RIGHT;
                     }else{
-                        XDirection=direction.stop;
+                        XDirection=Direction.STOP;
                     }
                 }else{
                     if(!isFlipX()){
-                        XDirection=direction.left;
+                        XDirection=Direction.LEFT;
                     }else{
-                        XDirection=direction.stop;
+                        XDirection=Direction.STOP;
                     }
                 }
-
             }
 
-
         }else{
-            XDirection=direction.stop;
+            XDirection=Direction.STOP;
         }
 
-        if(dy>minHeight&&XDirection!=direction.stop){
-            YDirection=direction.up;
+        if(dy>minHeight&&XDirection!=Direction.STOP){
+            YDirection=Direction.UP;
         }else{
-            YDirection=direction.stop;
+            YDirection=Direction.STOP;
         }
     }
 
@@ -120,17 +105,17 @@ public abstract class Enemy extends Entity{
     public void update(float delta) {
         if(!dead) {
             setTarget();
-            if (XDirection == direction.right) {
+            if (XDirection == Direction.RIGHT) {
                 if (body.getLinearVelocity().x <= 1)
                     body.applyLinearImpulse(new Vector2(0.1f, 0), body.getWorldCenter(), true);
-            } else if (XDirection == direction.left) {
+            } else if (XDirection == Direction.LEFT) {
                 if (body.getLinearVelocity().x >= -1)
                     body.applyLinearImpulse(new Vector2(-0.1f, 0), body.getWorldCenter(), true);
-            } else if (XDirection == direction.stop) {
+            } else if (XDirection == Direction.STOP) {
                 body.setLinearVelocity(0, body.getLinearVelocity().y);
             }
 
-            if (!disableJump && YDirection == direction.up) {
+            if (!disableJump && YDirection == AppConstants.Direction.UP) {
                 if (this.getState() != State.JUMP &&
                         this.getState() != State.FALL &&
                         this.getState() != State.ATTACK) {

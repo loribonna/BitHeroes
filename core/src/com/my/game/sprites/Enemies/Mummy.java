@@ -11,7 +11,9 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.my.game.BitHeroes;
+import com.my.game.tools.AppConstants;
 import com.my.game.tools.Enemy;
+import com.my.game.tools.FightDecorators.ArtificialFight.ArtificialMeleeFight;
 
 /**
  * Create a Mummy entity from Enemy class
@@ -27,9 +29,11 @@ public class Mummy extends Enemy {
      */
     public Mummy(World world, TextureAtlas screenAtlas, Vector2 position,BitHeroes game) {
         super(world, screenAtlas,position,game);
-        attackRange=0.18f;
+        this.attackSystem=new ArtificialMeleeFight(meleeDamage,this,world,this.attackSystem,attackAnimation,game);
         life=1;
     }
+
+    public void throwBullet(){}
 
     /**
      * Import enity-specific animations from the Mummy atlas.
@@ -40,8 +44,8 @@ public class Mummy extends Enemy {
         standAnimation = new TextureRegion(atlas.findRegion("mummia_walking"), 34,9, 31, 36);
         setBounds(0, 0, 24 / BitHeroes.PPM, 30 / BitHeroes.PPM);
         setRegion(standAnimation);
-        currentState = State.STAND;
-        previousState = State.STAND;
+        currentState = AppConstants.State.STAND;
+        previousState = AppConstants.State.STAND;
         stateTimer = 0;
         runRight = true;
         Array<TextureRegion> frames = new Array<TextureRegion>();
@@ -57,53 +61,6 @@ public class Mummy extends Enemy {
         frames.add(new TextureRegion(atlas.findRegion("mummia_attack"), 102,3, 35 , 34));
         attackAnimation = new Animation (0.1f, frames);
         frames.clear();
-    }
-
-    /**
-     * Replace the first attack with a melee attack
-     */
-    @Override
-    public void meleeAttack() {
-        currentState = State.ATTACK;
-        previousState = State.ATTACK;
-        stateTimer = 0;
-        setSize(24 / BitHeroes.PPM, 30 / BitHeroes.PPM);
-        setRegion(getFrame(0));
-
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                setSize(24 / BitHeroes.PPM, 30 / BitHeroes.PPM);
-                lockAttack=false;
-            }
-        },attackAnimation.getAnimationDuration());
-
-
-        final BodyDef bDef=new BodyDef();
-        bDef.position.set(body.getPosition());
-        bDef.type = BodyDef.BodyType.DynamicBody;
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                final Body attackBody = world.createBody(bDef);
-                attackBody.setGravityScale(0);
-
-                if (isFlipX()) {
-                    final Fixture f = attackBody.createFixture(createBackAttackFixture());
-                    f.setUserData(meleeDamage);
-
-                } else {
-                    final Fixture f = attackBody.createFixture(createFrontAttackFixture());
-                    f.setUserData(meleeDamage);
-                }
-                Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        attackBody.setUserData(true);
-                    }
-                }, attackAnimation.getAnimationDuration() / 2);
-            }
-        }, attackAnimation.getAnimationDuration() / 2);
     }
 }
 

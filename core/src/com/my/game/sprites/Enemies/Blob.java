@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.my.game.BitHeroes;
 import com.my.game.sprites.Throwables.BlobBall;
 import com.my.game.tools.*;
+import com.my.game.tools.FightDecorators.ArtificialFight.ArtificialDistanceFight;
 
 /**
  * Create a Blob entity from Enemy class
@@ -25,9 +26,9 @@ public class Blob extends Enemy {
      */
     public Blob(World world, TextureAtlas screenAtlas, Vector2 position, BitHeroes game) {
         super(world, screenAtlas,position,game);
-        attackRange=0.18f;
+        this.attackSystem=new ArtificialDistanceFight(this,world,this.attackSystem,this.attackAnimation,game);
         life=1;
-        minPlayerDistance=maxMoveRange-2;
+        this.attackSystem.setMinDistance(maxMoveRange-2);
     }
 
     /**
@@ -39,8 +40,8 @@ public class Blob extends Enemy {
         standAnimation = new TextureRegion(atlas.findRegion("blob_walking"), 40, 1, 32, 34);
         setBounds(0, 0, 24 / BitHeroes.PPM, 30 / BitHeroes.PPM);
         setRegion(standAnimation);
-        currentState = State.STAND;
-        previousState = State.STAND;
+        currentState = AppConstants.State.STAND;
+        previousState = AppConstants.State.STAND;
         stateTimer = 0;
         runRight = true;
         Array<TextureRegion> frames = new Array<TextureRegion>();
@@ -57,36 +58,7 @@ public class Blob extends Enemy {
         frames.clear();
     }
 
-    /**
-     * Replace the second attack with a distance attack
-     */
-    @Override
-    public void distanceAttack() {
-        currentState = State.THROW;
-        previousState = State.THROW;
-        stateTimer = 0;
-        setRegion(getFrame(0));
-
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                lockAttack=false;
-            }
-        },throwAnimation.getAnimationDuration());
-
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                throwBullet();
-            }
-        },throwAnimation.getAnimationDuration()/2);
-    }
-
-    /**
-     * Add a bullet in the currentPlayScreen
-     */
-    private void throwBullet() {
+    public void throwBullet() {
         game.getCurrentPlayScreen().addBullet(new BlobBall(getPosition(), world, isFlipX(),false,game));
     }
-
 }

@@ -7,7 +7,6 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.my.game.screens.FirstScreen;
-import com.my.game.tools.Interfaces.IEntity;
 import com.my.game.tools.PlayScreen;
 
 public class BitHeroes extends Game {
@@ -21,8 +20,8 @@ public class BitHeroes extends Game {
 	private AssetManager manager;
 
 	public static final String name = "Bit Heroes";
-	public static final float V_WIDTH = 400;
-	public static final float V_HEIGHT = 225;
+	public static final float V_WIDTH = 360;
+	public static final float V_HEIGHT = 202;
 	public static final float PPM = 100;
 
 	public static final short GROUP_PLAYER = 1;

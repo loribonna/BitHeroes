@@ -370,5 +370,6 @@ public abstract class PlayScreen implements Screen{
         bullets.clear();
         map.dispose();
         hud.dispose();
+
     }
 }

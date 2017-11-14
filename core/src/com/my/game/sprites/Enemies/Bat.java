@@ -4,14 +4,12 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Timer;
 import com.my.game.BitHeroes;
 import com.my.game.tools.*;
+import com.my.game.tools.FightDecorators.ArtificialFight.ArtificialMeleeFight;
+import com.my.game.tools.AppConstants.State;
 
 /**
  * Create a Bat entity from Enemy class
@@ -28,7 +26,7 @@ public class Bat extends Enemy {
      */
     public Bat(World world, TextureAtlas screenAtlas,Vector2 position,BitHeroes game) {
         super(world, screenAtlas,position,game);
-        attackRange=0.18f;
+        this.attackSystem=new ArtificialMeleeFight(meleeDamage,this,world,this.attackSystem,attackAnimation,game);
         life=1;
     }
 
@@ -58,49 +56,5 @@ public class Bat extends Enemy {
         frames.clear();
     }
 
-    /**
-     * Replace the first attack with a melee attack
-     */
-    @Override
-    public void meleeAttack() {
-        currentState = State.ATTACK;
-        previousState = State.ATTACK;
-        stateTimer = 0;
-        setRegion(getFrame(0));
-
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                lockAttack=false;
-            }
-        },attackAnimation.getAnimationDuration());
-
-
-        final BodyDef bDef=new BodyDef();
-        bDef.position.set(body.getPosition());
-        bDef.type = BodyDef.BodyType.DynamicBody;
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                final Body attackBody = world.createBody(bDef);
-                attackBody.setGravityScale(0);
-
-                if (isFlipX()) {
-                    final Fixture f = attackBody.createFixture(createBackAttackFixture());
-                    f.setUserData(meleeDamage);
-
-                } else {
-                    final Fixture f = attackBody.createFixture(createFrontAttackFixture());
-                    f.setUserData(meleeDamage);
-                }
-                Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        attackBody.setUserData(true);
-                    }
-                }, attackAnimation.getAnimationDuration() / 2);
-            }
-        }, attackAnimation.getAnimationDuration() / 2);
-    }
-
+    public void throwBullet(){}
 }

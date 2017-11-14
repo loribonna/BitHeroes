@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.my.game.BitHeroes;
 import com.my.game.sprites.Throwables.Arrow;
+import com.my.game.tools.AppConstants;
 import com.my.game.tools.Entity;
 
 /**
@@ -44,8 +45,8 @@ public class Archer extends Entity {
         standAnimation = new TextureRegion(atlas.findRegion("archer_normal_attack"), 7, 6, 34, 32);
         setBounds(0, 0, 24 / BitHeroes.PPM, 20 / BitHeroes.PPM);
         setRegion(standAnimation);
-        currentState = State.STAND;
-        previousState = State.STAND;
+        currentState = AppConstants.State.STAND;
+        previousState = AppConstants.State.STAND;
         stateTimer = 0;
         runRight = true;
         Array<TextureRegion> frames = new Array<TextureRegion>();
@@ -82,7 +83,7 @@ public class Archer extends Entity {
      */
     @Override
     public void recoil() {
-        if(currentState!=State.JUMP) {
+        if(currentState!= AppConstants.State.JUMP) {
             body.applyLinearImpulse(new Vector2(0, 1), body.getWorldCenter(), true);
         }
     }
@@ -103,10 +104,7 @@ public class Archer extends Entity {
         game.getCurrentPlayScreen().gameOver();
     }
 
-    /**
-     * Add a bullet in the currentPlayScreen
-     */
-    private void throwBullet() {
+    public void throwBullet() {
         game.getCurrentPlayScreen().addBullet(new Arrow(getPosition(), world, isFlipX(),true,game));
     }
 

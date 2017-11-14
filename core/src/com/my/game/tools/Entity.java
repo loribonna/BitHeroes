@@ -9,19 +9,18 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Filter;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Timer;
 import com.my.game.BitHeroes;
-import com.my.game.tools.Interfaces.IEntity;
-import com.my.game.tools.Interfaces.IFight;
+import com.my.game.tools.FightDecorators.DefaultFight;
+import com.my.game.tools.AppConstants.State;
+import com.my.game.tools.FightDecorators.Fight;
 
 /**
  * Common controls for any Entity
  */
 
-public abstract class Entity extends Sprite implements IEntity,IFight {
+public abstract class Entity extends Sprite {
     protected World world;
     protected Body body;
     protected boolean isPlayer=true;
@@ -35,12 +34,11 @@ public abstract class Entity extends Sprite implements IEntity,IFight {
     protected boolean runRight;
     protected float stateTimer;
     protected boolean invulnerable=false;
-    protected boolean lockAttack;
     protected boolean dead=false;
     protected int meleeDamage=20;
     protected BitHeroes game;
     protected Music music;
-
+    protected Fight attackSystem;
     /**
      * Initialize Entity variables and create borders and animations.
      * @param world
@@ -154,6 +152,13 @@ public abstract class Entity extends Sprite implements IEntity,IFight {
         return region;
     }
 
+    public void updateState(State currentState,State previousState){
+        this.currentState=currentState;
+        this.previousState=previousState;
+        stateTimer = 0;
+        setRegion(getFrame(0));
+    }
+
     /**
      * @return new state based on the action being performed and movement of the body.
      */
@@ -180,7 +185,7 @@ public abstract class Entity extends Sprite implements IEntity,IFight {
                     }
                 }
             }else{
-                if(!lockAttack) {
+                if(!attackSystem.isFighting()) {
                     if (body.getLinearVelocity().x != 0) {
                         return State.RUN;
                     } else if (previousState != State.ATTACK) {
@@ -217,95 +222,13 @@ public abstract class Entity extends Sprite implements IEntity,IFight {
         createBorders();
     }
 
+    public abstract void throwBullet();
+
     /**
      * Set fixtures in the current body.
      */
     public abstract void createBorders();
 
-    /**
-     * Perform entity melee attack. Default is nothing.
-     */
-    public void meleeAttack(){
-        lockAttack=false;
-    }
-
-    /**
-     * Perform entity distance attack. Default is nothing.
-     */
-    public void distanceAttack(){
-        lockAttack=false;
-    }
-
-    /**
-     * Perform entity's special attack. Default is nothing.
-     */
-    public void specialAttack(){
-        lockAttack=false;
-    }
-
-    /**
-     * Perform attack based on the attackType parameter.
-     * Control if lockAttack is released before perform another attack.
-     * @param attackType
-     */
-    public void throwAttack(AttackType attackType) {
-        if(!lockAttack) {
-            lockAttack=true;
-            if (attackType == AttackType.DISTANCE) {
-                distanceAttack();
-            } else {
-                meleeAttack();
-            }
-        }else{
-            return;
-        }
-    }
-
-    /**
-     * @return fixture to trigger collision for Melee attack if the attack is front
-     */
-    public FixtureDef createFrontAttackFixture() {
-        FixtureDef fdef = new FixtureDef();
-
-        PolygonShape weaponFront = new PolygonShape();
-        weaponFront.set(new Vector2[]{new Vector2(16,-2).scl(1/ BitHeroes.PPM),new Vector2(16,-4).scl(1/ BitHeroes.PPM)
-                ,new Vector2(8,-2).scl(1/ BitHeroes.PPM),new Vector2(8,-4).scl(1/ BitHeroes.PPM)});
-        fdef.shape = weaponFront;
-        if(isPlayer){
-            fdef.filter.categoryBits= BitHeroes.PLAYER_MELEE_BIT;
-            fdef.filter.groupIndex= BitHeroes.GROUP_BULLET;
-            fdef.filter.maskBits= BitHeroes.ENEMY_BIT;
-        }else{
-            fdef.filter.categoryBits= BitHeroes.ENEMY_MELEE_BIT;
-            fdef.filter.groupIndex= BitHeroes.GROUP_BULLET;
-            fdef.filter.maskBits= BitHeroes.PLAYER_BIT;
-        }
-        fdef.isSensor=true;
-        return fdef;
-    }
-
-    /**
-     * @return fixture to trigger collision for Melee attack if the body is flipped.
-     */
-    public FixtureDef createBackAttackFixture() {
-        FixtureDef fdef = new FixtureDef();
-
-        PolygonShape weaponBack = new PolygonShape();
-        weaponBack.set(new Vector2[]{new Vector2(-16,-2).scl(1/ BitHeroes.PPM),new Vector2(-16,-4).scl(1/ BitHeroes.PPM)
-                ,new Vector2(-8,-2).scl(1/ BitHeroes.PPM),new Vector2(-8,-4).scl(1/ BitHeroes.PPM)});
-        fdef.shape = weaponBack;
-        if(isPlayer){
-            fdef.filter.categoryBits= BitHeroes.PLAYER_MELEE_BIT;
-            fdef.filter.groupIndex= BitHeroes.GROUP_BULLET;
-            fdef.filter.maskBits= BitHeroes.ENEMY_BIT;
-        }else{
-            fdef.filter.categoryBits= BitHeroes.ENEMY_MELEE_BIT;
-            fdef.filter.groupIndex= BitHeroes.GROUP_BULLET;
-            fdef.filter.maskBits= BitHeroes.PLAYER_BIT;
-        }
-        fdef.isSensor=true;
-        return fdef;
-    }
 
 
 }

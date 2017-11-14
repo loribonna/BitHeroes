@@ -31,6 +31,31 @@ public class GameOverScreen implements Screen {
     private Camera camera;
     private Texture background;
 
+    private TextButton createButton(TextureAtlas atlas, String drawable, float positionY){
+        skin.addRegions(atlas);
+        TextButton.TextButtonStyle textButtonStyle;
+        textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.font = new BitmapFont();
+        textButtonStyle.up = skin.getDrawable(drawable);
+        TextButton button = new TextButton("", textButtonStyle);
+        button.setBounds(BitHeroes.V_WIDTH / 2 - BitHeroes.V_WIDTH / 10, BitHeroes.V_HEIGHT/2+ BitHeroes.V_HEIGHT/positionY, BitHeroes.V_WIDTH/5, BitHeroes.V_HEIGHT/7);
+        button.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                if(event.getListenerActor() instanceof TextButton){
+                    TextButton t =((TextButton)event.getListenerActor());
+                    if(t.isChecked()){
+                        dispose();
+                        Gdx.app.exit();
+                    }
+                }
+                return false;
+            }
+        });
+
+        return button;
+    }
+
     /**
      * Display the GameOver screen with the buttons Restart and Exit
      * @param game
@@ -47,48 +72,8 @@ public class GameOverScreen implements Screen {
         background=new Texture("schermata_game_over.png");
 
         buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttons.pack"));
-        skin.addRegions(buttonAtlas);
-        TextButton.TextButtonStyle textButtonRestartStyle;
-        textButtonRestartStyle = new TextButton.TextButtonStyle();
-        textButtonRestartStyle.font = new BitmapFont();
-        textButtonRestartStyle.up = skin.getDrawable("uscita");
-        buttonExit = new TextButton("", textButtonRestartStyle);
-        buttonExit.setBounds(BitHeroes.V_WIDTH/2- BitHeroes.V_WIDTH/10, BitHeroes.V_HEIGHT/2- BitHeroes.V_HEIGHT/3, BitHeroes.V_WIDTH/5, BitHeroes.V_HEIGHT/7);
-        buttonExit.addListener(new EventListener() {
-            @Override
-            public boolean handle(Event event) {
-                if(event.getListenerActor() instanceof TextButton){
-                    TextButton t =((TextButton)event.getListenerActor());
-                    if(t.isChecked()){
-                        dispose();
-                        Gdx.app.exit();
-                    }
-                }
-                return false;
-            }
-        });
-
-        TextButton.TextButtonStyle textButtonExitStyle;
-        textButtonExitStyle = new TextButton.TextButtonStyle();
-        textButtonExitStyle.font = new BitmapFont();
-        textButtonExitStyle.up = skin.getDrawable("ricomincia");
-        buttonRestart = new TextButton("", textButtonExitStyle);
-        buttonRestart.setBounds(BitHeroes.V_WIDTH/2- BitHeroes.V_WIDTH/10, BitHeroes.V_HEIGHT/2- BitHeroes.V_HEIGHT/7, BitHeroes.V_WIDTH/5, BitHeroes.V_HEIGHT/7);
-        buttonRestart.addListener(new EventListener() {
-            @Override
-            public boolean handle(Event event) {
-                if(event.getListenerActor() instanceof TextButton){
-                    TextButton t =((TextButton)event.getListenerActor());
-                    if(t.isChecked()){
-                        dispose();
-                        Screen screen;
-                        screen = new MenuScreen(game);
-                        game.setScreen(screen);
-                    }
-                }
-                return false;
-            }
-        });
+        buttonExit = createButton(buttonAtlas,"uscita",-3);
+        buttonRestart = createButton(buttonAtlas,"ricomincia",-7);
 
         stage.addActor(buttonRestart);
         stage.addActor(buttonExit);

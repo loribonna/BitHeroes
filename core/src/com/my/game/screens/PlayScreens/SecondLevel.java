@@ -20,7 +20,6 @@ import com.my.game.sprites.Players.Archer;
 import com.my.game.sprites.Players.FireBender;
 import com.my.game.sprites.Players.Warrior;
 import com.my.game.tools.B2WorldCreator;
-import com.my.game.tools.Interfaces.IEntity;
 import com.my.game.tools.PlayScreen;
 import com.my.game.tools.WorldContactListener;
 
