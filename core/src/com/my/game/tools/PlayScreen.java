@@ -21,6 +21,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.my.game.BitHeroes;
 import com.my.game.screens.Hud;
 import com.my.game.screens.GameOverScreen;
+import com.my.game.sprites.Players.Archer;
+import com.my.game.sprites.Players.FireBender;
+import com.my.game.sprites.Players.Warrior;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -60,7 +63,7 @@ public abstract class PlayScreen implements Screen{
      * Initialize game world and play game music.
      * @param game Reference to main game instance
      */
-    public PlayScreen(BitHeroes game){
+    public PlayScreen(BitHeroes game,AppConstants.PlayerName player){
         this.game=game;
         objectsToRemove=new ArrayList<Object>();
         camera=new OrthographicCamera();
@@ -74,7 +77,28 @@ public abstract class PlayScreen implements Screen{
         enemyList=new ArrayList<Enemy>();
         animatedTileObjects=new ArrayList<TileObject>();
         bullets=new ArrayList<Bullet>();
+
+        if(player==AppConstants.PlayerName.WARRIOR) {
+            atlPlayer = new TextureAtlas("warriorP/warrior.pack");
+            this.player = new Warrior(world, getAtlasPlayer(), new Vector2(100, 80),game);
+        }
+        if(player==AppConstants.PlayerName.ARCHER) {
+            atlPlayer = new TextureAtlas("archerP/archer.pack");
+            this.player = new Archer(world, getAtlasPlayer(), new Vector2(100, 80),game);
+        }
+        if(player==AppConstants.PlayerName.FIREBENDER) {
+            atlPlayer = new TextureAtlas("aceP/ace.pack");
+            this.player = new FireBender(world, getAtlasPlayer(), new Vector2(100, 80),game);
+        }
+
+        if(!BitHeroes.disableAudio){
+            playMusic();
+        }
+
+        world.setContactListener(new WorldContactListener(game));
     }
+
+    protected abstract void playMusic();
 
     public int getCurrentScore(){
         return hud.getScore();
@@ -172,8 +196,9 @@ public abstract class PlayScreen implements Screen{
             update(delta);
             mapRenderer.render();
 
-            // Show border around shapes if in Debug
-            b2dr.render(world, camera.combined);
+            if(BitHeroes.enableDebugRenderer){
+                b2dr.render(world, camera.combined);
+            }
 
             game.getBatch().setProjectionMatrix(camera.combined);
             game.getBatch().begin();

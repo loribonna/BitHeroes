@@ -101,14 +101,7 @@ public class Coin extends TileObject{
     @Override
     public void onHit(Entity entity) {
         if(entity.isPlayer()) {
-            try{
-                music = game.getManager().get("sounds/coin.wav",Music.class);
-                music.setLooping(false);
-                music.setVolume(0.5f);
-                music.play();
-            }catch (Exception e){
-                Gdx.app.log("Error","audio file not found");
-            }
+            playSound("sounds/coin.wav");
             setCategoryBits(BitHeroes.NOTHING_BIT);
             game.removeObject(this);
             body.setUserData(true);

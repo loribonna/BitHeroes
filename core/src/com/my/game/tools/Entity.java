@@ -83,6 +83,19 @@ public abstract class Entity extends Sprite {
      */
     public abstract void update(float delta);
 
+    protected void playSound(String name){
+        if(!BitHeroes.disableAudio) {
+            try {
+                music = game.getManager().get(name, Music.class);
+                music.setLooping(false);
+                music.setVolume(1);
+                music.play();
+            } catch (Exception e) {
+                Gdx.app.log("Error", "audio file not found");
+            }
+        }
+    }
+
     public boolean isInvulnerable(){return invulnerable;}
 
     /**

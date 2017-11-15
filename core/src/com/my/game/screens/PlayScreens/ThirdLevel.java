@@ -34,7 +34,7 @@ public class ThirdLevel extends PlayScreen {
      * @param score
      */
     public ThirdLevel(final BitHeroes game, AppConstants.PlayerName player, int score) {
-        super(game);
+        super(game,player);
         hud=new Hud(game,3,score);
         game.setCurrentPlayScreen(this);
         game.setCurrentPlayer(player);
@@ -42,19 +42,6 @@ public class ThirdLevel extends PlayScreen {
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / BitHeroes.PPM);
 
         new B2WorldCreator(world,map,animatedTileObjects,game);
-
-        if(player==AppConstants.PlayerName.WARRIOR) {
-            atlPlayer = new TextureAtlas("warriorP/warrior.pack");
-            this.player = new Warrior(world, getAtlasPlayer(), new Vector2(100, 64),game);
-        }
-        if(player==AppConstants.PlayerName.ARCHER) {
-            atlPlayer = new TextureAtlas("archerP/archer.pack");
-            this.player = new Archer(world, getAtlasPlayer(), new Vector2(100, 64),game);
-        }
-        if(player==AppConstants.PlayerName.FIREBENDER) {
-            atlPlayer = new TextureAtlas("aceP/ace.pack");
-            this.player = new FireBender(world, getAtlasPlayer(), new Vector2(100, 64),game);
-        }
 
         atlDragon = new TextureAtlas("dragonP/dragon.pack");
 
@@ -65,7 +52,11 @@ public class ThirdLevel extends PlayScreen {
             enemyList.add(new Dragon(world,getAtlasDragon(),new Vector2(rect.getX(),rect.getY()),game));
         }
 
-        world.setContactListener(new WorldContactListener(game));
+
+    }
+
+    @Override
+    protected void playMusic() {
         try{
             music = game.getManager().get("sounds/bossfight.mp3",Music.class);
             music.setLooping(true);

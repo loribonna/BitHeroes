@@ -38,7 +38,7 @@ public class SecondLevel extends PlayScreen{
      * @param score
      */
     public SecondLevel(final BitHeroes game, AppConstants.PlayerName player, int score) {
-        super(game);
+        super(game,player);
         hud=new Hud(game,2,score);
         game.setCurrentPlayScreen(this);
         game.setCurrentPlayer(player);
@@ -54,19 +54,6 @@ public class SecondLevel extends PlayScreen{
         atlBlob = new TextureAtlas("blobP/blob.pack");
         atlSkeleton = new TextureAtlas("skeletonP/scheletro.pack");
 
-        if(player==AppConstants.PlayerName.WARRIOR) {
-            atlPlayer = new TextureAtlas("warriorP/warrior.pack");
-            this.player = new Warrior(world, getAtlasPlayer(), new Vector2(100, 64),game);
-        }
-        if(player==AppConstants.PlayerName.ARCHER) {
-            atlPlayer = new TextureAtlas("archerP/archer.pack");
-            this.player = new Archer(world, getAtlasPlayer(), new Vector2(100, 64),game);
-        }
-        if(player==AppConstants.PlayerName.FIREBENDER) {
-            atlPlayer = new TextureAtlas("aceP/ace.pack");
-            this.player = new FireBender(world, getAtlasPlayer(), new Vector2(100, 64),game);
-        }
-
         MapLayer l;
         l = map.getLayers().get(7);
         for (MapObject obj : l.getObjects().getByType(RectangleMapObject.class)) {
@@ -80,8 +67,10 @@ public class SecondLevel extends PlayScreen{
                 enemyList.add(new Blob(world,getAtlasBlob(),new Vector2(rect.getX(),rect.getY()),game));
             }
         }
+    }
 
-        world.setContactListener(new WorldContactListener(game));
+    @Override
+    protected void playMusic() {
         try{
             music = game.getManager().get("sounds/musica.wav",Music.class);
             music.setLooping(true);

@@ -32,6 +32,7 @@ public class BitHeroes extends Game {
 	private AssetManager manager;
 
 	public static boolean disableAudio=true;
+	public static boolean enableDebugRenderer=false;
 
 	public static final String name = "Bit Heroes";
 	public static final float V_WIDTH = 360;

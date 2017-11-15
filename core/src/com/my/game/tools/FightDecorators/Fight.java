@@ -101,7 +101,7 @@ public abstract class Fight {
     }
 
     protected void playAttackSound(AttackType type){
-        if(this.attackSounds.containsKey(type)){
+        if(!BitHeroes.disableAudio&&this.attackSounds.containsKey(type)){
             try {
                 music = game.getManager().get(this.attackSounds.get(type), Music.class);
                 music.setLooping(false);

@@ -52,14 +52,7 @@ public abstract class Player extends Entity {
      */
     @Override
     public void destroy() {
-        try{
-            music = game.getManager().get("sounds/morte.wav",Music.class);
-            music.setLooping(false);
-            music.setVolume(1);
-            music.play();
-        }catch (Exception e){
-            Gdx.app.log("Error","audio file not found");
-        }
+        playSound("sounds/morte.wav");
         game.getCurrentPlayScreen().gameOver();
     }
 

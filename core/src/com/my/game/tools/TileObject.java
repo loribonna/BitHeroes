@@ -1,5 +1,6 @@
 package com.my.game.tools;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Ellipse;
@@ -75,6 +76,19 @@ public abstract class TileObject extends Sprite{
         fdef.shape=shape;
         fixture = body.createFixture(fdef);
 
+    }
+
+    protected void playSound(String name){
+        if(!BitHeroes.disableAudio){
+            try{
+                music = game.getManager().get(name,Music.class);
+                music.setLooping(false);
+                music.setVolume(0.5f);
+                music.play();
+            }catch (Exception e){
+                Gdx.app.log("Error","audio file not found");
+            }
+        }
     }
 
     /**
