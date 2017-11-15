@@ -28,36 +28,45 @@ public abstract class Fight {
     protected HashMap<AttackType,Animation> animations;
     protected HashMap<AttackType,Integer> damages;
     protected HashMap<AttackType,String> attackSounds;
-    protected float attackRange=0.18f;
+    protected HashMap<AttackType,Float> attackRanges;
     protected Music music;
     protected BitHeroes game;
     protected Rectangle attackFixtureMargins;
     protected AppConstants.Float2 defaultSize;
     protected AppConstants.Float2 attackSize;
     protected Fight fight;
+    protected boolean runAway=true;
 
-    public Fight(boolean isPlayer, Entity entity, World world, BitHeroes game, AppConstants.Float2 defaultSize){
-        this.isPlayer=isPlayer;
-        this.attackFixtureMargins=new Rectangle(16,-4,2,-8);
-        this.game=game;
-        this.entity=entity;
-        this.world=world;
+    public static float DEFAULT_RANGE=0.18f;
+
+    private void initialize(){
         this.animations=new HashMap<AttackType, Animation>();
         this.damages=new HashMap<AttackType, Integer>();
         this.attackSounds=new HashMap<AttackType, String>();
+        this.attackRanges=new HashMap<AttackType, Float>();
+        this.attackFixtureMargins=new Rectangle(16,-4,2,-8);
+    }
+
+    public Fight(boolean isPlayer, Entity entity, World world, BitHeroes game, AppConstants.Float2 defaultSize){
+        this.isPlayer=isPlayer;
+        this.game=game;
+        this.entity=entity;
+        this.world=world;
         this.defaultSize=defaultSize;
         this.attackSize=defaultSize;
+        initialize();
     }
 
     public Fight(boolean isPlayer, Entity entity, World world, BitHeroes game){
         this.isPlayer=isPlayer;
-        this.attackFixtureMargins=new Rectangle(16,-4,2,-8);
         this.game=game;
         this.entity=entity;
         this.world=world;
-        this.animations=new HashMap<AttackType, Animation>();
-        this.damages=new HashMap<AttackType, Integer>();
-        this.attackSounds=new HashMap<AttackType, String>();
+        initialize();
+    }
+
+    public void setRunAway(boolean value){
+        this.runAway=value;
     }
 
     public void updateSize(AppConstants.Float2 attackSize){
@@ -73,8 +82,8 @@ public abstract class Fight {
         this.attackFixtureMargins=new Rectangle(x,y,width,height);
     }
 
-    public void setAttackRange(float value){
-        this.attackRange=value;
+    public void setAttackRange(AttackType type,float value){
+        attackRanges.put(type,value);
     }
 
     public boolean isFighting(){
@@ -88,9 +97,7 @@ public abstract class Fight {
     public void performAttack(AttackType type){}
 
     public void setAttackSound(AttackType type,String sound){
-        if(!this.attackSounds.containsKey(type)){
-            this.attackSounds.put(type,sound);
-        }
+        this.attackSounds.put(type,sound);
     }
 
     protected void playAttackSound(AttackType type){

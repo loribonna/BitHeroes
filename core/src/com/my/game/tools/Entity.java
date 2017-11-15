@@ -119,6 +119,20 @@ public abstract class Entity extends Sprite {
      */
     public abstract void destroy();
 
+    public void turn(float dx){
+        if(dx<0&&targetDirection== AppConstants.Direction.RIGHT){
+            targetDirection= AppConstants.Direction.LEFT;
+            this.flip(true, false);
+            return;
+        }
+
+        if(dx>0&&targetDirection== AppConstants.Direction.LEFT){
+            targetDirection= AppConstants.Direction.RIGHT;
+            this.flip(true,false);
+            return;
+        }
+    }
+
     /**
      * @param dt
      * @return current frame of animation based on the current state.

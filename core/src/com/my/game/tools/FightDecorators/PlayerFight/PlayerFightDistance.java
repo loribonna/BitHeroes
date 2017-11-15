@@ -57,7 +57,7 @@ public class PlayerFightDistance extends PlayerFightDecorator {
     public void throwBullet() {
         try{
             Constructor<? extends Bullet> co = bullet.getConstructor(Vector2.class, World.class, boolean.class, boolean.class, BitHeroes.class);
-            game.getCurrentPlayScreen().addBullet(co.newInstance(entity.getPosition(), world, entity.isFlipX(),false,game));
+            game.getCurrentPlayScreen().addBullet(co.newInstance(entity.getPosition(), world, entity.isFlipX(),true,game));
         }catch (Exception e){
             Gdx.app.log("Instantiating error",e.getMessage());
         }

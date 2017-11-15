@@ -34,18 +34,35 @@ public class ArtificialDistanceFight extends ArtificialFightDecorator  {
     public Direction setTarget(float targetDistanceX, float targetDistanceY){
         Direction returnDirection=fight.setTarget(targetDistanceX,targetDistanceY);
 
+        float range=Fight.DEFAULT_RANGE;
+        if(attackRanges.containsKey(AttackType.DISTANCE)){
+            range=attackRanges.get(AttackType.DISTANCE);
+        }
+
         if(returnDirection== Direction.NONE) {
-            if (Math.abs(targetDistanceX) < Math.abs(attackRange)) {
-                if (targetDistanceX < attackRange) {
-                    throwAttack(AttackType.DISTANCE);
-                    returnDirection = Direction.RIGHT;
-                } else if (targetDistanceX > -attackRange) {
-                    throwAttack(AttackType.DISTANCE);
-                    returnDirection = Direction.LEFT;
+            if (Math.abs(targetDistanceX) < Math.abs(range)) {
+
+                if(runAway&&Math.abs(targetDistanceX) < Math.abs(range/2)){
+                    if (targetDistanceX>0){
+                        returnDirection=Direction.LEFT;
+                    }else{
+                        returnDirection=Direction.RIGHT;
+                    }
+                }else{
+                    if (targetDistanceX < range) {
+                        throwAttack(AttackType.DISTANCE);
+                        returnDirection = Direction.STOP;
+                        entity.turn(targetDistanceX);
+
+                    } else if (targetDistanceX > -range) {
+                        throwAttack(AttackType.DISTANCE);
+                        returnDirection = Direction.STOP;
+                        entity.turn(targetDistanceX);
+
+                    }
                 }
             }
         }
-
         return returnDirection;
     }
 

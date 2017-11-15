@@ -31,7 +31,7 @@ public class GameOverScreen implements Screen {
     private Camera camera;
     private Texture background;
 
-    private TextButton createButton(TextureAtlas atlas, String drawable, float positionY){
+    private TextButton createButton(TextureAtlas atlas, String drawable, float positionY,EventListener listener){
         skin.addRegions(atlas);
         TextButton.TextButtonStyle textButtonStyle;
         textButtonStyle = new TextButton.TextButtonStyle();
@@ -39,20 +39,7 @@ public class GameOverScreen implements Screen {
         textButtonStyle.up = skin.getDrawable(drawable);
         TextButton button = new TextButton("", textButtonStyle);
         button.setBounds(BitHeroes.V_WIDTH / 2 - BitHeroes.V_WIDTH / 10, BitHeroes.V_HEIGHT/2+ BitHeroes.V_HEIGHT/positionY, BitHeroes.V_WIDTH/5, BitHeroes.V_HEIGHT/7);
-        button.addListener(new EventListener() {
-            @Override
-            public boolean handle(Event event) {
-                if(event.getListenerActor() instanceof TextButton){
-                    TextButton t =((TextButton)event.getListenerActor());
-                    if(t.isChecked()){
-                        dispose();
-                        Gdx.app.exit();
-                    }
-                }
-                return false;
-            }
-        });
-
+        button.addListener(listener);
         return button;
     }
 
@@ -72,8 +59,35 @@ public class GameOverScreen implements Screen {
         background=new Texture("schermata_game_over.png");
 
         buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttons.pack"));
-        buttonExit = createButton(buttonAtlas,"uscita",-3);
-        buttonRestart = createButton(buttonAtlas,"ricomincia",-7);
+        buttonExit = createButton(buttonAtlas,"uscita",-3,new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                if(event.getListenerActor() instanceof TextButton){
+                    TextButton t =((TextButton)event.getListenerActor());
+                    if(t.isChecked()){
+                        dispose();
+                        Gdx.app.exit();
+                    }
+                }
+                return false;
+            }
+        });
+
+        buttonRestart = createButton(buttonAtlas,"ricomincia",-7,new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                if(event.getListenerActor() instanceof TextButton){
+                    TextButton t =((TextButton)event.getListenerActor());
+                    if(t.isChecked()){
+                        dispose();
+                        Screen screen;
+                        screen = new MenuScreen(game);
+                        game.setScreen(screen);
+                    }
+                }
+                return false;
+            }
+        });
 
         stage.addActor(buttonRestart);
         stage.addActor(buttonExit);

@@ -33,15 +33,18 @@ public class Dragon extends Enemy {
      */
     public Dragon(World world, TextureAtlas screenAtlas, Vector2 position, BitHeroes game) {
         super(world, screenAtlas,position,game);
-        this.attackSystem=new ArtificialDistanceFight(this,world,this.attackSystem,this.throwAnimation,game,DragonBall.class);
-        this.attackSystem=new ArtificialMeleeFight(35,this,world,this.attackSystem,this.attackAnimation,game);
-        this.attackSystem.setAttackRange(0.2f);
-        this.attackSystem.setAttackSound(AppConstants.AttackType.MELEE,"sounds/ruggito.wav");
-        this.attackSystem.setAttackSound(AppConstants.AttackType.DISTANCE,"sounds/ruggito.wav");
-        this.attackSystem.setAttackFixtureMargins(25,-10,4,-17);
         life=200;
         maxMoveRange=100;
         disableJump=true;
+
+        this.attackSystem=new ArtificialMeleeFight(35,this,world,this.attackSystem,this.attackAnimation,game);
+        this.attackSystem=new ArtificialDistanceFight(this,world,this.attackSystem,this.throwAnimation,game,DragonBall.class);
+        this.attackSystem.setAttackRange(AppConstants.AttackType.DISTANCE,maxMoveRange);
+        this.attackSystem.setRunAway(false);
+        this.attackSystem.setAttackSound(AppConstants.AttackType.MELEE,"sounds/ruggito.wav");
+        this.attackSystem.setAttackSound(AppConstants.AttackType.DISTANCE,"sounds/ruggito.wav");
+        this.attackSystem.setAttackFixtureMargins(25,-10,4,-17);
+
     }
 
     /**

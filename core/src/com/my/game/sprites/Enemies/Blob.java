@@ -26,9 +26,9 @@ public class Blob extends Enemy {
      */
     public Blob(World world, TextureAtlas screenAtlas, Vector2 position, BitHeroes game) {
         super(world, screenAtlas,position,game);
-        this.attackSystem=new ArtificialDistanceFight(this,world,this.attackSystem,this.attackAnimation,game,BlobBall.class);
+        this.attackSystem=new ArtificialDistanceFight(this,world,this.attackSystem,this.throwAnimation,game,BlobBall.class);
         life=1;
-        this.attackSystem.setAttackRange(maxMoveRange-2);
+        this.attackSystem.setAttackRange(AppConstants.AttackType.DISTANCE,maxMoveRange);
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.my.game.tools.FightDecorators.ArtificialFight;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -32,9 +33,15 @@ public class ArtificialMeleeFight extends ArtificialFightDecorator {
 
     public Direction setTarget(float targetDistanceX,float targetDistanceY){
         Direction returnDirection=fight.setTarget(targetDistanceX,targetDistanceY);
+
+        float range=Fight.DEFAULT_RANGE;
+        if(attackRanges.containsKey(AttackType.MELEE)){
+            range=attackRanges.get(AttackType.MELEE);
+        }
+
         if(returnDirection==Direction.NONE){
-            if(Math.abs(targetDistanceX)<Math.abs(attackRange)&&
-                    targetDistanceY>-attackRange&&targetDistanceY<attackRange){
+            if(Math.abs(targetDistanceX)<Math.abs(range)&&
+                    targetDistanceY>-range&&targetDistanceY<range){
 
                 returnDirection=Direction.STOP;
                 throwAttack(AttackType.MELEE);
