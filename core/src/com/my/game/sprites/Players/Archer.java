@@ -44,7 +44,7 @@ public class Archer extends Player {
         currentState = AppConstants.State.STAND;
         previousState = AppConstants.State.STAND;
         stateTimer = 0;
-        runRight = true;
+
         Array<TextureRegion> frames = new Array<TextureRegion>();
         frames.add(new TextureRegion(atlas.findRegion("archer_walking"), 23, 10, 27, 32));
         frames.add(new TextureRegion(atlas.findRegion("archer_walking"), 52, 10, 27, 32));

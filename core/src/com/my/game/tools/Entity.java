@@ -31,7 +31,6 @@ public abstract class Entity extends Sprite {
     protected Animation attackAnimation;
     protected Animation runAnimation;
     protected TextureRegion standAnimation;
-    protected boolean runRight;
     protected float stateTimer;
     protected boolean invulnerable=false;
     protected boolean dead=false;
@@ -39,6 +38,7 @@ public abstract class Entity extends Sprite {
     protected Music music;
     protected Fight attackSystem;
     protected float moveSpeed=1;
+    protected AppConstants.Direction targetDirection= AppConstants.Direction.LEFT;
 
     /**
      * Initialize Entity variables and create borders and animations.
@@ -140,12 +140,11 @@ public abstract class Entity extends Sprite {
                 region = standAnimation;
                 break;
         }
-        if ((body.getLinearVelocity().x < 0 || !runRight) && !region.isFlipX()) {
+
+        if (targetDirection== AppConstants.Direction.LEFT && !region.isFlipX()) {
             region.flip(true, false);
-            runRight = false;
-        } else if ((body.getLinearVelocity().x > 0 || runRight) && region.isFlipX()) {
+        } else if (targetDirection== AppConstants.Direction.RIGHT && region.isFlipX()) {
             region.flip(true, false);
-            runRight = true;
         }
 
         if (currentState == previousState) {
@@ -220,11 +219,13 @@ public abstract class Entity extends Sprite {
 
     protected void moveRight(float power){
         if(power<0) return;
+        targetDirection= AppConstants.Direction.RIGHT;
         body.applyLinearImpulse(new Vector2(0.1f*power,0),body.getWorldCenter(),true);
     }
 
     protected void moveLeft(float power){
         if(power<0) return;
+        targetDirection= AppConstants.Direction.LEFT;
         body.applyLinearImpulse(new Vector2(-0.1f*power,0),body.getWorldCenter(),true);
     }
 

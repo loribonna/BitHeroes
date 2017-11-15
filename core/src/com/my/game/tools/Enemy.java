@@ -12,6 +12,8 @@ import com.my.game.tools.AppConstants.Direction;
 import com.my.game.tools.AppConstants.State;
 import com.my.game.tools.FightDecorators.DefaultFight;
 
+import org.omg.PortableInterceptor.DISCARDING;
+
 /**
  * Abstract class with Enemy controls and artificial intelligence
  */
@@ -34,7 +36,7 @@ public abstract class Enemy extends Entity {
         super(world, screenAtlas, position, game);
         isPlayer=false;
         body.setActive(false);
-        this.attackSystem=new DefaultFight(false,this,world,game);
+        this.attackSystem=new DefaultFight(isPlayer,this,world,game);
         setMoveSpeed(0.5f);
     }
 

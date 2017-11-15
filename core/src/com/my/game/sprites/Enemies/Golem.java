@@ -40,7 +40,7 @@ public class Golem extends Enemy {
         currentState = AppConstants.State.STAND;
         previousState = AppConstants.State.STAND;
         stateTimer = 0;
-        runRight = true;
+
         Array<TextureRegion> frames = new Array<TextureRegion>();
         frames.add(new TextureRegion(atlas.findRegion("golem_walking"),  3, -1, 38, 62));
         frames.add(new TextureRegion(atlas.findRegion("golem_walking"),  44, -1, 38, 62));

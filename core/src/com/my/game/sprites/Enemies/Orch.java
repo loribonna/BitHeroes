@@ -41,7 +41,7 @@ public class Orch extends Enemy {
         currentState = AppConstants.State.ATTACK.STAND;
         previousState = AppConstants.State.STAND;
         stateTimer = 0;
-        runRight = true;
+
         Array<TextureRegion> frames = new Array<TextureRegion>();
         frames.add(new TextureRegion(atlas.findRegion("orc_walking"),  261-264, 6, 50, 82));
         frames.add(new TextureRegion(atlas.findRegion("orc_walking"),  316-264, 6, 50, 82));

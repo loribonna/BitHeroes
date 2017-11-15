@@ -44,7 +44,7 @@ public class FireBender extends Player {
         currentState = AppConstants.State.STAND;
         previousState = AppConstants.State.STAND;
         stateTimer = 0;
-        runRight = true;
+
         Array<TextureRegion> frames = new Array<TextureRegion>();
         frames.add(new TextureRegion(atlas.findRegion("ace_walking"), 0, 0, 27, 43));
         frames.add(new TextureRegion(atlas.findRegion("ace_walking"), 30, 0, 27, 43));

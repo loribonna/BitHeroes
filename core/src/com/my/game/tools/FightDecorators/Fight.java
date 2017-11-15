@@ -13,7 +13,6 @@ import com.my.game.tools.AppConstants;
 import com.my.game.tools.AppConstants.Direction;
 import com.my.game.tools.AppConstants.AttackType;
 import com.my.game.tools.Entity;
-
 import java.awt.Rectangle;
 import java.util.HashMap;
 

@@ -45,7 +45,7 @@ public class Warrior extends Player {
         currentState = AppConstants.State.STAND;
         previousState = AppConstants.State.STAND;
         stateTimer = 0;
-        runRight = true;
+
         Array<TextureRegion> frames = new Array<TextureRegion>();
         int i = 0;
         for (; i < 3; i++) {

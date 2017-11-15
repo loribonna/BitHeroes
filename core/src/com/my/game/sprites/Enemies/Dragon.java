@@ -92,7 +92,7 @@ public class Dragon extends Enemy {
         currentState = State.STAND;
         previousState = State.STAND;
         stateTimer = 0;
-        runRight = true;
+
         Array<TextureRegion> frames = new Array<TextureRegion>();
         frames.add(new TextureRegion(atlas.findRegion("dragon_walking"),8,2, 145, 131));
         frames.add(new TextureRegion(atlas.findRegion("dragon_walking"),  167, 2, 145, 131));

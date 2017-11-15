@@ -42,7 +42,7 @@ public class Bat extends Enemy {
         currentState = State.STAND;
         previousState = State.STAND;
         stateTimer = 0;
-        runRight = true;
+
         Array<TextureRegion> frames = new Array<TextureRegion>();
         frames.add(new TextureRegion(atlas.findRegion("bat_flying"),  1, -1, 15, 34));
         frames.add(new TextureRegion(atlas.findRegion("bat_flying"),  17, -1, 15, 34));

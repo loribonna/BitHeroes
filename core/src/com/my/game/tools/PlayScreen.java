@@ -127,11 +127,11 @@ public abstract class PlayScreen implements Screen{
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.body.getLinearVelocity().x<=1){
-            player.moveRight(1);
+            player.moveRight(1.2f);
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.body.getLinearVelocity().x>=-1){
-            player.moveLeft(1);
+            player.moveLeft(1.2f);
 
         }
 
@@ -173,7 +173,7 @@ public abstract class PlayScreen implements Screen{
             mapRenderer.render();
 
             // Show border around shapes if in Debug
-            //b2dr.render(world, camera.combined);
+            b2dr.render(world, camera.combined);
 
             game.getBatch().setProjectionMatrix(camera.combined);
             game.getBatch().begin();

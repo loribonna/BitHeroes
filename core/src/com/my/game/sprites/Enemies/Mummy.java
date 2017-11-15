@@ -41,7 +41,7 @@ public class Mummy extends Enemy {
         currentState = AppConstants.State.STAND;
         previousState = AppConstants.State.STAND;
         stateTimer = 0;
-        runRight = true;
+
         Array<TextureRegion> frames = new Array<TextureRegion>();
         frames.add(new TextureRegion(atlas.findRegion("mummia_walking"),  2, 9, 31, 36));
         frames.add(new TextureRegion(atlas.findRegion("mummia_walking"),  34,9, 31, 36));

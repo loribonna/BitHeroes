@@ -20,7 +20,7 @@ public abstract class Player extends Entity {
     protected Player(World world, TextureAtlas screenAtlas, Vector2 position, BitHeroes game){
         super(world, screenAtlas, position, game);
         isPlayer=true;
-        this.attackSystem=new DefaultFight(false,this,world,game);
+        this.attackSystem=new DefaultFight(isPlayer,this,world,game);
     }
 
     public void attack(AppConstants.AttackType type){

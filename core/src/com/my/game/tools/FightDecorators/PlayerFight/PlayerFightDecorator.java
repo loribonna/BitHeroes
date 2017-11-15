@@ -14,11 +14,12 @@ public abstract class PlayerFightDecorator extends Fight {
     public abstract void performAttack(AppConstants.AttackType type);
 
     public PlayerFightDecorator(Entity entity, World world, BitHeroes game, AppConstants.Float2 defaultSize){
-        super(false, entity, world,game,defaultSize);
+        super(true, entity, world,game,defaultSize);
+
     }
 
     public PlayerFightDecorator(Entity entity, World world, BitHeroes game){
-        super(false, entity, world,game);
+        super(true, entity, world,game);
     }
 
 }

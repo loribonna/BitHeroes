@@ -43,7 +43,7 @@ public class Blob extends Enemy {
         currentState = AppConstants.State.STAND;
         previousState = AppConstants.State.STAND;
         stateTimer = 0;
-        runRight = true;
+
         Array<TextureRegion> frames = new Array<TextureRegion>();
         frames.add(new TextureRegion(atlas.findRegion("blob_walking"),  2, 1, 32, 34));
         frames.add(new TextureRegion(atlas.findRegion("blob_walking"),  40, 1, 32, 34));

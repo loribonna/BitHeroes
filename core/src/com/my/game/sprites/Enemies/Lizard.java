@@ -43,7 +43,7 @@ public class Lizard extends Enemy {
         currentState = AppConstants.State.STAND;
         previousState = AppConstants.State.STAND;
         stateTimer = 0;
-        runRight = true;
+
         Array<TextureRegion> frames = new Array<TextureRegion>();
         frames.add(new TextureRegion(atlas.findRegion("lucertola_walking"), 3, -1, 52, 34));
         frames.add(new TextureRegion(atlas.findRegion("lucertola_walking"), 59, -1, 52, 34));
