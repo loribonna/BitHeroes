@@ -59,6 +59,29 @@ public class B2WorldCreator {
         }
     }
 
+    private void istantiateFirstLevel(){
+        instantiateRectangleObjects(2, Terrain.class);
+        instantiateRectangleObjects(3, Void.class);
+        instantiateEllipseObjects(6, Coin.class);
+        instantiateRectangleObjects(7, Wall.class);
+        instantiateRectangleObjects(4, Exit.class);
+        instantiateRectangleObjects(5, Brick.class);
+    }
+
+    private void istantiateSecondLevel(){
+        instantiateRectangleObjects(3, Terrain.class);
+        instantiateRectangleObjects(2, Void.class);
+        instantiateEllipseObjects(5, Coin.class);
+        instantiateRectangleObjects(6, Wall.class);
+        instantiateRectangleObjects(4, Exit.class);
+    }
+
+    private void istantiateThirdLevel(){
+        instantiateRectangleObjects(1, Terrain.class);
+        instantiateRectangleObjects(2, Wall.class);
+    }
+
+
     /**
      * Create a TileObject to every object and layer in the current TiledMap of the current World.
      * Every level map has different map structure.
@@ -71,22 +94,12 @@ public class B2WorldCreator {
         this.world=world;
 
         if (game.getCurrentPlayScreen() instanceof FirstLevel) {
-            instantiateRectangleObjects(2, Terrain.class);
-            instantiateRectangleObjects(3, Void.class);
-            instantiateEllipseObjects(6, Coin.class);
-            instantiateRectangleObjects(7, Wall.class);
-            instantiateRectangleObjects(4, Exit.class);
-            instantiateRectangleObjects(5, Brick.class);
+            istantiateFirstLevel();
         }else if(game.getCurrentPlayScreen() instanceof SecondLevel){
-            instantiateRectangleObjects(3, Terrain.class);
-            instantiateRectangleObjects(2, Void.class);
-            instantiateEllipseObjects(5, Coin.class);
-            instantiateRectangleObjects(6, Wall.class);
-            instantiateRectangleObjects(4, Exit.class);
+            istantiateSecondLevel();
         }else{
             assert (game.getCurrentPlayScreen() instanceof ThirdLevel) : "Level unknown";
-            instantiateRectangleObjects(1, Terrain.class);
-            instantiateRectangleObjects(2, Wall.class);
+            istantiateThirdLevel();
         }
     }
 }

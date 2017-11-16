@@ -51,6 +51,54 @@ public class WorldContactListener implements ContactListener {
         else return null;
     }
 
+    private void checkPlayerCollisions(Fixture player,Fixture object,Fixture bullet,Fixture enemyMelee){
+        if(player!=null) {
+            if (object != null) {
+                if(player.getUserData() instanceof Entity)
+                    ((TileObject) object.getUserData()).onHit(((Entity)player.getUserData()));
+            }
+
+            if(bullet!=null){
+                game.getCurrentPlayScreen().player.hit(((Bullet) bullet.getUserData()).getDamage());
+                ((Bullet) bullet.getUserData()).dispose();
+            }else if(enemyMelee!=null){
+                game.getCurrentPlayScreen().player.hit((Integer) enemyMelee.getUserData());
+                enemyMelee.setUserData(0);
+            }
+        }
+    }
+
+    private void checkEnemyCollisions(Fixture enemy,Fixture object,Fixture bullet,Fixture player, Fixture playerMelee){
+        if (enemy!=null) {
+            if(player!=null) {
+                if (player.getUserData().toString().contains("feet")) {
+                    if (!((Enemy) enemy.getUserData()).isInvulnerable()&&!((Enemy) enemy.getUserData()).isFlying()) {
+                        game.getCurrentPlayScreen().player.body.applyLinearImpulse(
+                                new Vector2(0, (-game.getCurrentPlayScreen().player.body.getLinearVelocity().y) + 3),
+                                game.getCurrentPlayScreen().player.body.getWorldCenter(), true
+                        );
+
+                        ((Enemy) enemy.getUserData()).hit(110);
+                    }
+                }
+            }else if(object!=null){
+                ((TileObject) object.getUserData()).onHit(((Enemy)enemy.getUserData()));
+            }else if(bullet!=null){
+                ((Enemy) enemy.getUserData()).hit(((Bullet) bullet.getUserData()).getDamage());
+                ((Bullet) bullet.getUserData()).dispose();
+            }else if(playerMelee!=null){
+                ((Enemy) enemy.getUserData()).hit((Integer) playerMelee.getUserData());
+                playerMelee.setUserData(0);
+            }
+        }
+    }
+
+    private void checkBulletCollision(Fixture bullet){
+        if(bullet!=null){
+            ((Bullet) bullet.getUserData()).dispose();
+        }
+    }
+
     /**
      * Handles all collisions between fixtures in the screen.
      * Controls fixture filterBits to check the Entity, Bullet or TileObject type
@@ -80,60 +128,11 @@ public class WorldContactListener implements ContactListener {
             fixEnemyBullet = bulletFixture;
         }
 
-        /**
-         * Handle collision with Player and something else
-         */
-        if(fixPlayer!=null) {
-            if (fixObject != null) {
-                if(fixPlayer.getUserData() instanceof Entity)
-                    ((TileObject) fixObject.getUserData()).onHit(((Entity)fixPlayer.getUserData()));
-            }
+        checkPlayerCollisions(fixPlayer,fixObject,fixEnemyBullet,fixEnemyMelee);
+        checkEnemyCollisions(fixEnemy,fixObject,fixPlayerBullet,fixPlayer,fixPlayerMelee);
+        checkBulletCollision(fixEnemyBullet);
+        checkBulletCollision(fixPlayerBullet);
 
-            if(fixEnemyBullet!=null){
-                game.getCurrentPlayScreen().player.hit(((Bullet) fixEnemyBullet.getUserData()).getDamage());
-                ((Bullet) fixEnemyBullet.getUserData()).dispose();
-            }else if(fixEnemyMelee!=null){
-                game.getCurrentPlayScreen().player.hit((Integer) fixEnemyMelee.getUserData());
-                fixEnemyMelee.setUserData(0);
-            }
-        }
-
-        /**
-         * Handle collision with Enemy and something else
-         */
-        if (fixEnemy!=null) {
-
-            if(fixPlayer!=null) {
-                if (fixPlayer.getUserData().toString().contains("feet")) {
-                    if (!((Enemy) fixEnemy.getUserData()).isInvulnerable()&&!((Enemy) fixEnemy.getUserData()).isFlying()) {
-                        game.getCurrentPlayScreen().player.body.applyLinearImpulse(
-                                new Vector2(0, (-game.getCurrentPlayScreen().player.body.getLinearVelocity().y) + 3),
-                                game.getCurrentPlayScreen().player.body.getWorldCenter(), true
-                        );
-
-                        ((Enemy) fixEnemy.getUserData()).hit(110);
-                    }
-                }
-            }else if(fixObject!=null){
-                ((TileObject) fixObject.getUserData()).onHit(((Enemy)fixEnemy.getUserData()));
-            }else if(fixPlayerBullet!=null){
-                ((Enemy) fixEnemy.getUserData()).hit(((Bullet) fixPlayerBullet.getUserData()).getDamage());
-                ((Bullet) fixPlayerBullet.getUserData()).dispose();
-            }else if(fixPlayerMelee!=null){
-                ((Enemy) fixEnemy.getUserData()).hit((Integer) fixPlayerMelee.getUserData());
-                fixPlayerMelee.setUserData(0);
-            }
-        }
-
-        /**
-         * Handle collision with enemy and player bullets and the ground
-         */
-        if(fixPlayerBullet!=null){
-            ((Bullet) fixPlayerBullet.getUserData()).dispose();
-        }
-        if(fixEnemyBullet!=null){
-            ((Bullet) fixEnemyBullet.getUserData()).dispose();
-        }
     }
 
     @Override
