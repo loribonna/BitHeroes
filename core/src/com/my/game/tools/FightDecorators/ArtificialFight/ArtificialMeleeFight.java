@@ -20,8 +20,7 @@ import com.my.game.tools.FightDecorators.Fight;
 public class ArtificialMeleeFight extends ArtificialFightDecorator {
 
     public ArtificialMeleeFight(int damage, Entity entity, World world, Fight fight, Animation animation, BitHeroes game){
-        super(entity, world,game);
-        this.fight=fight;
+        super(entity, world,game,fight);
         if(!damages.containsKey(AppConstants.AttackType.MELEE)){
             damages.put(AppConstants.AttackType.MELEE,damage);
         }
@@ -50,8 +49,7 @@ public class ArtificialMeleeFight extends ArtificialFightDecorator {
         return returnDirection;
     }
 
-    @Override
-    protected void meleeAttack(){
+    protected void attack(){
         entity.updateState(AppConstants.State.ATTACK,AppConstants.State.ATTACK);
 
         Timer.schedule(new Timer.Task() {

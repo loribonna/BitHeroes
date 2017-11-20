@@ -20,15 +20,14 @@ import java.lang.reflect.Constructor;
  */
 
 public class ArtificialDistanceFight extends ArtificialFightDecorator  {
-    private Class<? extends Bullet> bullet;
+    private Class<? extends Bullet> bulletType;
 
-    public ArtificialDistanceFight(Entity entity, World world,Fight fight, Animation animation,BitHeroes game,Class<? extends Bullet> bullet){
-        super(entity, world,game);
-        this.fight=fight;
+    public ArtificialDistanceFight(Entity entity, World world,Fight fight, Animation animation,BitHeroes game,Class<? extends Bullet> bulletType){
+        super(entity, world,game,fight);
         if(!animations.containsKey(AttackType.DISTANCE)){
             animations.put(AppConstants.AttackType.DISTANCE,animation);
         }
-        this.bullet=bullet;
+        this.bulletType=bulletType;
     }
 
     public Direction setTarget(float targetDistanceX, float targetDistanceY){
@@ -66,8 +65,7 @@ public class ArtificialDistanceFight extends ArtificialFightDecorator  {
         return returnDirection;
     }
 
-    @Override
-    protected void distanceAttack(){
+    protected void attack(){
         entity.updateState(AppConstants.State.THROW,AppConstants.State.THROW);
 
         Timer.schedule(new Timer.Task() {
@@ -85,9 +83,9 @@ public class ArtificialDistanceFight extends ArtificialFightDecorator  {
         },animations.get(AttackType.DISTANCE).getAnimationDuration()/2);
     }
 
-    public void throwBullet() {
+    private void throwBullet() {
         try{
-            Constructor<? extends Bullet> co = bullet.getConstructor(Vector2.class, World.class, boolean.class, boolean.class, BitHeroes.class);
+            Constructor<? extends Bullet> co = bulletType.getConstructor(Vector2.class, World.class, boolean.class, boolean.class, BitHeroes.class);
             game.getCurrentPlayScreen().addBullet(co.newInstance(entity.getPosition(), world, entity.isFlipX(),false,game));
         }catch (Exception e){
             Gdx.app.log("Instantiating error",e.getMessage());

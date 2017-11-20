@@ -17,8 +17,7 @@ import com.my.game.tools.FightDecorators.Fight;
 
 public class PlayerFightMelee extends PlayerFightDecorator {
     public PlayerFightMelee(int damage, Entity entity, World world, Fight fight, Animation animation, BitHeroes game) {
-        super(entity, world, game);
-        this.fight = fight;
+        super(entity, world, game,fight);
         if (!damages.containsKey(AppConstants.AttackType.MELEE)) {
             damages.put(AppConstants.AttackType.MELEE, damage);
         }
@@ -28,8 +27,7 @@ public class PlayerFightMelee extends PlayerFightDecorator {
     }
 
     public PlayerFightMelee(int damage, Entity entity, World world, Fight fight, Animation animation, BitHeroes game, AppConstants.Float2 defaultSize) {
-        super(entity, world, game,defaultSize);
-        this.fight = fight;
+        super(entity, world, game,defaultSize,fight);
         if (!damages.containsKey(AppConstants.AttackType.MELEE)) {
             damages.put(AppConstants.AttackType.MELEE, damage);
         }
@@ -38,15 +36,14 @@ public class PlayerFightMelee extends PlayerFightDecorator {
         }
     }
 
-    public void performAttack(AppConstants.AttackType type){
-        if(type== AppConstants.AttackType.MELEE){
+    public void performAttack(AppConstants.AttackType attackType){
+        if(attackType== AppConstants.AttackType.MELEE){
             throwAttack(AppConstants.AttackType.MELEE);
         }
-        else fight.performAttack(type);
+        else fight.performAttack(attackType);
     }
 
-    @Override
-    public void meleeAttack(){
+    public void attack(){
         if(attackSize!=null&&defaultSize!=null){
             entity.updateSize(attackSize.x,attackSize.y);
         }

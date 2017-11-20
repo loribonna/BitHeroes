@@ -18,26 +18,24 @@ import java.lang.reflect.Constructor;
  */
 
 public class PlayerFightDistance extends PlayerFightDecorator {
-    private Class<? extends Bullet> bullet;
+    private Class<? extends Bullet> bulletType;
 
-    public PlayerFightDistance(Entity entity, World world,Fight fight, Animation animation,BitHeroes game,Class<? extends Bullet> bullet){
-        super(entity, world,game);
-        this.fight=fight;
+    public PlayerFightDistance(Entity entity, World world,Fight fight, Animation animation,BitHeroes game,Class<? extends Bullet> bulletType){
+        super(entity, world,game,fight);
         if(!animations.containsKey(AppConstants.AttackType.DISTANCE)){
             animations.put(AppConstants.AttackType.DISTANCE,animation);
         }
-        this.bullet=bullet;
+        this.bulletType=bulletType;
     }
 
-    public void performAttack(AppConstants.AttackType type){
-        if(type== AppConstants.AttackType.DISTANCE){
+    public void performAttack(AppConstants.AttackType attackType){
+        if(attackType== AppConstants.AttackType.DISTANCE){
             throwAttack(AppConstants.AttackType.DISTANCE);
         }
-        else fight.performAttack(type);
+        else fight.performAttack(attackType);
     }
 
-    @Override
-    protected void distanceAttack(){
+    protected void attack(){
         entity.updateState(AppConstants.State.THROW,AppConstants.State.THROW);
 
         Timer.schedule(new Timer.Task() {
@@ -55,9 +53,9 @@ public class PlayerFightDistance extends PlayerFightDecorator {
         },animations.get(AppConstants.AttackType.DISTANCE).getAnimationDuration()/2);
     }
 
-    public void throwBullet() {
+    private void throwBullet() {
         try{
-            Constructor<? extends Bullet> co = bullet.getConstructor(Vector2.class, World.class, boolean.class, boolean.class, BitHeroes.class);
+            Constructor<? extends Bullet> co = bulletType.getConstructor(Vector2.class, World.class, boolean.class, boolean.class, BitHeroes.class);
             game.getCurrentPlayScreen().addBullet(co.newInstance(entity.getPosition(), world, entity.isFlipX(),true,game));
         }catch (Exception e){
             Gdx.app.log("Instantiating error",e.getMessage());

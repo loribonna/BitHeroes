@@ -12,12 +12,15 @@ import com.my.game.tools.FightDecorators.Fight;
 
 public abstract class ArtificialFightDecorator extends Fight {
     public abstract AppConstants.Direction setTarget(float targetDistanceX, float targetDistanceY);
+    protected Fight fight;
 
-    public ArtificialFightDecorator(Entity entity, World world, BitHeroes game){
+    public ArtificialFightDecorator(Entity entity, World world, BitHeroes game,Fight fight){
         super(false, entity, world,game);
+        this.fight=fight;
     }
 
-    public ArtificialFightDecorator(Entity entity, World world, BitHeroes game, AppConstants.Float2 defaultSize){
+    public ArtificialFightDecorator(Entity entity, World world, BitHeroes game, AppConstants.Float2 defaultSize,Fight fight){
         super(false, entity, world,game,defaultSize);
+        this.fight=fight;
     }
 }

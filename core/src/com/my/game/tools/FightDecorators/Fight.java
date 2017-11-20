@@ -35,10 +35,9 @@ public abstract class Fight {
     protected Rectangle attackFixtureMargins;
     protected AppConstants.Float2 defaultSize;
     protected AppConstants.Float2 attackSize;
-    protected Fight fight;
     protected boolean runAway=true;
 
-    public static float DEFAULT_RANGE=0.18f;
+    public static final float DEFAULT_RANGE=0.18f;
 
     private void initialize(){
         this.animations=new HashMap<AttackType, Animation>();
@@ -95,7 +94,7 @@ public abstract class Fight {
         return Direction.NONE;
     }
 
-    public void performAttack(AttackType type){}
+    public void performAttack(AttackType attackType){}
 
     public void setAttackSound(AttackType type,String sound){
         this.attackSounds.put(type,sound);
@@ -122,39 +121,14 @@ public abstract class Fight {
     protected void throwAttack(AttackType attackType) {
         if(!lockAttack) {
             lockAttack=true;
-            if (attackType == AttackType.DISTANCE) {
-                distanceAttack();
-            } else if(attackType==AttackType.MELEE){
-                meleeAttack();
-            } else if(attackType==AttackType.SPECIAL){
-                specialAttack();
-            } else return;
+            attack();
             playAttackSound(attackType);
         }else{
             return;
         }
     }
 
-    /**
-     * Perform entity melee attack. Default is nothing.
-     */
-    protected void meleeAttack(){
-        lockAttack=false;
-    }
-
-    /**
-     * Perform entity distance attack. Default is nothing.
-     */
-    protected void distanceAttack(){
-        lockAttack=false;
-    }
-
-    /**
-     * Perform entity's special attack. Default is nothing.
-     */
-    protected void specialAttack(){
-        lockAttack=false;
-    }
+    protected abstract void attack();
 
     private void getAttackFilterBits(Filter filter){
         if(isPlayer){
@@ -168,14 +142,15 @@ public abstract class Fight {
         }
     }
 
-    public FixtureDef createFrontAttackFixture() {
+    private FixtureDef createAttackFixture(boolean front){
         FixtureDef fdef = new FixtureDef();
+        int rotation=front?1:-1;
 
         PolygonShape weaponFront = new PolygonShape();
         weaponFront.set(new Vector2[]{
-                new Vector2(attackFixtureMargins.x,attackFixtureMargins.y+attackFixtureMargins.width).scl(1/ BitHeroes.PPM),
-                new Vector2(attackFixtureMargins.x,attackFixtureMargins.y).scl(1/ BitHeroes.PPM)
-                ,new Vector2(attackFixtureMargins.x+attackFixtureMargins.height,attackFixtureMargins.y+attackFixtureMargins.width).scl(1/ BitHeroes.PPM),
+                new Vector2(attackFixtureMargins.x,attackFixtureMargins.y+attackFixtureMargins.width).scl(1/ BitHeroes.PPM).scl(rotation),
+                new Vector2(attackFixtureMargins.x*rotation,attackFixtureMargins.y).scl(1/ BitHeroes.PPM)
+                ,new Vector2(attackFixtureMargins.x+attackFixtureMargins.height,(attackFixtureMargins.y+attackFixtureMargins.width)*rotation).scl(1/ BitHeroes.PPM),
                 new Vector2(attackFixtureMargins.x+attackFixtureMargins.height,attackFixtureMargins.y).scl(1/ BitHeroes.PPM)});
         fdef.shape = weaponFront;
         getAttackFilterBits(fdef.filter);
@@ -183,15 +158,11 @@ public abstract class Fight {
         return fdef;
     }
 
-    public FixtureDef createBackAttackFixture() {
-        FixtureDef fdef = new FixtureDef();
+    public FixtureDef createFrontAttackFixture() {
+        return createAttackFixture(true);
+    }
 
-        PolygonShape weaponBack = new PolygonShape();
-        weaponBack.set(new Vector2[]{new Vector2(-16,-2).scl(1/ BitHeroes.PPM),new Vector2(-16,-4).scl(1/ BitHeroes.PPM)
-                ,new Vector2(-8,-2).scl(1/ BitHeroes.PPM),new Vector2(-8,-4).scl(1/ BitHeroes.PPM)});
-        fdef.shape = weaponBack;
-        getAttackFilterBits(fdef.filter);
-        fdef.isSensor=true;
-        return fdef;
+    public FixtureDef createBackAttackFixture() {
+        return createAttackFixture(false);
     }
 }

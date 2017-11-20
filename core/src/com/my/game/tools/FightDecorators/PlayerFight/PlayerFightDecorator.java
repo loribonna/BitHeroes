@@ -11,15 +11,17 @@ import com.my.game.tools.FightDecorators.Fight;
  */
 
 public abstract class PlayerFightDecorator extends Fight {
-    public abstract void performAttack(AppConstants.AttackType type);
+    public abstract void performAttack(AppConstants.AttackType attackType);
+    protected Fight fight;
 
-    public PlayerFightDecorator(Entity entity, World world, BitHeroes game, AppConstants.Float2 defaultSize){
+    public PlayerFightDecorator(Entity entity, World world, BitHeroes game, AppConstants.Float2 defaultSize,Fight fight){
         super(true, entity, world,game,defaultSize);
-
+        this.fight=fight;
     }
 
-    public PlayerFightDecorator(Entity entity, World world, BitHeroes game){
+    public PlayerFightDecorator(Entity entity, World world, BitHeroes game,Fight fight){
         super(true, entity, world,game);
+        this.fight=fight;
     }
 
 }

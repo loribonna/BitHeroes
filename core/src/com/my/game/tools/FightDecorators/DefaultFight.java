@@ -15,6 +15,8 @@ public class DefaultFight extends Fight {
 
     }
 
-
+    protected void attack(){
+        lockAttack=false;
+    }
 
 }
