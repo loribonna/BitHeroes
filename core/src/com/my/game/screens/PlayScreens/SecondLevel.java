@@ -1,7 +1,5 @@
 package com.my.game.screens.PlayScreens;
 
-import static com.badlogic.gdx.math.MathUtils.random;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -16,13 +14,11 @@ import com.my.game.screens.Hud;
 import com.my.game.sprites.Enemies.Blob;
 import com.my.game.sprites.Enemies.Lizard;
 import com.my.game.sprites.Enemies.Skeleton;
-import com.my.game.sprites.Players.Archer;
-import com.my.game.sprites.Players.FireBender;
-import com.my.game.sprites.Players.Warrior;
 import com.my.game.tools.AppConstants;
 import com.my.game.tools.B2WorldCreator;
 import com.my.game.tools.PlayScreen;
-import com.my.game.tools.WorldContactListener;
+
+import static com.badlogic.gdx.math.MathUtils.random;
 
 /**
  * Second level screen

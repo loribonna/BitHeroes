@@ -32,27 +32,34 @@ public class B2WorldCreator {
     private World world;
     private TiledMap map;
     private BitHeroes game;
+    private ArrayList<TileObject> animatedObjects;
 
-    private void instantiateRectangleObjects(int layer,Class<? extends TileObject> tileObjectClass){
+    private void instantiateRectangleObjects(int layer,Class<? extends TileObject> tileObjectClass,boolean isAnimated){
         try{
             MapLayer l = map.getLayers().get(layer);
             Constructor<? extends TileObject> constructor = tileObjectClass.getConstructor(World.class, Rectangle.class, BitHeroes.class);
             for (MapObject obj : l.getObjects().getByType(RectangleMapObject.class)) {
                 Rectangle rect = ((RectangleMapObject)obj).getRectangle();
-                constructor.newInstance(world, rect,game);
+                TileObject instance = constructor.newInstance(world, rect,game);
+                if(isAnimated){
+                    this.animatedObjects.add(instance);
+                }
             }
         }catch (Exception e){
             Gdx.app.log("Exception in tile loading",e.getMessage());
         }
     }
 
-    private void instantiateEllipseObjects(int layer,Class<? extends TileObject> tileObjectClass){
+    private void instantiateEllipseObjects(int layer,Class<? extends TileObject> tileObjectClass,boolean isAnimated){
         try{
             MapLayer l = map.getLayers().get(layer);
             Constructor<? extends TileObject> constructor = tileObjectClass.getConstructor(World.class, Ellipse.class, BitHeroes.class);
-            for (MapObject obj : l.getObjects().getByType(RectangleMapObject.class)) {
-                Rectangle rect = ((RectangleMapObject)obj).getRectangle();
-                constructor.newInstance(world, rect,game);
+            for (MapObject obj : l.getObjects().getByType(EllipseMapObject.class)) {
+                Ellipse ell = ((EllipseMapObject)obj).getEllipse();
+                TileObject instance = constructor.newInstance(world, ell,game);
+                if(isAnimated){
+                    this.animatedObjects.add(instance);
+                }
             }
         }catch (Exception e){
             Gdx.app.log("Exception in tile loading",e.getMessage());
@@ -60,25 +67,25 @@ public class B2WorldCreator {
     }
 
     private void istantiateFirstLevel(){
-        instantiateRectangleObjects(2, Terrain.class);
-        instantiateRectangleObjects(3, Void.class);
-        instantiateEllipseObjects(6, Coin.class);
-        instantiateRectangleObjects(7, Wall.class);
-        instantiateRectangleObjects(4, Exit.class);
-        instantiateRectangleObjects(5, Brick.class);
+        instantiateRectangleObjects(2, Terrain.class,false);
+        instantiateRectangleObjects(3, Void.class,false);
+        instantiateEllipseObjects(6, Coin.class,true);
+        instantiateRectangleObjects(7, Wall.class,false);
+        instantiateRectangleObjects(4, Exit.class,false);
+        instantiateRectangleObjects(5, Brick.class,false);
     }
 
     private void istantiateSecondLevel(){
-        instantiateRectangleObjects(3, Terrain.class);
-        instantiateRectangleObjects(2, Void.class);
-        instantiateEllipseObjects(5, Coin.class);
-        instantiateRectangleObjects(6, Wall.class);
-        instantiateRectangleObjects(4, Exit.class);
+        instantiateRectangleObjects(3, Terrain.class,false);
+        instantiateRectangleObjects(2, Void.class,false);
+        instantiateEllipseObjects(5, Coin.class,true);
+        instantiateRectangleObjects(6, Wall.class,false);
+        instantiateRectangleObjects(4, Exit.class,false);
     }
 
     private void istantiateThirdLevel(){
-        instantiateRectangleObjects(1, Terrain.class);
-        instantiateRectangleObjects(2, Wall.class);
+        instantiateRectangleObjects(1, Terrain.class,false);
+        instantiateRectangleObjects(2, Wall.class,false);
     }
 
 
@@ -92,14 +99,16 @@ public class B2WorldCreator {
         this.game=game;
         this.map=map;
         this.world=world;
+        this.animatedObjects=animatedObjects;
 
         if (game.getCurrentPlayScreen() instanceof FirstLevel) {
             istantiateFirstLevel();
         }else if(game.getCurrentPlayScreen() instanceof SecondLevel){
             istantiateSecondLevel();
-        }else{
-            assert (game.getCurrentPlayScreen() instanceof ThirdLevel) : "Level unknown";
+        }else if(game.getCurrentPlayScreen() instanceof ThirdLevel){
             istantiateThirdLevel();
+        }else{
+            throw new ExceptionInInitializerError();
         }
     }
 }

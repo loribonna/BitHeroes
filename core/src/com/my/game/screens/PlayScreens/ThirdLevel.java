@@ -12,13 +12,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.my.game.BitHeroes;
 import com.my.game.screens.Hud;
 import com.my.game.sprites.Enemies.Dragon;
-import com.my.game.sprites.Players.Archer;
-import com.my.game.sprites.Players.FireBender;
-import com.my.game.sprites.Players.Warrior;
 import com.my.game.tools.AppConstants;
 import com.my.game.tools.B2WorldCreator;
 import com.my.game.tools.PlayScreen;
-import com.my.game.tools.WorldContactListener;
 
 /**
  * Third level screen

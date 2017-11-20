@@ -1,6 +1,5 @@
 package com.my.game.tools;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -11,8 +10,6 @@ import com.my.game.BitHeroes;
 import com.my.game.tools.AppConstants.Direction;
 import com.my.game.tools.AppConstants.State;
 import com.my.game.tools.FightDecorators.DefaultFight;
-
-import org.omg.PortableInterceptor.DISCARDING;
 
 /**
  * Abstract class with Enemy controls and artificial intelligence

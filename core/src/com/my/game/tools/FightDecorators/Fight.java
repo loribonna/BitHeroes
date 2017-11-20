@@ -10,9 +10,10 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.my.game.BitHeroes;
 import com.my.game.tools.AppConstants;
-import com.my.game.tools.AppConstants.Direction;
 import com.my.game.tools.AppConstants.AttackType;
+import com.my.game.tools.AppConstants.Direction;
 import com.my.game.tools.Entity;
+
 import java.awt.Rectangle;
 import java.util.HashMap;
 

@@ -1,6 +1,5 @@
 package com.my.game.tools.FightDecorators.ArtificialFight;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -9,8 +8,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Timer;
 import com.my.game.BitHeroes;
 import com.my.game.tools.AppConstants;
-import com.my.game.tools.AppConstants.Direction;
 import com.my.game.tools.AppConstants.AttackType;
+import com.my.game.tools.AppConstants.Direction;
 import com.my.game.tools.Entity;
 import com.my.game.tools.FightDecorators.Fight;
 

@@ -15,8 +15,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.my.game.BitHeroes;
 
-import javax.xml.soap.Text;
-
 /**
  * Created by lorib on 15/11/2017.
  */

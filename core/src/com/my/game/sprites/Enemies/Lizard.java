@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.my.game.BitHeroes;
-import com.my.game.tools.*;
+import com.my.game.tools.AppConstants;
 import com.my.game.tools.Enemy;
 import com.my.game.tools.FightDecorators.ArtificialFight.ArtificialMeleeFight;
 

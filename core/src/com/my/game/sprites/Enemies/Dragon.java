@@ -14,8 +14,8 @@ import com.my.game.BitHeroes;
 import com.my.game.screens.FinalScreen;
 import com.my.game.sprites.Throwables.DragonBall;
 import com.my.game.tools.AppConstants;
-import com.my.game.tools.Enemy;
 import com.my.game.tools.AppConstants.State;
+import com.my.game.tools.Enemy;
 import com.my.game.tools.FightDecorators.ArtificialFight.ArtificialDistanceFight;
 import com.my.game.tools.FightDecorators.ArtificialFight.ArtificialMeleeFight;
 
