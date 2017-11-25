@@ -142,39 +142,6 @@ public abstract class PlayScreen implements Screen{
         this.bullets.add(bullet);
     }
 
-    public void handleInput(){
-        if(Gdx.input.isKeyJustPressed(Input.Keys.UP)
-                && player.getState()!= AppConstants.State.JUMP
-                && player.getState()!= AppConstants.State.FALL
-                && player.getState()!= AppConstants.State.ATTACK){
-            playerJump();
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.body.getLinearVelocity().x<=1){
-            player.moveRight(1.2f);
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.body.getLinearVelocity().x>=-1){
-            player.moveLeft(1.2f);
-
-        }
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            player.attack(AppConstants.AttackType.MELEE);
-        }
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.CONTROL_LEFT)){
-            player.attack(AppConstants.AttackType.DISTANCE);
-        }
-    }
-
-    /**
-     * Makes the current player jump
-     */
-    public void playerJump(){
-        player.jump(4);
-    }
-
     /**
      * @return current player body position.
      */
@@ -231,8 +198,6 @@ public abstract class PlayScreen implements Screen{
      * @param dt Current DeltaTime between frame calls.
      */
     public void update(float dt) {
-        handleInput();
-
         camera.position.x = player.body.getPosition().x;
 
         player.update(dt);

@@ -1,5 +1,7 @@
 package com.my.game.tools;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -21,8 +23,34 @@ public abstract class Player extends Entity {
         this.attackSystem=new DefaultFight(isPlayer,this,world,game);
     }
 
-    public void attack(AppConstants.AttackType type){
+    private void attack(AppConstants.AttackType type){
         this.attackSystem.performAttack(type);
+    }
+
+    public void handleInput(){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.UP)
+                && getState()!= AppConstants.State.JUMP
+                && getState()!= AppConstants.State.FALL
+                && getState()!= AppConstants.State.ATTACK){
+            jump(4); /*playerJump();*/
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && body.getLinearVelocity().x<=1){
+            moveRight(1.2f);
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && body.getLinearVelocity().x>=-1){
+            moveLeft(1.2f);
+
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
+            attack(AppConstants.AttackType.MELEE);
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.CONTROL_LEFT)){
+            attack(AppConstants.AttackType.DISTANCE);
+        }
     }
 
     /**
@@ -31,6 +59,7 @@ public abstract class Player extends Entity {
      */
     @Override
     public void update(float delta) {
+        handleInput();
         setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
         setRegion(getFrame(delta));
     }
